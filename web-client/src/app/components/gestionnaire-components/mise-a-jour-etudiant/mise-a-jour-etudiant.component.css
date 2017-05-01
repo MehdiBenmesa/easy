@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    flex-direction:row;
+    width: 100%;
+}
+.add-img{
+    color:gray;
+    font-size: 100px;
+    height: 100px;
+    width: 80px;
+    min-height: 100px;
+    min-width: 80px;
+}
+.infos{
+     display: flex;
+    flex-direction:column;
+    justify-content: center;
+    width: 70%;
+}
+.formulaire{
+     display: flex;
+    flex-direction:row;
+    justify-content: center;
+    width: 100%;
+}
+.formulaire>div{
+     margin-right: 5%;
+     margin-left:10%;
+}
+.action{
+    display: flex;
+    flex-direction:row;
+    justify-content: flex-end;
+    padding: 3%;
+}
+.action>button{
+    margin-right: 3%;
+}

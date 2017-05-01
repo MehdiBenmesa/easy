@@ -1,0 +1,82 @@
+<div class="bare">
+    <div class="titre">
+        <div></div>
+        <div>Années Scolaire  >  Etudiants</div>
+    </div>
+    <div>
+        <button md-icon-button id="choix" [md-menu-trigger-for]="menu">
+            <md-icon svgIcon="menu"></md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+            <button md-menu-item (click)="ajoutSection=true;ajoutGroupe=false">
+                <span>Nouvelle Section</span>
+            </button>
+
+            <button md-menu-item (click)="ajoutGroupe=true;ajoutSection=false">
+                <span>Nouveau Groupe</span>
+            </button>
+        </md-menu>
+    </div>
+</div>
+
+<div class="filtre">
+    <div>
+        <md-select placeholder="Niveau">
+            <md-option *ngFor="let niveau of niveaux" >
+                {{niveau}}
+            </md-option>
+        </md-select>
+    </div>
+
+    <div>
+        <md-select *ngIf="!ajoutSection" placeholder="Section">
+            <md-option *ngFor="let section of sections">
+                {{section}}
+            </md-option>
+        </md-select>
+        <input mdInput *ngIf="ajoutSection" placeholder="Libellé">
+        <button md-button (click)="ajoutSection=!ajoutSection;ajoutGroupe=false"><md-icon svgIcon="add"></md-icon></button>
+
+    </div>
+    <div>
+        <md-select *ngIf="!ajoutGroupe" placeholder="Groupe">
+            <md-option *ngFor="let groupe of groupes">
+                {{groupe}}
+            </md-option>
+        </md-select>
+         <input mdInput *ngIf="ajoutGroupe" placeholder="N° Groupe">
+        <button md-button (click)="ajoutGroupe=!ajoutGroupe;ajoutSection=false"><md-icon svgIcon="add"></md-icon></button>
+    </div>
+</div>
+
+
+<div class="liste">
+    <div>
+        <div>
+            <md-card class="entete">
+                <div>N°</div>
+                <div> Maticule</div>
+                <div>Nom</div>
+                <div>Prénom</div>
+                <div>
+                    <button md-button (click)="nouveauEtudiant.maj='show-form'"><md-icon svgIcon="add"></md-icon></button>
+                </div>
+            </md-card>
+             <div>
+                <div [class]="nouveauEtudiant.maj">
+                    <div>
+                            <mise-a-jour-etudiant [etudiant]="nouveauEtudiant"></mise-a-jour-etudiant>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngFor="let etudiant of etudiants">
+            <etudiant [etudiant]="etudiant"></etudiant>
+        </div>
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,69 @@
+<div id="container">
+    <div id="menu">
+        <div [class]="classItems[0]" (click)="selectionner(0)">
+            <button><md-icon svgIcon="liste"></md-icon></button>
+            <div class="text">Liste du Groupe</div>
+            <div class="fleche_droite"></div>
+        </div>
+        <div [class]="classItems[1]" (click)="selectionner(1)">
+            <button><md-icon svgIcon="emplois"></md-icon></button>
+            <div class="text">Emplois du temps</div>
+            <div class="fleche_droite"></div>
+        </div>
+    </div>
+  <div id="content">
+    <div class="filtre">
+        <div>
+          <md-select [(ngModel)] = selectedSpec placeholder="Niveau" (change) = "setSelectedSpec()">
+                <md-option *ngFor="let spec of specs" [value] = "spec" >
+                    {{spec.name}}
+                </md-option>
+            </md-select>
+        </div>
+
+        <div>
+            <md-select [(ngModel)] = selectedSection placeholder="Section" (change) = "setSelectedSection()">
+              <md-option *ngFor="let section of selectedSpec.sections" [value] = "section"> {{section.sectionName}} </md-option>
+            </md-select>
+            <input mdInput *ngIf="ajoutSection" placeholder="Libellé">
+            <button md-button (click)="ajoutSection=!ajoutSection;ajoutGroupe=false"><md-icon svgIcon="add"></md-icon></button>
+
+        </div>
+        <div>
+            <md-select [(ngModel)]= selectedGroupe placeholder="Groupe" (change) = "setSelectedGroupe()">
+                <md-option *ngFor="let groupe of selectedSection.groupes" [value] = "groupe">
+                    {{groupe.groupeName}}
+                </md-option>
+            </md-select>
+             <input mdInput *ngIf="ajoutGroupe" placeholder="N° Groupe">
+            <button md-button (click)="ajoutGroupe=!ajoutGroupe;ajoutSection=false"><md-icon svgIcon="add"></md-icon></button>
+        </div>
+    </div>
+
+
+    <div class="liste" *ngIf="affichage==0">
+        <div>
+            <div>
+                <md-card class="entete">
+                    <div>N°</div>
+                    <div> Maticule</div>
+                    <div>Nom</div>
+                    <div>Prénom</div>
+                </md-card>
+            </div>
+
+            <div *ngFor="let student of students">
+                <etudiant [student]="student" [modifiable]="true" [numero]="students.indexOf(student)"></etudiant>
+            </div>
+
+        </div>
+    </div>
+      <div *ngIf="affichage==1">
+         <affichage-emplois-du-temps ></affichage-emplois-du-temps>
+      </div>
+  </div>
+</div>
+
+
+
+

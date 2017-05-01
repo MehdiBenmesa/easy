@@ -1,0 +1,28 @@
+ <md-card class="corps" (click)="changerEtat()" signal>
+    <div>{{numero}}</div>
+    <div> {{student.matricule}}</div>
+    <div>{{student.name}}</div>
+    <div>{{student.lastname}}</div>
+    <div>
+        <button *ngIf="modifiable" md-button><md-icon svgIcon="delete"></md-icon></button>
+        <button *ngIf="modifiable" md-button (click)="modifier()"><md-icon svgIcon="edit"></md-icon></button>
+    </div>
+
+</md-card>
+
+<div [class]="show">
+    <div> <md-icon svgIcon="person" class="user"></md-icon></div>
+    <div class="infos">
+        <div>Email   : {{student.mail}}</div>
+        <div>Adresse : {{student.address}}</div>
+        <div>Tél     : {{student.tell}}</div>
+    </div>
+</div>
+
+ <div *ngIf="modifiable">
+    <div [class]="maj.value">
+        <div>
+            <mise-a-jour-etudiant [student]="student" [maj]="maj"></mise-a-jour-etudiant>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div *ngIf="!utilisateurConnecte">
+    <div class="barre" >
+        <img id="logo1" src="./images/logo1.png">
+        <span class="app-name">Easy</span>
+    </div>
+
+    <div><img id="logo2" src="./images/logo1.png"></div>
+    <div class="bienvenu"><span>Bienvenue à </span><span class="app-name">Easy</span></div>
+       <button id="login-button" (click)="authenticate()">Login</button>
+       <div *ngIf="ifError">Il semble qu'il y a un probleme de connexion</div>
+</div>
+
+

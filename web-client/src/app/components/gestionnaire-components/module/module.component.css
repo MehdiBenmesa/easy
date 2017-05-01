@@ -1,0 +1,147 @@
+md-card{
+    padding: 3% 0% 4% 3%;
+    cursor: pointer;
+}
+md-card>div{
+    float: left;
+}
+
+.initial{
+    display: flex;
+    flex-direction:row;
+    background-color: #d7b9a0;
+    height: 0px;
+    overflow: hidden;
+
+}
+
+.corps>div{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    text-align: center;
+    font-size: 13px;
+    width: 40%;
+}
+.corps>div:first-child{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    width: 10%;
+}
+.corps>div:last-child{
+    display: flex;
+    justify-content: center;
+    flex-direction:row;
+    width: 10%;
+}
+
+.corps button{
+    top: -10px;
+    position: relative;
+    margin-right: 3px;
+    visibility: hidden;
+    width: 50px;
+    max-width: 50px;
+    min-width: 50px;
+    padding: 0;
+}
+
+
+.corps:hover button{
+    visibility: visible;
+}
+
+
+.corps>div md-icon{
+    color:#0c1329;
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    min-height: 30px;
+    min-width: 30px;
+}
+
+
+.hide{
+    display: flex;
+    flex-direction:row;
+    overflow: hidden;
+    background-color: #d7b9a0;
+    opacity: 0;
+    height:0px;
+    animation-name: cacher;
+    animation-duration: 1s;
+}
+.show{
+    display: flex;
+    flex-direction:row;
+    background-color: #d7b9a0;
+    opacity: 1;
+    height:110px;
+    padding:5%;
+    animation-name: afficher;
+    animation-duration: 1s;
+}
+@keyframes afficher {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    100%{
+        opacity: 1;
+        height: 110px;
+    }
+}
+
+@keyframes cacher {
+    0% {
+        opacity: 1;
+        height:110px;
+        padding: 5%;
+    }
+    100%{
+        opacity: 0;
+        height: 0px;
+        padding: 0%;
+    }
+}
+
+.user{
+     color:#0c1329;
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+    min-height: 100px;
+    min-width: 100px;
+}
+.infos{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around;
+    width: 100%;
+}
+.show-form{
+    display: flex;
+    flex-direction:row;
+    background-color: #d7b9a0;
+    opacity: 1;
+    padding: 3% 5% 3% 5%;
+    animation-name: afficher-form;
+    animation-duration: 1s;
+}
+
+@keyframes afficher-form {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    100%{
+        opacity: 1;
+        height: 230px;
+    }
+}
+
+.show-form>div{
+    width: 100%;
+}

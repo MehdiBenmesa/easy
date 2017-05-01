@@ -1,0 +1,20 @@
+<div class="liste">
+    <div>
+        <div>
+            <md-card class="entete">
+                <div>N°</div>
+                <div> Matricule</div>
+                <div>Nom</div>
+                <div>Prénom</div>
+            </md-card>
+        </div>
+
+        <div *ngFor="let etudiant of etudiants">
+            <etudiant [student]="etudiant" [modifiable]="false" [numero]="etudiants.indexOf(etudiant)"></etudiant>
+        </div>
+
+    </div>
+</div>
+
+
+

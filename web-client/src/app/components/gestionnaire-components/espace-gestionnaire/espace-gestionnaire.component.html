@@ -1,0 +1,80 @@
+<div id=entete>
+        <div class="enteteContainer">
+            <div class="item"><h1>Easy</h1></div>
+            <div class="centerContainer">
+                <div class="item"><md-icon id="user" svgIcon='person'></md-icon></div>
+                <div class="item"><h2>{{user.lastname}} {{user.name}}</h2></div>
+            </div>
+            <div class="item"><button>Logout</button></div>
+        </div>
+
+    <div class="manu-bar">
+        <div class="espace"></div>
+        <div class="menu">
+            <div [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/manager/profile']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="person"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/manager/students']">
+
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="school"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[2]" (click)="selectionner(2)" [routerLink]="['/manager/specs']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="specialite"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[3]" (click)="selectionner(3)" [routerLink]="['/manager/program']" >
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="book"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[4]" (click)="selectionner(4)" [routerLink]="['/manager/teachers']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="teacher"></md-icon>
+                <div></div>
+            </div>
+            <div [class]="classMenus[5]" (click)="selectionner(5)" [routerLink]="['/manager/salles']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="reserver"></md-icon>
+                <div></div>
+            </div>
+        </div>
+        <div class="espace"></div>
+    </div>
+	<div id="barre">
+    <div class="text-menu">
+        <div  [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/manager/profile']">
+            Profil
+        </div>
+
+        <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/manager/students']">
+            Années Scolaires
+        </div>
+
+        <div [class]="classMenus[2]" (click)="selectionner(2)"  [routerLink]="['/manager/specs']">
+            Niveaux et Spécialités
+        </div>
+        <div [class]="classMenus[3]" (click)="selectionner(3)" [routerLink]="['/manager/program']">
+            Programmes
+        </div>
+        <div [class]="classMenus[4]" (click)="selectionner(4)" [routerLink]="['/manager/teachers']">
+            Enseignants
+        </div>
+        <div [class]="classMenus[5]" (click)="selectionner(5)" [routerLink]="['/manager/salles']">
+           Salles
+        </div>
+    </div>
+	</div>
+</div>
+
+<router-outlet>
+</router-outlet>
+

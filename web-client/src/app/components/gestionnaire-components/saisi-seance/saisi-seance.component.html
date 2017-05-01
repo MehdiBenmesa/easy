@@ -1,0 +1,46 @@
+<h3>{{day}}</h3>
+<h5>Séance 1</h5>
+<div class="saisi">
+    <div>
+        <md-select [(ngModel)]="selectedModule" placeholder="Module">
+            <md-option *ngFor="let module of modules" [value]="module">{{ module.name}}</md-option>
+        </md-select>
+    </div>
+    <div>
+        <md-radio-group [(ngModel)] ="selectedType">
+            <md-radio-button value="Cours">Cours</md-radio-button>
+            <md-radio-button value="TD/TP">TD/TP</md-radio-button>
+        </md-radio-group>
+    </div>
+    <div>
+        <md-select [(ngModel)]="selectedSalle" placeholder="Salle">
+            <md-option *ngFor="let salle of salles" [value]="salle">{{ salle.name}}</md-option>
+        </md-select>
+    </div>
+    <div>
+        <md-select [(ngModel)]="selectedTeacher" placeholder="Ens">
+          <md-option *ngFor="let teacher of teachers" [value]="teacher">{{ teacher.name}} {{teacher.lastname}}</md-option>
+        </md-select>
+    </div>
+    <div class="time-holder">
+		 		<md-input-container >
+					<input mdInput type="number" min="8" max="17" placeholder="Heure Début" #hourStart>
+				</md-input-container>
+				<md-input-container >
+					<input mdInput type="number" min="0" max="59" placeholder="Min Début" #minStart >
+				</md-input-container>
+    </div>
+    <div class="time-holder">
+		 		<md-input-container >
+					<input mdInput type="number" min="8" max="17" placeholder="Heure fin" #hourFinish>
+				</md-input-container>
+				<md-input-container >
+					<input mdInput type="number" min="0" max="59" placeholder="Min fin" #minFinish>
+				</md-input-container>
+    </div>
+</div>
+
+
+<div id="action">
+    <button md-button (click)="addSeance(hourStart.value, minStart.value, hourFinish.value, minFinish.value)" >Enregistrer</button>
+</div>

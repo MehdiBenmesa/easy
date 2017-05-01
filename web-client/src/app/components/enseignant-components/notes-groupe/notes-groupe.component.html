@@ -1,0 +1,58 @@
+<div class="liste">
+    <div>
+        <div>
+            <md-card class="entete">
+                <div>N°</div>
+                <div>Nom</div>
+                <div>Prénom</div>
+                <div>Moyenne du module</div>
+                 <div>
+                    <button md-button (click)="modifiable=!modifiable"><md-icon svgIcon="edit"></md-icon></button>
+                </div>
+            </md-card>
+        </div>
+        <div>
+            <md-card class="corps">
+                <div> 01</div>
+                <div>Rabia Chérif</div>
+                <div>Besma</div>
+                <div *ngIf="!modifiable">12</div>
+                <div *ngIf="modifiable"><input (keyup)="processKeyUp($event)" placeholder="Moyenne"/></div>                      
+            </md-card>
+        </div>
+
+        <div>
+            <md-card  class="corps">
+                <div> 01</div>
+                <div>Rabia Chérif</div>
+                <div>Besma</div>
+                <div *ngIf="!modifiable">14</div>
+                <div *ngIf="modifiable"><input (keyup)="processKeyUp($event)" placeholder="Moyenne" /></div>                      
+            </md-card>
+        </div>
+
+        <div>
+            <md-card  class="corps">
+                <div> 01</div>
+                <div>Rabia Chérif</div>
+                <div>Besma</div>
+                <div *ngIf="!modifiable">14</div>
+                <div *ngIf="modifiable"><input (keyup)="processKeyUp($event)"placeholder="Moyenne"/></div>                      
+            </md-card>
+        </div>
+
+        <div>
+            <md-card  class="corps">
+                <div> 01</div>
+                <div>Rabia Chérif</div>
+                <div>Besma</div>
+                <div *ngIf="!modifiable">14</div>
+                <div *ngIf="modifiable"><input (keyup)="processKeyUp($event)" placeholder="Moyenne" /></div>                      
+            </md-card>
+        </div>
+
+        <button id="ok-button" md-button *ngIf="modifiable" (click)="modifiable=!modifiable">Valider les modifications</button>    
+    </div>
+</div>
+
+

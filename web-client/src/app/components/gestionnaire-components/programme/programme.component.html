@@ -1,0 +1,113 @@
+<div class="bare">
+  <div class="titre">
+    <div></div>
+    <div>Programmes</div>
+  </div>
+  <div>
+    <button md-icon-button id="choix" [md-menu-trigger-for]="menu">
+      <md-icon svgIcon="menu"></md-icon>
+    </button>
+    <md-menu #menu="mdMenu">
+      <button md-menu-item>
+        <span>Ajouter Niveau</span>
+      </button>
+      <button md-menu-item>
+        <span>Ajouter Module</span>
+      </button>
+    </md-menu>
+  </div>
+</div>
+
+
+<div class="liste">
+  <div>
+    <div>
+      <md-card class="entete">
+        <div>Abréviation</div>
+        <div>Nom du module</div>
+        <div>Coeficient</div>
+        <div>
+          <button md-button (click)="showAdd='show-form'"><md-icon svgIcon="add"></md-icon></button>
+        </div>
+      </md-card>
+      <div>
+        <div [class]="showAdd">
+          <div>
+            <div class="container">
+              <div>
+                <button md-button><md-icon svgIcon="portrait" class="add-img"></md-icon></button>
+              </div>
+              <div class="infos">
+                <form class="formulaire">
+                  <div>
+                   <div>
+                     <md-input-container>
+                        <input mdInput placeholder="Nom du module" #name>
+                     </md-input-container>
+                   </div>
+                   <div>
+                     <md-input-container>
+                        <input mdInput placeholder="Abréviation" #abre>
+                     </md-input-container>
+                   </div>
+                   <div>
+                     <md-input-container>
+                       <input mdInput placeholder="Coefficient" #coef>
+                   </md-input-container>
+                   </div>
+                  </div>
+                  <div>
+                    <div>
+                     <md-input-container>
+                      <input mdInput placeholder="Déscription" #description >
+                     </md-input-container>
+                    </div>
+                    <div>
+                     <md-input-container>
+                      <input mdInput placeholder="TD" #hoursTd>
+                     </md-input-container>
+                    </div>
+                    <div>
+                     <md-input-container>
+                      <input mdInput placeholder="Cours" #hoursCours>
+                     </md-input-container>
+                    </div>
+                    <div>
+                     <md-input-container>
+                      <input mdInput placeholder="Credit" #credit>
+                     </md-input-container>
+                    </div>
+                  </div>
+                </form>
+                <div class="action">
+                  <button md-raised-button (click)="add({name : name.value,
+                                                        abre : abre.value,
+                                                        coef : coef.value,
+                                                        description : description.value,
+                                                        hoursTd : hoursTd.value,
+                                                        hoursCours : hoursCours.value,
+                                                        credit : credit.value})">Valider</button>
+
+                  <button md-raised-button (click)="annuler()">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let module of modules" >
+      <module [module]="module"></module>
+    </div>
+
+  </div>
+</div>
+
+<div class="btn-group">
+  <a id="first" class="btn btn-return btn-rounded-left" role="button" data-original-title="" title="" (click) ="changerTab(3);">Début</a>
+  <a id="prev" class="btn btn-passe" role="button" data-original-title="" title="" (click) ="changerTab(2);">Précédent</a>
+  <a id="middel" class="btn btn-middel" role="button" data-original-title="" title="">Page 1 / {{numPage}}</a>
+  <a id="next" class="btn btn-passe" role="button" data-original-title="" title="" (click) ="changerTab(1);">Suivant</a>
+  <a id="last" class="btn btn-return btn-rounded-right" role="button" data-original-title="" title="" (click) ="changerTab(4);">Fin</a>
+</div>

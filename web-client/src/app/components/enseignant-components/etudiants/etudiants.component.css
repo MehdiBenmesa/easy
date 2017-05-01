@@ -1,0 +1,98 @@
+#container{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+#content{
+    width: 70%;
+    margin-left: 5%;
+    margin-right:5%;
+}
+
+.item, .item-selectionne{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction:row;
+    width: 250px;
+    margin-bottom: 30px;
+    cursor:default;
+}
+#menu md-icon{
+    color:#ff5555;
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    min-height: 30px;
+    min-width: 30px;
+     
+}
+#menu{
+    margin: 1px;
+    margin-top:100px;
+    width: 15%;
+}
+
+.item button{
+    background-color: #eee;
+    width: 55px;
+    height: 40px;
+    border-width:0 0 0 5px;
+    border-color:#d7b9a0 ;
+    border-style: solid;
+}
+
+.item-selectionne button{
+    background-color: #eee;
+    width: 55px;
+    height: 40px;
+    border-width:0 0 0 5px;
+    border-style: solid;
+    border-color: rgb(53,63,64);
+}
+
+.text{
+    display: flex;
+    padding-right: 2%;
+    padding-left: 5%;
+    width: 110px;
+    justify-content: center;
+    flex-direction:column;
+    background-color: #d7b9a0 ;
+    color:rgb(53,63,64);
+    height: 40px;
+}
+.item-selectionne .text{ 
+    background-color:  rgb(53,63,64);
+    color:#d7b9a0;
+}
+
+.item:hover .text{
+    width: 150px;
+    animation-name: anim;
+    animation-duration: 0.5s;
+}
+.fleche_droite {
+    width: 0; 
+    height: 0; 
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent; 
+    border-left: 20px solid #d7b9a0;
+}
+
+.item-selectionne .fleche_droite {
+    border-left: 20px solid rgb(53,63,64);
+}
+
+
+@keyframes anim {
+    0% {
+        width: 110px;
+    }
+    100%{
+        width: 150px;
+    }
+}
+.item-selectionne .text{
+    width: 150px;
+}

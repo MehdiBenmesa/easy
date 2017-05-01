@@ -1,0 +1,34 @@
+
+
+#action{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+
+}
+button{
+    background-color:  #d7b9a0;
+    margin: 10px;
+}
+
+.saisi {
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.time-holder {
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction:row;
+
+}
+.saisi>div{
+    margin: 5px;
+
+}
+.saisi md-select{
+    width: 100%;
+}

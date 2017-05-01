@@ -1,0 +1,72 @@
+
+<div id=entete>
+        <div class="enteteContainer">
+            <div class="item"><h1>Easy</h1></div>
+            <div class="centerContainer">
+                <div class="item"><md-icon id="user" svgIcon='person'></md-icon></div>
+                <div class="item"><h2>{{enseignant.firstName}} {{enseignant.lastName}}</h2></div>
+            </div>
+            <div class="item"><button>Logout</button></div>
+        </div>
+
+    <div class="manu-bar">
+        <div class="espace"></div>
+        <div class="menu">
+            <div [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/EspaceEnseignant/Profil']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="person"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/EspaceEnseignant/EmploisDuTemps']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="calendrier"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[2]" (click)="selectionner(2)" [routerLink]="['/EspaceEnseignant/Etudiants']">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="groupes"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[3]" (click)="selectionner(3)">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="rdv"></md-icon>
+                <div></div>
+            </div>
+
+            <div [class]="classMenus[4]" (click)="selectionner(4)">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="reserver"></md-icon>
+                <div></div>
+            </div>
+        </div>
+        <div class="espace"></div>
+    </div>
+  <div id="barre">
+    <div class="text-menu">
+        <div  [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/EspaceEnseignant/Profil']">
+            Profil
+        </div>
+
+        <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/EspaceEnseignant/EmploisDuTemps']">
+            Emplois du Temps
+        </div>
+
+        <div [class]="classMenus[2]" (click)="selectionner(2)"  [routerLink]="['/EspaceEnseignant/Etudiants']">
+            Etudiants
+        </div>
+        <div [class]="classMenus[3]" (click)="selectionner(3)">
+            RDV
+        </div>
+        <div [class]="classMenus[4]" (click)="selectionner(4)">
+            Réservations
+        </div>
+    </div>
+    </div>
+</div>
+
+<router-outlet>
+</router-outlet>
+

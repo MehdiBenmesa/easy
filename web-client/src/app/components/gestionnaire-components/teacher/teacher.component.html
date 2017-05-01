@@ -1,0 +1,24 @@
+ <md-card class="corps" (click)="changerEtat()" signal>
+    <div>{{teacher.name}}</div>
+    <div>{{teacher.lastname}}</div>
+   <div>
+        <button md-button (click)="delete(teacher)"><md-icon svgIcon="delete"></md-icon></button>
+        <button md-button (click)="modifier()"><md-icon svgIcon="edit"></md-icon></button>
+    </div>
+
+</md-card>
+
+<div [class]="teacher.show">
+    <div> <md-icon svgIcon="person" class="user"></md-icon></div>
+    <div class="infos">
+        <div>Email : {{teacher.mail}}</div>
+        <div>adresse : {{teacher.address}} </div>
+        <div>Téléphone : {{teacher.tell}} </div>
+    </div>
+    <div class="infos">
+        <div>Modules  </div>
+        <div *ngFor="let module of teacher.modules"> {{module.name}} </div>
+    </div>
+</div>
+
+

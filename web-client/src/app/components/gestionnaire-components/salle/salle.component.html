@@ -1,0 +1,26 @@
+<md-card class="corps" (click)="changerEtat()" signal>
+  <div>{{salle.name}}</div>
+  <div>{{salle.type}}</div>
+  <div>{{salle.capacite}}</div>
+  <div>
+    <button md-button (click)="delete(salle)"><md-icon svgIcon="delete"></md-icon></button>
+    <button md-button (click)="modifier()"><md-icon svgIcon="edit"></md-icon></button>
+  </div>
+
+</md-card>
+
+<div [class]="salle.show">
+  <div> <md-icon svgIcon="person" class="salle"></md-icon></div>
+  <div class="infos">
+
+  </div>
+</div>
+
+<!--<div>
+   <div [class]="programme.maj">
+       <div>
+               <mise-a-jour-programme [programme]="module"></mise-a-jour-programme>
+       </div>
+   </div>
+</div>-->
+

@@ -1,0 +1,51 @@
+
+    <div class="container">
+        <div>
+            <button md-button><md-icon svgIcon="portrait" class="add-img"></md-icon></button>
+        </div>
+        <div class="infos">
+            <form class="formulaire">
+                <div>
+                  <div>
+                    <md-input-container>
+                      <input mdInput placeholder="Nom" [value]='student.name'>
+                    </md-input-container>
+                  </div>
+                  <div>
+
+                    <md-input-container>
+                      <input mdInput placeholder="Prénom" [value]='student.lastname'>
+                    </md-input-container>
+                  </div>
+
+                  <div>
+                    <md-input-container>
+                      <input mdInput placeholder="Matricule" [value]='student.matricule'>
+                    </md-input-container>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <md-input-container>
+                      <input mdInput placeholder="Email" [value]='student.mail'>
+                    </md-input-container>
+                  </div>
+                  <div>
+                    <md-input-container>
+                    <input mdInput placeholder="Adresse" [value]='student.address'>
+                   </md-input-container>
+                  </div>
+                  <div>
+                    <md-input-container>
+                      <input mdInput placeholder="Tél" [value]='student.tell'>
+                   </md-input-container>
+                 </div>
+                </div>
+            </form>
+            <div class="action">
+                <button md-raised-button>Valider</button>
+                <button md-raised-button (click)="annuler()">Annuler</button>
+            </div>
+        </div>
+    </div>
+

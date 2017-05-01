@@ -1,0 +1,22 @@
+ <md-card class="corps" (click)="changerEtat()" signal>
+    <div>{{module.abre}}</div>
+    <div>{{module.name}}</div>
+    <div>{{module.coef}}</div>
+   <div>
+        <button md-button (click)="delete(module)"><md-icon svgIcon="delete"></md-icon></button>
+        <button md-button (click)="modifier()"><md-icon svgIcon="edit"></md-icon></button>
+    </div>
+
+</md-card>
+
+<div [class]="module.show">
+    <div> <md-icon svgIcon="person" class="user"></md-icon></div>
+    <div class="infos">
+        <div>Déscription : {{module.description}}</div>
+        <div>Cours     : {{module.hoursCours}} H</div>
+        <div>TD     : {{module.hoursTd}} H</div>
+        <div>Credit : {{module.credit}} H</div>
+    </div>
+</div>
+
+

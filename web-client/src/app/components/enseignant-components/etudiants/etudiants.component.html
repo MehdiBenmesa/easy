@@ -1,0 +1,77 @@
+<div id="container">
+    <div id="menu">
+        <div [class]="classItems[0]" (click)="selectionner(0)">
+            <button><md-icon svgIcon="liste"></md-icon></button>
+            <div class="text">Liste du Groupe</div>
+            <div class="fleche_droite"></div>
+        </div>
+        <div [class]="classItems[1]" (click)="selectionner(1)">
+            <button><md-icon svgIcon="absence"></md-icon></button>
+            <div class="text">Absences</div>
+            <div class="fleche_droite"></div>
+        </div>
+        <div [class]="classItems[2]" (click)="selectionner(2)">
+            <button><md-icon svgIcon="note"></md-icon></button>
+            <div class="text">Moyennes</div>
+            <div class="fleche_droite"></div>
+        </div>
+    </div>
+
+    <div id="content">
+        <md-tab-group>
+            <md-tab label="1CPI-G01">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div>  
+            </md-tab>
+            <md-tab label="1CPI-G02">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div>  
+            </md-tab>
+
+            <md-tab label="2CPI-G03">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div>  
+            </md-tab>
+
+            <md-tab label="2CS-SIL-01">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div> 
+            </md-tab>
+
+            <md-tab label="2CS-SIT-02">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div>  
+            </md-tab>
+
+            <md-tab label="2CS-SIQ">
+                <div>
+                    <h1>Module enseigné : MAGIL</h1>
+                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
+                </div>
+            </md-tab>
+
+        </md-tab-group>
+    </div>
+</div>

@@ -5,8 +5,14 @@
 /tmp
 /out-tsc
 
+app/**/*.js
+app/**/*.map
+node_modules
+jspm_packages
+bower_components
 # dependencies
 /node_modules
+/**/node_modules
 
 # IDEs and editors
 /.idea

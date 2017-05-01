@@ -1,0 +1,12 @@
+<div class="titre">
+    <div></div>
+    <div>Années Scolaire</div>
+</div>
+<div class="annees">
+    <div>
+        <div *ngFor="let annee of annees">
+            <div id="annee-courante" *ngIf="annee=='2016/2017'" [routerLink]="['/manager/students']">{{annee}}</div>
+            <div *ngIf="annee!='2016/2017'" [routerLink]="['/manager/students']">{{annee}}</div>
+        </div>
+    </div>
+</div>

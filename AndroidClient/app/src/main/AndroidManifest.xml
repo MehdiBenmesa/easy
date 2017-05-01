@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dz.easy.androidclient">
+
+    <meta-data android:name="com.google.android.geo."></meta-data>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+    <!--    <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>-->
+        <activity
+            android:name=".ChooserActivity"
+            android:label="Note">
+        </activity>
+
+        <activity
+            android:name="dz.easy.androidclient.StartActivity"
+            android:label="Note"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="dz.easy.androidclient.SignInActivityWithDrive"
+            android:label="@string/name_sign_in_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity
+            android:name="dz.easy.androidclient.NoteActivity"
+            android:label="@string/name_sign_in_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity
+            android:name="dz.easy.androidclient.SocketConnect"
+            android:label="@string/name_sign_in_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity
+            android:name="dz.easy.androidclient.IdTokenActivity"
+            android:label="@string/name_id_token_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+
+        <activity
+            android:name="dz.easy.androidclient.ServerAuthCodeActivity"
+            android:label="@string/name_auth_code_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+
+        <activity
+            android:name="dz.easy.androidclient.RestApiActivity"
+            android:label="@string/name_rest_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+    </application>
+
+</manifest>

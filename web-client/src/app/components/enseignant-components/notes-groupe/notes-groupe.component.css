@@ -1,0 +1,93 @@
+
+md-card{
+    padding: 1% 1% 1% 4%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.liste{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+}
+
+.liste>div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 70%;
+}
+.liste>div>div{
+    width: 100%;
+    margin: 1px;
+}
+
+.entete>div{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    font-weight: bold;
+    font-size: 15px;
+    width: 26%;
+}
+.entete>div:first-child{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    width: 10%;
+}
+.entete>div:last-child{
+  display: flex;
+  justify-content: flex-end;
+  flex-direction:row;
+  width: 10%;
+}
+.entete button{
+  position: relative;
+  width: 50px;
+  max-width: 50px;
+  min-width: 50px;
+  padding: 0;
+}
+md-icon{
+  color:#0c1329;
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+  min-height: 30px;
+  min-width: 30px;
+}
+.corps{
+    height: 40px;
+}
+.corps>div{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    font-size: 13px;
+    width: 26%;
+}
+
+.corps>div:first-child{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    width: 10%;
+}
+
+input{
+    border-color:#0c1329;  
+    border-width: 1px;
+    width: 50%;
+}
+
+#ok-button{
+    background-color: #0c1329;
+    color: #eee;
+}
+

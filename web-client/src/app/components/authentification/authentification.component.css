@@ -1,0 +1,44 @@
+.barre{
+    width: 96%;
+    padding: 2%;
+    height: 10%;
+    background-color: #f2e4db;
+    margin: 0;
+}
+#logo1{
+    width:80px;
+    height: auto;
+    margin-left: 10%;
+      margin-right: 3%;
+}
+.app-name{
+
+    font-style:italic;
+    color: #ff5555;
+
+}
+span{
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#logo2{
+    width:25%;
+    height:auto;
+    margin-top: 5%;
+    margin-left: 35%;
+}
+.bienvenu{
+    margin-left: 35%;
+}
+#login-button{
+    margin-top: 2%;
+    margin-left: 40%;
+    width: 15%;
+    height: 40px;
+    background-color: #ff5555;
+    border-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}

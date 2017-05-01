@@ -1,0 +1,47 @@
+
+md-card{
+    padding: 3% 0% 4% 3%;
+    cursor: pointer;
+}
+md-card>div{
+    float: left;
+}
+
+
+.liste{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+}
+
+.liste>div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 70%;
+}
+.liste>div>div{
+    width: 100%;
+    margin: 1px;
+}
+
+.entete>div{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    width: 26%;
+}
+.entete>div:first-child{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    width: 10%;
+}
+

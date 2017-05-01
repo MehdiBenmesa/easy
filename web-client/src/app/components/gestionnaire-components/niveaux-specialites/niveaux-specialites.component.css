@@ -1,0 +1,37 @@
+.titre{
+    width: 100%;
+    
+    background-color: #d7b9a0;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+.titre>div:first-child{
+    width:5px;
+    background-color: #0c1329;
+}
+.titre>div:nth-child(2){
+    padding: 2%;
+    color: #0c1329;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.div-global{
+    margin: 2%;
+}
+
+.div-semestres{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 2%;
+    width: 60%;
+}
+.div-semestres>div{
+    width: 30%;
+    margin-right: 10%;
+}
+
+
+

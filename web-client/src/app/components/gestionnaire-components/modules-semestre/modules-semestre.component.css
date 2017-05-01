@@ -1,0 +1,62 @@
+.container{
+    padding:5%;
+}
+
+.hide-liste{
+    height: 0;
+    opacity: 0;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    100%{
+        opacity: 1;
+        height: 230px;
+    }
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+        height: 230px;
+    }
+    100%{
+        opacity: 0;
+        height: 0px;
+    }
+}
+
+.obligatoire{  
+    background-color: rgb(255,225,225);
+    padding: 2%;
+    margin-top: 1px;
+    height: 40px;
+}
+.optionnel{
+    background-color: #eee;
+    padding: 2%;
+    margin-top: 1px;
+    height: 40px;
+}
+
+.semestre{
+    display: flex;
+    justify-content:space-between;
+    flex-direction: row;
+    padding: 1%;
+    height: 45px;
+}
+.semestre>div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.semestre button{
+    width: 50px;
+    max-width: 50px;
+    min-width: 50px;
+    padding: 0;
+}
