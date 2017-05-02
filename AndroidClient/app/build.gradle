@@ -34,27 +34,34 @@ android {
 }
 
 dependencies {
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.eftimoff:android-pathview:1.0.8@aar'
+    compile 'com.mcxiaoke.volley:library:1.0.18'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
-
-    // Dependency for Google Sign-In
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'com.google.android.gms:play-services-auth:10.0.0'
-
-    // Dependencies for the REST API example
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.api-client:google-api-client-android:1.22.0'
     compile 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
-
-    // UiAutomatorTesting
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'com.android.support:support-annotations:25.2.0'
-
-    compile ('io.socket:socket.io-client:0.8.3') {
+    compile('io.socket:socket.io-client:0.8.3') {
         exclude group: 'org.json', module: 'json'
     }
+    compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
+        transitive = true;
+    }
+    compile files('lib/androidsvg-1.2.1.jar')
+    compile files('lib/nineoldandroids.jar')
+    compile project(':materialviewpager')
+    compile 'com.jakewharton:butterknife:8.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.1.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+
+
 }
 apply plugin: 'com.google.gms.google-services'
