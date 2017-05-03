@@ -30,10 +30,11 @@ module.exports = function(Salle){
     Salle.findOne({_id :salleId}, (err, salle) => {
       salle.populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday', (err, salle) => {
         salle.emploi[day].forEach(seance => {
-          console.log(starts  > seance.starts);
-          console.log(starts < seance.ends)
-          if( (starts >= seance.starts && starts <= seance.ends )||
-               (ends >= seance.starts && ends <= seance.ends )){
+          let a = seance.starts.replace(':', '');
+          let b = seance.ends.replace(':', '');
+          starts = starts.replace(':', '');
+          ends = ends.replace(':', '');
+          if( Math.max(b, ends) - Math.min(a, starts) < (b - a) + (ends - starts) ){
             occupied = true;
           }
         });

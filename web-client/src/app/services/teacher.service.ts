@@ -39,5 +39,11 @@ export class TeacherService {
       .map((res: Response) => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
   }
+
+  public checkTeacher(request :any){
+     return this.http.post(`${this.baseUrl}/teacher/check`, request)
+      .map((res: Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
+  }
 }
 

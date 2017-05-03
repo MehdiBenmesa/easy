@@ -47,7 +47,8 @@ export class EmploiService {
   public deleteSeance(seance){
     return  this.http.post(`${this.baseUrl}/delete-seance`, seance)
     .map((res :Response) => res.json())
-    .catch((error:any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error:any) => Observable.throw(error.json().error || 'server error'))
+    .share();
   }
 
   public getTimeTable(sectionId, groupeId){

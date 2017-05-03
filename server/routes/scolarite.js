@@ -17,6 +17,13 @@ module.exports = function(express, scolariteController) {
         });
     });
 
+  router.post('/teacher/check', (req, res) => {
+    scolariteController.checkTeacher(req.body.teacherId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
+      if(err) throw err;
+      res.json(occupied);
+    });
+  });
+
 
     router.post('/teacher', (req, res) => {
         scolariteController.addTeacher(req.body, (err, teacher) => {

@@ -54,18 +54,30 @@ export class SaisiSeanceComponent implements OnInit{
         starts : hStart +":"+mStart,
         ends : hFinish +":"+mFinish
       }
+
       this.salleService.checkSalle({
         salleId : this.selectedSalle._id,
         day : this.day,
         starts : hStart + ':' +mStart,
         ends : hFinish + ':' +mFinish
       }).subscribe(result => {
-        console.log(result);
+        if(result.occupied) {
+          window.alert("Cette classe est déja occupée pour ce créneau");
+        }else {
+          this.teacherService.checkTeacher({
+            teacherId : this.selectedTeacher._id,
+            day : this.day,
+            starts : hStart + ':' +mStart,
+            ends : hFinish + ':' +mFinish
+          }).subscribe(result => {
+            if(result.occupied) {
+              window.alert("Ce prof est déja occupé pour ce créneau");
+            }else{
+            this.emploiService.addSeance(this.groupe._id, this.groupe.sectionId, this.day, seance).subscribe(seance => {this.dialogRef.close()});
+            }
+          });
+        }
       })
-
-      this.emploiService.addSeance(this.groupe._id, this.groupe.sectionId, this.day, seance).subscribe(seance => {
-         this.dialogRef.close();
-      });
     }
 
     public deleteSeance(){
@@ -91,7 +103,25 @@ export class SaisiSeanceComponent implements OnInit{
     }
 
     public updateSeance(hStart, mStart, hFinish, mFinish){
-      this.deleteSeance();
-      this.addSeance(hStart, mStart, hFinish, mFinish);
+      let toBeDeleted = {
+        groupeId : this.groupe._id,
+        sectionId : this.groupe.sectionId,
+        teacherId : this.ancientSeance.teacher._id,
+        seanceId : this.ancientSeance._id,
+        salleId : this.ancientSeance.salle._id,
+        day : this.day
+      }
+      this.emploiService.deleteSeance(toBeDeleted)
+      .subscribe(result  => {
+        if(result.message) {
+          let emploi = this.emploiService.getEmploi();
+          let index = emploi[this.day].indexOf(this.ancientSeance);
+          if(index > -1){
+            emploi[this.day].splice(index, 1);
+          }
+          this.emploiService.setEmploi(emploi);
+        }
+        this.addSeance(hStart, mStart, hFinish, mFinish);
+      });
     }
 }
