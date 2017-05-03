@@ -4,6 +4,7 @@ module.exports = function(mongoose){
     module : {type : mongoose.Schema.Types.ObjectId, ref: 'Module'},
     salle : {type : mongoose.Schema.Types.ObjectId, ref: 'Salle'},
     teacher: {type : mongoose.Schema.Types.ObjectId, ref: 'Teacher'},
+    groupe : String,
     type: String,
     starts: String,
     ends: String

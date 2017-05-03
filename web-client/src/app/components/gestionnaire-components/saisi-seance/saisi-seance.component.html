@@ -1,5 +1,5 @@
 <h3>{{day}}</h3>
-<h5>Séance 1</h5>
+<h5>Veillez saisir les informations de la seance </h5>
 <div class="saisi">
     <div>
         <md-select [(ngModel)]="selectedModule" placeholder="Module">
@@ -42,5 +42,5 @@
 
 
 <div id="action">
-    <button md-button (click)="addSeance(hourStart.value, minStart.value, hourFinish.value, minFinish.value)" >Enregistrer</button>
+    <button md-button (click)="onClick(hourStart.value, minStart.value, hourFinish.value, minFinish.value)" >Enregistrer</button>
 </div>

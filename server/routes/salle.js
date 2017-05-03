@@ -28,5 +28,13 @@ module.exports = function(express, salleController){
         res.send({message : 'done'});
       });
     });
+
+  router.post('/check', (req, res) => {
+    salleController.checkSalle(req.body.salleId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
+      if(err) throw err;
+      res.json(occupied);
+    });
+  });
+
   return router;
 }

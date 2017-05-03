@@ -14,6 +14,8 @@ export class SaisiSeanceComponent implements OnInit{
 
     public  day: any;
     public  groupe :any;
+    public  ancientSeance :any;
+    public  action :any;
     private selectedType :any;
     private selectedTeacher :any;
     private selectedSalle :any;
@@ -35,23 +37,91 @@ export class SaisiSeanceComponent implements OnInit{
 
     }
 
+    public onClick(hStart, mStart, hFinish, mFinish){
+      if(this.action == 0) this.addSeance(hStart, mStart, hFinish, mFinish);
+      else if(this.action == 1) this.updateSeance(hStart, mStart, hFinish, mFinish);
+    }
+
     public addSeance(hStart, mStart, hFinish, mFinish){
+      if(mStart.length == 1) mStart = mStart +'0';
+      if(mFinish.length == 1) mFinish = mFinish +'0';
       let seance = {
         module: this.selectedModule._id,
         salle : this.selectedSalle._id,
         teacher : this.selectedTeacher._id,
         type : this.selectedType,
+        groupe : this.groupe.spec + " " + this.groupe.section + " " + this.groupe.groupeName,
         starts : hStart +":"+mStart,
         ends : hFinish +":"+mFinish
       }
 
-      this.emploiService.addSeance(this.groupe._id, this.groupe.sectionId, this.day, seance).subscribe(result => {
-         if(result.message == true) this.dialogRef.close();
-      });
-
+      this.salleService.checkSalle({
+        salleId : this.selectedSalle._id,
+        day : this.day,
+        starts : hStart + ':' +mStart,
+        ends : hFinish + ':' +mFinish
+      }).subscribe(result => {
+        if(result.occupied) {
+          window.alert("Cette classe est déja occupée pour ce créneau");
+        }else {
+          this.teacherService.checkTeacher({
+            teacherId : this.selectedTeacher._id,
+            day : this.day,
+            starts : hStart + ':' +mStart,
+            ends : hFinish + ':' +mFinish
+          }).subscribe(result => {
+            if(result.occupied) {
+              window.alert("Ce prof est déja occupé pour ce créneau");
+            }else{
+            this.emploiService.addSeance(this.groupe._id, this.groupe.sectionId, this.day, seance).subscribe(seance => {this.dialogRef.close()});
+            }
+          });
+        }
+      })
     }
 
+    public deleteSeance(){
+      let toBeDeleted = {
+        groupeId : this.groupe._id,
+        sectionId : this.groupe.sectionId,
+        teacherId : this.ancientSeance.teacher._id,
+        seanceId : this.ancientSeance._id,
+        salleId : this.ancientSeance.salle._id,
+        day : this.day
+      }
+      this.emploiService.deleteSeance(toBeDeleted)
+      .subscribe(result  => {
+        if(result.message) {
+          let emploi = this.emploiService.getEmploi();
+          let index = emploi[this.day].indexOf(this.ancientSeance);
+          if(index > -1){
+            emploi[this.day].splice(index, 1);
+          }
+          this.emploiService.setEmploi(emploi);
+        }
+      });
+    }
 
-
-
+    public updateSeance(hStart, mStart, hFinish, mFinish){
+      let toBeDeleted = {
+        groupeId : this.groupe._id,
+        sectionId : this.groupe.sectionId,
+        teacherId : this.ancientSeance.teacher._id,
+        seanceId : this.ancientSeance._id,
+        salleId : this.ancientSeance.salle._id,
+        day : this.day
+      }
+      this.emploiService.deleteSeance(toBeDeleted)
+      .subscribe(result  => {
+        if(result.message) {
+          let emploi = this.emploiService.getEmploi();
+          let index = emploi[this.day].indexOf(this.ancientSeance);
+          if(index > -1){
+            emploi[this.day].splice(index, 1);
+          }
+          this.emploiService.setEmploi(emploi);
+        }
+        this.addSeance(hStart, mStart, hFinish, mFinish);
+      });
+    }
 }

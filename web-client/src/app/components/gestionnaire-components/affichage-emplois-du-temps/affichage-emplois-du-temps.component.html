@@ -1,13 +1,13 @@
  <div class="action" *ngIf="!emploisMAJ"><!--  cela est affiché seulement si l'emplois n'est pas MAJ-->
-      <p>L'emplois du temps de ce groupe pour ce semestre n'a pas été mis à jour</p>
+   <h3>{{groupe.spec}}  {{groupe.section}}  {{groupe.groupeName}}</h3>
       <button *ngIf="!editable" md-button (click)="MAJEmplois()">Mettre à jour</button>
-       <button *ngIf="editable" md-button (click)="enregistrer()">Enregistrer</button>
+       <button *ngIf="editable" md-button (click)="enregistrer()">Terminer</button>
 </div>
 <div id="container">
     <table>
         <tr>
           <th>
-          <button  id="edit" (click)="addSeance('sunday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+          <button *ngIf="editable" id="edit" (click)="addSeance('sunday')"><md-icon svgIcon="add"></md-icon></button>
         </tr>
         <tr>
             <th>Dimanche</th>
@@ -15,7 +15,8 @@
 
         <tr *ngFor="let seance of emploi.sunday">
           <td>
-            <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="updateSeance(seance, 'sunday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="deleteSeance(seance, 'sunday')"><md-icon svgIcon="delete"></md-icon></button>
             <h3>{{seance.module.abre}}</h3>
             <h4>{{seance.teacher.lastname}}</h4>
             <p>{{seance.type}}</p>
@@ -27,7 +28,7 @@
     <table>
         <tr>
           <th>
-          <button  id="edit" (click)="addSeance('monday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+          <button *ngIf="editable" id="edit" (click)="addSeance('monday')"><md-icon svgIcon="add"></md-icon></button>
         </tr>
         <tr>
             <th>Lundi</th>
@@ -35,7 +36,8 @@
 
         <tr *ngFor="let seance of emploi.monday">
           <td>
-            <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="updateSeance(seance, 'monday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="deleteSeance(seance, 'monday')"><md-icon svgIcon="delete"></md-icon></button>
             <h3>{{seance.module.abre}}</h3>
             <h4>{{seance.teacher.lastname}}</h4>
             <p>{{seance.type}}</p>
@@ -47,7 +49,7 @@
     <table>
         <tr>
           <th>
-          <button  id="edit" (click)="addSeance('tuesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+          <button *ngIf="editable" id="edit" (click)="addSeance('tuesday')"><md-icon svgIcon="add"></md-icon></button>
         </tr>
         <tr>
             <th>Mardi</th>
@@ -55,7 +57,8 @@
 
         <tr *ngFor="let seance of emploi.tuesday">
           <td>
-            <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="updateSeance(seance, 'tuesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="deleteSeance(seance, 'tuesday')"><md-icon svgIcon="delete"></md-icon></button>
             <h3>{{seance.module.abre}}</h3>
             <h4>{{seance.teacher.lastname}}</h4>
             <p>{{seance.type}}</p>
@@ -67,7 +70,7 @@
     <table>
         <tr>
           <th>
-          <button  id="edit" (click)="addSeance('wednesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+          <button *ngIf="editable" id="edit" (click)="addSeance('wednesday')"><md-icon svgIcon="add"></md-icon></button>
         </tr>
         <tr>
             <th>Mercredi</th>
@@ -75,7 +78,8 @@
 
         <tr *ngFor="let seance of emploi.wednesday">
           <td>
-            <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="updateSeance(seance, 'wednesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="deleteSeance(seance, 'wednesday')"><md-icon svgIcon="delete"></md-icon></button>
             <h3>{{seance.module.abre}}</h3>
             <h4>{{seance.teacher.lastname}}</h4>
             <p>{{seance.type}}</p>
@@ -87,7 +91,7 @@
     <table>
         <tr>
           <th>
-          <button  id="edit" (click)="addSeance('thursday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+          <button  *ngIf="editable" id="edit" (click)="addSeance('thursday')"><md-icon svgIcon="add"></md-icon></button>
         </tr>
         <tr>
             <th>Jeudi</th>
@@ -95,7 +99,8 @@
 
         <tr *ngFor="let seance of emploi.thursday">
           <td>
-            <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="updateSeance(seance, 'thursday')"><md-icon svgIcon="edit-seance"></md-icon></button>
+            <button *ngIf="editable" id="edit" (click)="deleteSeance(seance, 'thursday')"><md-icon svgIcon="delete"></md-icon></button>
             <h3>{{seance.module.abre}}</h3>
             <h4>{{seance.teacher.lastname}}</h4>
             <p>{{seance.type}}</p>
@@ -105,54 +110,3 @@
         </tr>
     </table>
 </div>
-        <!--  <button  id="edit" (click)="addSeance('monday')"><md-icon svgIcon="edit-seance"></md-icon></button>
-            </th>
-          <th>
-          <button  id="edit" (click)="addSeance('tuesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
-            </th>
-          <th>
-          <button  id="edit" (click)="addSeance('wednesday')"><md-icon svgIcon="edit-seance"></md-icon></button>
-            </th>
-          <th>
-          <button  id="edit" (click)="addSeance('thursday')"><md-icon svgIcon="edit-seance"></md-icon></button>
-        </th>-->
-        <!--
-            <th>Lundi</th>
-            <th>Mardi</th>
-            <th>Mercredi</th>
-            <th>Jeudi</th>-->
-          <!--<td>
-               <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
-           <h3>TDM</h3>
-                <h4>Mostefai</h4>
-                <p>TD/TP</p>
-                <p>visio</p>
-            <p>8h30-10h30</p>
-          </td>
-          <td>
-                 <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
-           <h3>TDM</h3>
-
-                <h4>Mostefai</h4>
-                <p>TD/TP</p>
-                <p>visio</p>
-            <p>8h30-10h30</p>
-          </td>
-          <td>
-               <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
-           <h3>TDM</h3>
-
-                <h4>Mostefai</h4>
-                <p>TD/TP</p>
-                <p>visio</p>
-            <p>8h30-10h30</p>
-          </td>
-          <td>
-              <button *ngIf="editable" id="edit" (click)="modifierSeance()"><md-icon svgIcon="edit-seance"></md-icon></button>
-           <h3>TDM</h3>
-
-                <h4>Mostefai</h4>
-                <p>TD/TP</p>
-                <p>visio</p>
-            <p>8h30-10h30</p>
-          </td>-->

@@ -26,5 +26,20 @@ module.exports = function(express, emploiController) {
  
 
 
+  router.post('/delete-seance', (req, res) => {
+    emploiController.deleteSeance(
+      req.body.sectionId,
+      req.body.groupeId,
+      req.body.seanceId,
+      req.body.teacherId,
+      req.body.salleId,
+      req.body.day,
+      (err, result) => {
+        if(err) throw err;
+        res.json(result);
+      });
+  });
+
+
    return router;
 }

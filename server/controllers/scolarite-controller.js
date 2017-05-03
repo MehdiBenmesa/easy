@@ -13,6 +13,25 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module,Groupe){
     });
   }
 
+  function checkTeacher(teacherId, day,  starts, ends, callback){
+    let occupied = false;
+    Teacher.findOne({_id :teacherId}, (err, teacher) => {
+      teacher.populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday', (err, teacher) => {
+        teacher.emploi[day].forEach(seance => {
+          let a = seance.starts.replace(':', '');
+          let b = seance.ends.replace(':', '');
+          starts = starts.replace(':', '');
+          ends = ends.replace(':', '');
+          if( Math.max(b, ends) - Math.min(a, starts) < (b - a) + (ends - starts) ){
+            occupied = true;
+          }
+        });
+        callback(err, {occupied});
+
+      })
+    });
+  }
+
     function addTeacher(obj, callback) {
         let teacher = new Teacher(obj);
         teacher.save( (err, teacher) => {
@@ -133,9 +152,13 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module,Groupe){
         addModuleToTeacher,
         getAllSpecs,
         deleteTeacher,
+<<<<<<< HEAD
         getModuleByStudent,
         getModuleBySpec,
         getAllGroupes,
         getTeacher
+=======
+        checkTeacher
+>>>>>>> 718f92b3438ff1cac66ec94b3df9e0b1e33b8c0e
     }
 }

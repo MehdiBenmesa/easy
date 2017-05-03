@@ -39,5 +39,12 @@ export class SalleService {
       .map((res: Response) => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
   }
+
+  public checkSalle(request :any){
+     return this.http.post(`${this.baseUrl}/check`, request)
+      .map((res: Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
+  }
+
 }
 

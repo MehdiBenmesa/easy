@@ -1,17 +1,45 @@
-module.exports = function(Spec, Seance){
+module.exports = function(Spec, Seance, Teacher, Salle){
 
+  // l'ajout d'une seance
   function addSeance(groupeId, sectionId, day, seanceSave, callback){
     let seance = new Seance(seanceSave);
-    // In this function i have gotten fucked
     seance.save((err, seance) => {
+      Salle.findOne({_id : seanceSave.salle}, (err, s) => {
+          s.emploi[day].push(seance._id);
+          s.save();
+      });
+      Teacher.findOne({_id : seanceSave.teacher}, (err, t) => {
+          t.emploi[day].push(seance._id);
+          t.save();
+      });
       Spec.findOne({'sections._id': sectionId, 'sections.groupes._id': groupeId},
         (err, spec) => {
           let groupe = spec.sections.id(sectionId).groupes.id(groupeId);
           groupe.emploi[day].push(seance._id);
           spec.save((err, spec) => {
-            callback(err, {message : true});
-          })
+            seance.populate('teacher salle module', (err, seance) => {
+              callback(err, seance);
+            });
+          });
         });
+    });
+  }
+
+  function deleteSeance(sectionId, groupeId, seanceId, teacherId, salleId, day, callback){
+     Spec.findOne({'sections._id': sectionId, 'sections.groupes._id': groupeId},
+       (err, spec) => {
+         let groupe = spec.sections.id(sectionId).groupes.id(groupeId);
+         groupe.emploi[day].pull(seanceId);
+         spec.save();
+       });
+    Teacher.findOne({_id: teacherId}, (err, teacher) => {
+        teacher.emploi[day].pull(seanceId);
+        teacher.save();
+    });
+    Salle.findOne({_id: salleId }, (err, salle) => {
+        salle.emploi[day].pull(seanceId);
+        salle.save();
+        callback(err, {message :true});
     });
   }
 
@@ -26,6 +54,7 @@ module.exports = function(Spec, Seance){
         callback(err, emploi);
       });
   }
+<<<<<<< HEAD
   function getTimeTableByGroupe(groupeId , callback){
     Spec.findOne({'sections.groupes._id' : groupeId},'sections')
       .populate('sections.groupes.emploi.sunday \
@@ -41,5 +70,13 @@ module.exports = function(Spec, Seance){
       addSeance,
       getTimeTable,
       getTimeTableByGroupe
+=======
+
+
+    return {
+      addSeance,
+      getTimeTable,
+      deleteSeance
+>>>>>>> 718f92b3438ff1cac66ec94b3df9e0b1e33b8c0e
     };
 }
