@@ -1,5 +1,5 @@
  <div class="action" *ngIf="!emploisMAJ"><!--  cela est affiché seulement si l'emplois n'est pas MAJ-->
-   <h3>{{selectedSpec.name}} + {{selectedSection.sectionName}} + {{selectedGroupe.groupeName}}</h3>
+   <h3>{{groupe.spec}}  {{groupe.section}}  {{groupe.groupeName}}</h3>
       <button *ngIf="!editable" md-button (click)="MAJEmplois()">Mettre à jour</button>
        <button *ngIf="editable" md-button (click)="enregistrer()">Terminer</button>
 </div>
