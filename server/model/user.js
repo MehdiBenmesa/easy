@@ -20,7 +20,14 @@ module.exports = function(mongoose, extend){
     });
 
     var teacherSchema = userSchema.extend({
-        modules : [{type : mongoose.Schema.Types.ObjectId, ref : 'Module'}]
+        modules : [{type : mongoose.Schema.Types.ObjectId, ref : 'Module'}],
+        emploi : {
+          sunday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
+          monday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
+          tuesday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
+          wednesday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
+          thursday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}]
+        }
     });
 
     var User = mongoose.model('User', userSchema);
