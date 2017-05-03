@@ -10,5 +10,11 @@ module.exports = function(express, notesController) {
         });
     });
 
+    router.get('/note-by-student/:student',(req, res) => {
+        notesController.getNoteByStudent(req.params.student, (err, note) => {
+            if(err) throw err;
+            res.json(note);
+        });
+    });
    return router;
 }

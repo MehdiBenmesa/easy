@@ -26,8 +26,20 @@ module.exports = function(Spec, Seance){
         callback(err, emploi);
       });
   }
+  function getTimeTableByGroupe(groupeId , callback){
+    Spec.findOne({'sections.groupes._id' : groupeId},'sections')
+      .populate('sections.groupes.emploi.sunday \
+                sections.groupes.emploi.monday\
+                sections.groupes.emploi.tuesday\
+                sections.groupes.emploi.wednesday\
+                sections.groupes.emploi.thursday').exec((err, spec) => {
+       // let emploi = spec.sections.groupes.id(groupeId).emploi;
+        callback(err, spec);
+      });
+  }
     return {
       addSeance,
-      getTimeTable
+      getTimeTable,
+      getTimeTableByGroupe
     };
 }

@@ -30,7 +30,10 @@ app.use(function(req, res, next) {
 
 const googleConfig = require('./config/google-config.js');
 const appConfig = require('./config/app-config.js');
+
+mongoose.Promise = global.Promise;
 mongoose.connect(appConfig.db);
+
 const Seance = require('./model/seance.js')(mongoose);
 const Users = require('./model/user.js')(mongoose, extend);
 const Spec = require('./model/spec.js')(mongoose);
@@ -115,12 +118,12 @@ besma.save((besma) => {
   console.log(besma);
 });
 */
-
+const Groupe = require('./model/groupe.js')(mongoose);
 const Module = require('./model/module.js')(mongoose);
 const Note = require('./model/note.js')(mongoose);
 const Salle = require('./model/salle.js')(mongoose);
-const notesController = require('./controllers/notes-controller.js')(Note, Users.Student);
-const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module);
+const notesController = require('./controllers/notes-controller.js')(Users.Student, Note);
+const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module,Groupe);
 const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance);
 const salleController = require('./controllers/salle-controller.js')(Salle);
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);

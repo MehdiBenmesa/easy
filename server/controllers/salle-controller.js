@@ -2,7 +2,7 @@ module.exports = function(Salle){
 
   function getSalle(_id, callback){
     Salle.findOne({_id : _id}, (error, salle) => {
-       callback(error, Salle);
+       callback(error, salle);
     });
   }
 

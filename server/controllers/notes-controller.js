@@ -11,7 +11,14 @@ module.exports = function(Student, Note){
         });
     }
 
+
+    function getNoteByStudent(student, callback) {
+        Student.findOne({_id:student}).populate('notes').exec( (err, student ) => { 
+                callback(err, student.notes);
+         });
+    }
     return {
-      addNote
+      addNote,
+      getNoteByStudent
     };
 }

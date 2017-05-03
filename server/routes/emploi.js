@@ -15,6 +15,16 @@ module.exports = function(express, emploiController) {
       res.json(result);
     });
   });
+  
+  
+  router.get('/:groupe', (req, res) => {
+    emploiController.getTimeTableByGroupe(req.params.groupe, (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    });
+  });
+ 
+
 
    return router;
 }

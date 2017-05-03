@@ -59,9 +59,19 @@ module.exports = function(google, googleConfig, User ){
           });
         
     }
+    
+    function androidAuthentification(email,callback) {
+       User.findOne({mail : email}, (err, user) => {
+                  console.log(user);
+                  callback(err, {
+                      user
+                  });
+              });
+    }
     return{
       getUrl,
       getAccessToken ,
-      verifyToken
-    }
+      verifyToken,
+      androidAuthentification
+      }
 }

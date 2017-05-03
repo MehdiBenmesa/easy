@@ -12,6 +12,7 @@ module.exports = function(mongoose, extend){
     var studentSchema = userSchema.extend({
                         matricule : String ,
                         groupe : {type : mongoose.Schema.Types.ObjectId},
+                        section : {type : mongoose.Schema.Types.ObjectId},
                         notes : [{type : mongoose.Schema.Types.ObjectId, ref: 'Note'}]
     });
 
