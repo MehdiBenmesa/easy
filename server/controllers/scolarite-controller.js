@@ -152,13 +152,10 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module,Groupe){
         addModuleToTeacher,
         getAllSpecs,
         deleteTeacher,
-<<<<<<< HEAD
         getModuleByStudent,
         getModuleBySpec,
         getAllGroupes,
-        getTeacher
-=======
+        getTeacher,
         checkTeacher
->>>>>>> 718f92b3438ff1cac66ec94b3df9e0b1e33b8c0e
     }
 }

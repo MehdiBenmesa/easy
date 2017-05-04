@@ -17,9 +17,7 @@ module.exports = function(express, scolariteController) {
             res.json(spec);
         });
     });
-<<<<<<< HEAD
-// ajouter Enseigniant
-=======
+
 
   router.post('/teacher/check', (req, res) => {
     scolariteController.checkTeacher(req.body.teacherId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
@@ -28,8 +26,6 @@ module.exports = function(express, scolariteController) {
     });
   });
 
-
->>>>>>> 718f92b3438ff1cac66ec94b3df9e0b1e33b8c0e
     router.post('/teacher', (req, res) => {
         scolariteController.addTeacher(req.body, (err, teacher) => {
             if(err) throw err;

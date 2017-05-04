@@ -122,15 +122,10 @@ const Groupe = require('./model/groupe.js')(mongoose);
 const Module = require('./model/module.js')(mongoose);
 const Note = require('./model/note.js')(mongoose);
 const Salle = require('./model/salle.js')(mongoose);
-<<<<<<< HEAD
+
 const notesController = require('./controllers/notes-controller.js')(Users.Student, Note);
 const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module,Groupe);
-const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance);
-=======
-const notesController = require('./controllers/notes-controller.js')(Note, Users.Student);
-const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module);
-const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance, Users.Teacher, Salle);
->>>>>>> 718f92b3438ff1cac66ec94b3df9e0b1e33b8c0e
+const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance,Users.Teacher,Salle);
 const salleController = require('./controllers/salle-controller.js')(Salle);
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);
 const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);

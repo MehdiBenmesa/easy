@@ -28,6 +28,7 @@ describe("Server test", function () {
         });
     });
 
+
 // Student 
     describe("GET /scolarite/students", function () {
         it("Get All Students return with code 200", function (done) {
@@ -71,8 +72,57 @@ describe("Server test", function () {
     });
 
 
-// Suppression d'une salle
+// Ajouter Seance 
+    describe("Post  emploi/seance", function () {
+        it("Post seance return with code 200", function (done) {
+            request.post({
+                url : base_url + "/emploi/seance/", 
+                form : {
+                    groupeId : "58ffd8f761150b1ca74a2ace",
+                    sectionId :"58ffd8f761150b1ca74a2acc" ,
+                    day : "sunday",
+                    seance : {  
+                        module: "58ffcd658768570fc06c1da3",
+                        salle : "5909ebee734d1d274bfd404b",
+                        teacher : "59074f211e02411bf582457e",
+                        type : "cours",
+                        groupe : "groupe",
+                        starts : "10:30",
+                        ends : "11:30"
+                }}},
+                
+                function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                  console.log(error+" "+response+" "+body);              
+                done();
+            });
+        });
+    });
+// Suppression Seance 
 /*
+describe("POST /emploi/delete-seance", function() {
+      it("DELET Seance return with code 200" , function (done){
+          request.post({
+                url : base_url + "/emploi/delete-seance/", 
+                form : {
+                    sectionId :"58ffd8f761150b1ca74a2acc",
+                    groupeId : "58ffd8f761150b1ca74a2ace",
+                    seanceId : "5909f712149bc73a70720ae5",
+                    teacherId : "59074f211e02411bf582457e",     
+                    salleId : "5909ebee734d1d274bfd404b",
+                    day : "sunday"
+ 
+                }},               
+                function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                done();
+            });
+          
+      });
+  });
+ 
+// Suppression d'une salle
+
 describe("POST /salle/id", function() {
       it("Post Teacher return with code 200" , function (done){
           request.get(base_url + "/salles/5909ebee734d1d274bfd404b" , function(error , response , body){

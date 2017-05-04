@@ -24,8 +24,6 @@ module.exports = function(express, emploiController) {
     });
   });
  
-
-
   router.post('/delete-seance', (req, res) => {
     emploiController.deleteSeance(
       req.body.sectionId,
