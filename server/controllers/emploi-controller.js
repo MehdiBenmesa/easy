@@ -1,6 +1,5 @@
 module.exports = function(Spec, Seance, Teacher, Salle){
 
-  // l'ajout d'une seance
   function addSeance(groupeId, sectionId, day, seanceSave, callback){
     let seance = new Seance(seanceSave);
     seance.save((err, seance) => {
@@ -25,6 +24,7 @@ module.exports = function(Spec, Seance, Teacher, Salle){
     });
   }
 
+
   function deleteSeance(sectionId, groupeId, seanceId, teacherId, salleId, day, callback){
      Spec.findOne({'sections._id': sectionId, 'sections.groupes._id': groupeId},
        (err, spec) => {
@@ -41,6 +41,7 @@ module.exports = function(Spec, Seance, Teacher, Salle){
         salle.save();
         callback(err, {message :true});
     });
+    Seance.findOne({_id: seanceId}).remove().exec();
   }
 
   function getTimeTable(sectionId, groupeId , callback){
