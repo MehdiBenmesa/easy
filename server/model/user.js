@@ -13,7 +13,8 @@ module.exports = function(mongoose, extend){
                         matricule : String ,
                         groupe : {type : mongoose.Schema.Types.ObjectId},
                         section : {type : mongoose.Schema.Types.ObjectId},
-                        notes : [{type : mongoose.Schema.Types.ObjectId, ref: 'Note'}]
+                        notes : [{type : mongoose.Schema.Types.ObjectId, ref: 'Note'}],
+                      //  absences : [{type : mongoose.Schema.Types.ObjectId}]
     });
 
     var managerSchema = userSchema.extend({

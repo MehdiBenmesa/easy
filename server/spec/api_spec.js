@@ -6,7 +6,7 @@ mongoose.connect(appConfig.db);
 //const Section = require('../model/section.js')(mongoose);
 describe("Server test", function () {
 
-
+/*
 // test de Scolarité 
 // Teachers
     describe("GET /scolarite/teachers", function () {
@@ -54,6 +54,7 @@ describe("Server test", function () {
     describe("GET /notes/note-by-student/58e3cb7bf36d283c9c874926", function () {
         it("Get Notes From Student Salah Eddine return with code 200", function (done) {
             request.get(base_url + "/notes/note-by-student/58e3cb7bf36d283c9c874926", function (error, response, body) {
+                console.log(body);
                 expect(response.statusCode).toBe(200);
                 done();
             });
@@ -65,13 +66,14 @@ describe("Server test", function () {
     describe("GET  emploi/58fd58577d490c1ddafde29e", function () {
         it("Get Emploie de Temps return with code 200", function (done) {
             request.get(base_url + "/emploi/58fd58577d490c1ddafde29e/", function (error, response, body) {
+                
                 expect(response.statusCode).toBe(200);
                 done();
             });
         });
-    });
+    });*/
 
-
+/*
 // Ajouter Seance 
     describe("Post  emploi/seance", function () {
         it("Post seance return with code 200", function (done) {
@@ -90,12 +92,41 @@ describe("Server test", function () {
                         starts : "10:30",
                         ends : "11:30"
                 }}},
-                
                 function (error, response, body) {
+                    
                 expect(response.statusCode).toBe(200);
-                  console.log(error+" "+response+" "+body);              
+                  console.log(body);              
                 done();
             });
+        });
+    });
+    */
+    // Ajouter Absence 
+    describe("Post  absences/absence", function () {
+        it("Post absence return with code 200", function (done) {
+            request.post({
+                url : base_url + "/absences/absence", 
+                form : {
+                    date : "10/05/2017",
+                    students : [
+                    {
+                        "_id" : "58e3cb7bf36d283c9c874926"
+                    },
+                    {
+                        "_id" : "58f77709734d1d33b327b09d"
+                    }
+                    ],
+                    seance: "590956b92ed3c43743cb49b4" 
+                }},
+                function (error, response, body) {
+               
+                expect(response.statusCode).toBe(200);
+               
+                request.delete(base_url + "/absences/"+body._id, function(error,response, body) {
+                            expect(response.statusCode).toBe(200);
+                            });              
+                done();
+                });
         });
     });
 // Suppression Seance 
