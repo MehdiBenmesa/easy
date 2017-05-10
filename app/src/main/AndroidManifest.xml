@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dz.easy.androidclient">
+
+    <meta-data android:name="com.google.android.geo." />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="dz.easy.androidclient.App.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".Activities.StartActivity"
+            android:label="Note"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:label="Note"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity
+            android:name=".Activities.NoteActivity"
+            android:label="@string/name_sign_in_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+            android:name=".Activities.UserActivity"
+            android:label="@string/name_sign_in_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+            android:name=".Activities.IdTokenActivity"
+            android:label="@string/name_id_token_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+            android:name=".ServerAuthCodeActivity"
+            android:label="@string/name_auth_code_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+        android:name=".Activities.ModuleActivity"
+        android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+            android:name=".Activities.RestApiActivity"
+            android:label="@string/name_rest_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+        android:name=".Activities.TimeLineActivity"
+        android:label="@string/name_rest_activity"
+        android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity android:name=".Activities.YearActivity" />
+        <activity android:name=".Activities.StudentList" />
+        <activity android:name=".Activities.StudentInfo"></activity>
+    </application>
+
+</manifest>

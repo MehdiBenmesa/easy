@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "286053054409",
+    "firebase_url": "https://androidclient-ef1b5.firebaseio.com",
+    "project_id": "androidclient-ef1b5",
+    "storage_bucket": "androidclient-ef1b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286053054409:android:11a02433b412601b",
+        "android_client_info": {
+          "package_name": "dz.easy.androidclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286053054409-n6e9273ulasrck6ncogquncg7b74347g.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "286053054409-6j5g61fom99srqslfkvofst76vdi3tk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0FpSpG3wQDw3r4P5zTqNBB9Uls5vSYcg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

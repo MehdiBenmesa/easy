@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:weightSum="4"
+    tools:context=".Activities.NoteActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar2" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="189dp"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+        android:id="@+id/imageView2" />
+                    <Button
+                        android:text="socket test"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/socketstest" />
+
+    <fragment android:name="dz.easy.androidclient.fragment.NoteFragment"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_note" />
+
+
+</LinearLayout>

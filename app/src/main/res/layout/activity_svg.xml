@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@drawable/backred"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <com.eftimoff.androipathview.PathView
+        android:id="@+id/pathView"
+        android:layout_height="match_parent"
+        android:padding="0dp"
+        app:svg="@raw/boutique"
+        app:pathColor="@android:color/white"
+        app:pathWidth="2dp"
+        android:layout_weight="0.52"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="277dp"
+        tools:ignore="ObsoleteLayoutParam,RtlHardcoded" />
+
+
+    <com.eftimoff.androipathview.PathView
+        android:id="@+id/pathView2"
+        android:layout_height="match_parent"
+        android:padding="0dp"
+        app:svg="@raw/icon"
+        app:pathColor="@android:color/white"
+        app:pathWidth="2dp"
+        android:layout_weight="0.52"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="376dp"
+        tools:ignore="ObsoleteLayoutParam,RtlHardcoded" />
+
+</RelativeLayout>
