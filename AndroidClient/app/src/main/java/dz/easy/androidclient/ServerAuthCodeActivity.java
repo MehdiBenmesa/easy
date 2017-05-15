@@ -36,7 +36,7 @@ public class ServerAuthCodeActivity extends AppCompatActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activitymain);
 
         // Views
         mAuthCodeTextView = (TextView) findViewById(R.id.detail);

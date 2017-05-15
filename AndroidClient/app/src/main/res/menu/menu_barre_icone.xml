@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.BarreIconeActivity"
+    >
+    <item android:id="@+id/action_composant1" android:icon="@android:drawable/ic_dialog_alert"
+        android:orderInCategory="100" app:showAsAction="always" android:title="c1" />
+    <item android:id="@+id/action_composant2" android:orderInCategory="100" app:showAsAction="never" android:title="Emploie de Temps"/>
+    <item android:id="@+id/action_composant3" android:icon="@android:drawable/ic_lock_lock"
+        android:orderInCategory="100" app:showAsAction="never" android:title="Notes"/>
+    <item android:id="@+id/action_composant4" android:icon="@android:drawable/ic_menu_camera"
+        android:orderInCategory="100" app:showAsAction="ifRoom" android:title="Rendez-vous"/>
+</menu>

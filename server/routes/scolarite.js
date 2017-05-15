@@ -3,19 +3,21 @@ module.exports = function(express, scolariteController) {
 
     const router = express.Router();
 
+// get spécialité 
     router.get('/specs', (req, res) => {
       scolariteController.getAllSpecs((err, specs) => {
         if(err) throw err;
         res.json(specs);
       });
     });
-
+// ajouter spécialité
     router.post('/spec', (req, res) => {
         scolariteController.addSpec(req.body, (err, spec) => {
             if(err) throw err;
             res.json(spec);
         });
     });
+
 
   router.post('/teacher/check', (req, res) => {
     scolariteController.checkTeacher(req.body.teacherId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
@@ -24,14 +26,13 @@ module.exports = function(express, scolariteController) {
     });
   });
 
-
     router.post('/teacher', (req, res) => {
         scolariteController.addTeacher(req.body, (err, teacher) => {
             if(err) throw err;
             res.json(teacher);
         });
     });
-
+// delete teacher
   router.delete('/teacher/:id', (req, res) => {
     scolariteController.deleteTeacher(req.params.id, (err, result) => {
       if(err) throw err;
@@ -88,6 +89,14 @@ module.exports = function(express, scolariteController) {
       });
     });
 
+    router.get('/teacher/:id', (req, res) => {
+        scolariteController.getTeacher(req.params.id, (err, result) => {
+        if(err) throw err;
+        res.json(result);
+        });
+    
+    });
+    
     router.get('/students', (req, res) => {
         scolariteController.getAllStudents((err, students) => {
             if(err) throw err;
@@ -102,5 +111,27 @@ module.exports = function(express, scolariteController) {
         });
     });
 
+       // la liste des modules d'un étudiant de id :student 
+    router.get('/modules-by-student/:student',(req,res) => {
+            scolariteController.getModuleByStudent(req.params.student,(err,modules) => {
+                if(err) throw err;
+                res.json(modules);
+            })
+        });
+        
+        
+    router.get('/modules-by-spec/:section',(req,res) => {
+            scolariteController.getModuleBySpec(req.params.section,(err,modules) => {
+                if(err) throw err;
+                res.json(modules);
+            })
+        });
+        
+    router.get('/groupes', (req,res) => {
+        scolariteController.getAllGroupes((err,groupes)=>{
+            if(err) throw err;
+            res.json(groupes);
+        })
+    })
    return router;
 }

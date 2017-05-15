@@ -1,4 +1,4 @@
-module.exports = function( Student, Manager, Teacher,  Spec, Module){
+module.exports = function( Student, Manager, Teacher,  Spec, Module,Groupe){
 
     function addManager(obj, callback) {
         let manager = new Manager(obj);
@@ -102,8 +102,42 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             callback(err, specs);
         });
     }
+    
+    function getTeacher(id , callback){
+        Teacher.findOne({_id : id}, (err,teacher) => {
+            callback(err,teacher);
+        });
+    }
+    
+    function getModuleByStudent(student,callback) {
+                Student.findOne({_id:student}).populate({
+                    path: 'groupe',
+                    populate: {
+                        path : 'module'
+                        }
+                    }).exec( (err, student ) => {
+                        callback(err, student);
+                    });
+    }
 
-
+    function getModuleBySpec(sectionId ,callback) {
+        Spec.findOne({'sections._id': sectionId},
+        (err, spec) => {
+            spec.populate('courses.course courses.teacher', (err, spec) => {
+                  let modules = spec.courses; 
+                  callback(err, modules); 
+            });
+        }); 
+    }
+    function getAllGroupes(callback) {
+         Spec.findOne({}).populate({
+                    path: 'sections'
+                    }).populate({
+                        path: 'groupes'}).exec( (err, response ) => {
+                        let groupes = response.sections.groupes; 
+                        callback(err, response);
+                    });
+    } 
     return{
         addStudent,
         getAllStudents,
@@ -118,6 +152,10 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         addModuleToTeacher,
         getAllSpecs,
         deleteTeacher,
+        getModuleByStudent,
+        getModuleBySpec,
+        getAllGroupes,
+        getTeacher,
         checkTeacher
     }
 }

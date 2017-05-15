@@ -30,10 +30,11 @@ app.use(function(req, res, next) {
 
 const googleConfig = require('./config/google-config.js');
 const appConfig = require('./config/app-config.js');
+
+mongoose.Promise = global.Promise;
 mongoose.connect(appConfig.db);
-const Seance = require('./model/seance.js')(mongoose);
-const Users = require('./model/user.js')(mongoose, extend);
-const Spec = require('./model/spec.js')(mongoose);
+
+
 /*
 let spec = new Spec({
         name: "2CSSIQ",
@@ -116,33 +117,45 @@ besma.save((besma) => {
 });
 */
 
+// Models
+const Absence = require('./model/absence.js')(mongoose);
+const Seance = require('./model/seance.js')(mongoose);
+const Users = require('./model/user.js')(mongoose, extend);
+const Spec = require('./model/spec.js')(mongoose);
+const Groupe = require('./model/groupe.js')(mongoose);
 const Module = require('./model/module.js')(mongoose);
 const Note = require('./model/note.js')(mongoose);
 const Salle = require('./model/salle.js')(mongoose);
-const notesController = require('./controllers/notes-controller.js')(Note, Users.Student);
-const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module);
-const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance, Users.Teacher, Salle);
-const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
-const users = require('./routes/users')(express, userController);
-const salleController = require('./controllers/salle-controller.js')(Salle);
 
+
+// Controllers
+const notesController = require('./controllers/notes-controller.js')(Users.Student, Note);
+const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module,Groupe);
+const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance,Users.Teacher,Salle);
+const salleController = require('./controllers/salle-controller.js')(Salle);
+const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
+const absenceController = require('./controllers/absence-controller.js')(Users.Student,Seance,Absence);
+
+// Routes
+const emploiRoute = require('./routes/emploi.js')(express, emploiController);
+const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);
+const notesRoute = require('./routes/notes.js')(express, notesController);
+const salleRoute = require('./routes/salle.js')(express, salleController);
+
+const usersRoute = require('./routes/users')(express, userController);
+const absenceRoute = require('./routes/absence.js')(express, absenceController);
 app.use((req, res, next) => {
 
   /*console.log(req.headers['token'].id_token)*/
   next();
 })
 
-const emploiRoute = require('./routes/emploi.js')(express, emploiController);
-const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);
-const notesRoute = require('./routes/notes.js')(express, notesController);
-const salleRoute = require('./routes/salle.js')(express, salleController);
-
-
-app.use('/users', users);
+app.use('/users', usersRoute);
 app.use('/scolarite', scolariteRoute);
 app.use('/notes', notesRoute);
 app.use('/salles', salleRoute);
 app.use('/emploi', emploiRoute);
+app.use('/absences', absenceRoute);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
