@@ -4,7 +4,7 @@ module.exports = function(mongoose){
           year : String,
           semestre : Number,
           courses : [{
-            course : {type : mongoose.Schema.Types.ObjectId, ref : 'Module'},
+            course : {type : mongoose.Schema.Types.ObjectId},
             teacher : {type : mongoose.Schema.Types.ObjectId, ref: 'Teacher' }
           }],
           sections : [{

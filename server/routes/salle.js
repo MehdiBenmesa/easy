@@ -14,7 +14,7 @@ module.exports = function(express, salleController){
       res.json(salle);
     });
   });
-
+  
   router.post('/', (req, res) => {
     salleController.saveSalle(req.body , (error, salle) => {
       if(error) throw error;
@@ -29,6 +29,7 @@ module.exports = function(express, salleController){
       });
     });
 
+    
   router.post('/check', (req, res) => {
     salleController.checkSalle(req.body.salleId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
       if(err) throw err;

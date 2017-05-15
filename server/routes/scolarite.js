@@ -112,11 +112,15 @@ module.exports = function(express, scolariteController) {
     });
 
        // la liste des modules d'un étudiant de id :student 
-    router.get('/modules-by-student/:student',(req,res) => {
-            scolariteController.getModuleByStudent(req.params.student,(err,modules) => {
+    router.get('/modules-by-student/:student/:groupe/:section',(req,res) => {
+            scolariteController.getModuleByStudent(
+                req.params.student,
+                req.params.groupe,
+                req.params.section,
+                (err,modules) => {
                 if(err) throw err;
                 res.json(modules);
-            })
+            });
         });
         
         
@@ -124,11 +128,24 @@ module.exports = function(express, scolariteController) {
             scolariteController.getModuleBySpec(req.params.section,(err,modules) => {
                 if(err) throw err;
                 res.json(modules);
-            })
+            });
         });
         
+    router.get('/modules-by-teacher/:id',(req,res) => {
+        scolariteController.getModuleByTeacher(req.params.id,(err,modules) => {
+            if(err) throw err;
+            res.json(modules);
+        });
+    });
     router.get('/groupes', (req,res) => {
         scolariteController.getAllGroupes((err,groupes)=>{
+            if(err) throw err;
+            res.json(groupes);
+        });
+    });
+    
+     router.get('/groupes/:modul/:teacher', (req,res) => {
+        scolariteController.getGroupeByModule(req.params.modul,req.params.teacher, (err,groupes)=>{
             if(err) throw err;
             res.json(groupes);
         })

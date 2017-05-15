@@ -55,6 +55,7 @@ module.exports = function(Spec, Seance, Teacher, Salle){
         callback(err, emploi);
       });
   }
+  
   function getTimeTableByGroupe(groupeId , callback){
     Spec.findOne({'sections.groupes._id' : groupeId},'sections')
       .populate('sections.groupes.emploi.sunday \
@@ -66,10 +67,24 @@ module.exports = function(Spec, Seance, Teacher, Salle){
         callback(err, spec);
       });
   }
+  
+  function getSalleEmploie(salleId, callback){
+    Salle.findOne({ _id : salleId}).populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday').exec( (err, seance) => {
+            callback(err,seance);
+    });
+  }
+  
+  function getTeacherEmploie(teacherId, callback){
+    Teacher.find({ _id : teacherId}).populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday').exec( (err, seance) => {
+            callback(err,seance);
+    });
+  }
     return {
       addSeance,
+      deleteSeance,
       getTimeTable,
       getTimeTableByGroupe,
-      deleteSeance
+      getTeacherEmploie,
+      getSalleEmploie
     };
 }
