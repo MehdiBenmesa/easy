@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
         res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
         next();
 });
@@ -122,14 +122,21 @@ const Salle = require('./model/salle.js')(mongoose);
 const notesController = require('./controllers/notes-controller.js')(Note, Users.Student);
 const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module);
 const emploiController = require('./controllers/emploi-controller.js')(Spec, Seance, Users.Teacher, Salle);
+const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
+const users = require('./routes/users')(express, userController);
 const salleController = require('./controllers/salle-controller.js')(Salle);
+
+app.use((req, res, next) => {
+
+  /*console.log(req.headers['token'].id_token)*/
+  next();
+})
+
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);
 const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);
 const notesRoute = require('./routes/notes.js')(express, notesController);
 const salleRoute = require('./routes/salle.js')(express, salleController);
 
-const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
-const users = require('./routes/users')(express, userController);
 
 app.use('/users', users);
 app.use('/scolarite', scolariteRoute);

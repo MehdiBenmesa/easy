@@ -16,6 +16,7 @@ module.exports = function(express, salleController){
   });
 
   router.post('/', (req, res) => {
+    console.log( req.headers['x-access-token']);
     salleController.saveSalle(req.body , (error, salle) => {
       if(error) throw error;
       res.json(salle);
