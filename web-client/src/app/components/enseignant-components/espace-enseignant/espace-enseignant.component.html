@@ -4,7 +4,7 @@
             <div class="item"><h1>Easy</h1></div>
             <div class="centerContainer">
                 <div class="item"><md-icon id="user" svgIcon='person'></md-icon></div>
-                <div class="item"><h2>{{enseignant.firstName}} {{enseignant.lastName}}</h2></div>
+                <div class="item"><h2>{{user.name}} {{user.lastname}}</h2></div>
             </div>
             <div class="item"><button>Logout</button></div>
         </div>
@@ -12,19 +12,19 @@
     <div class="manu-bar">
         <div class="espace"></div>
         <div class="menu">
-            <div [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/EspaceEnseignant/Profil']">
+            <div [class]="classMenus[0]" (click)="selectionner(0)" [routerLink]="['/teacher/profile']">
                 <div></div>
                 <md-icon class="menu-icone" svgIcon="person"></md-icon>
                 <div></div>
             </div>
 
-            <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/EspaceEnseignant/EmploisDuTemps']">
+            <div [class]="classMenus[1]" (click)="selectionner(1)" [routerLink]="['/teacher/calendar']">
                 <div></div>
-                <md-icon class="menu-icone" svgIcon="calendrier"></md-icon>
+                <md-icon class="menu-icone" svgIcon="emplois"></md-icon>
                 <div></div>
             </div>
 
-            <div [class]="classMenus[2]" (click)="selectionner(2)" [routerLink]="['/EspaceEnseignant/Etudiants']">
+            <div [class]="classMenus[2]" (click)="selectionner(2)" [routerLink]="['/teacher/students']">
                 <div></div>
                 <md-icon class="menu-icone" svgIcon="groupes"></md-icon>
                 <div></div>

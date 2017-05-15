@@ -55,6 +55,7 @@ module.exports = function(Spec, Seance, Teacher, Salle){
         callback(err, emploi);
       });
   }
+
   function getTimeTableByGroupe(groupeId , callback){
     Spec.findOne({'sections.groupes._id' : groupeId},'sections')
       .populate('sections.groupes.emploi.sunday \

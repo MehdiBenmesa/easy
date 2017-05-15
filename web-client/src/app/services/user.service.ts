@@ -24,10 +24,10 @@ export class UserService {
                .map((response :Response) => response.json())
                .catch((error :any) => Observable.throw(error.json().error || 'Server Error'))
                .subscribe((data) => {
-                  this.token.next(data.tokens);
+                  this.token.next(data.token);
                   this.user.next(data.user);
                   localStorage.setItem('user', JSON.stringify(data.user));
-                  localStorage.setItem('token', JSON.stringify(data.tokens));
+                  localStorage.setItem('token', JSON.stringify(data.token));
                });
                return {
                  token : this.token,

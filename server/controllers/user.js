@@ -28,8 +28,9 @@ module.exports = function(google, googleConfig, User ){
            if(e) throw e ;
               User.findOne({mail : payLoad.email}, (err, user) => {
                   console.log(user);
+                  let token = tokens.id_token;
                   callback(err, {
-                      tokens,
+                      token,
                       user
                   });
               });
@@ -43,18 +44,17 @@ module.exports = function(google, googleConfig, User ){
         });
     }
 
-    function verifyToken(tokenId){
+    function verifyToken(tokenId, callback){
         oauth2Client.verifyIdToken(
           tokenId,
           googleConfig.CLIENT_ID,
           function(e, login) {
-            console.log(login);
+            callback(e, login);
           });
     }
-    
+
     function androidAuthentification(email,callback) {
        User.findOne({mail : email}, (err, user) => {
-                  console.log(user);
                   callback(err, {
                       user
                   });

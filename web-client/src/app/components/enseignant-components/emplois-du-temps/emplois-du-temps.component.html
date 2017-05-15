@@ -1,1 +1,77 @@
-<h1>Emplois du Temps</h1>
+<div id="container">
+    <table>
+        <tr>
+            <th>Dimanche</th>
+        </tr>
+
+        <tr *ngFor="let seance of emploi.sunday">
+          <td>
+            <h3>{{seance.module.abre}}</h3>
+            <h4>{{seance.teacher.lastname}}</h4>
+            <p>{{seance.type}}</p>
+            <p>{{seance.salle.name}}</p>
+            <p>{{seance.starts}} - {{seance.ends}}</p>
+          </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Lundi</th>
+        </tr>
+
+        <tr *ngFor="let seance of emploi.monday">
+          <td>
+            <h3>{{seance.module.abre}}</h3>
+            <h4>{{seance.teacher.lastname}}</h4>
+            <p>{{seance.type}}</p>
+            <p>{{seance.salle.name}}</p>
+            <p>{{seance.starts}} - {{seance.ends}}</p>
+          </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Mardi</th>
+        </tr>
+
+        <tr *ngFor="let seance of emploi.tuesday">
+          <td>
+            <h3>{{seance.module.abre}}</h3>
+            <h4>{{seance.teacher.lastname}}</h4>
+            <p>{{seance.type}}</p>
+            <p>{{seance.salle.name}}</p>
+            <p>{{seance.starts}} - {{seance.ends}}</p>
+          </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Mercredi</th>
+        </tr>
+
+        <tr *ngFor="let seance of emploi.wednesday">
+          <td>
+            <h3>{{seance.module.abre}}</h3>
+            <h4>{{seance.teacher.lastname}}</h4>
+            <p>{{seance.type}}</p>
+            <p>{{seance.salle.name}}</p>
+            <p>{{seance.starts}} - {{seance.ends}}</p>
+          </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Jeudi</th>
+        </tr>
+
+        <tr *ngFor="let seance of emploi.thursday">
+          <td>
+            <h3>{{seance.module.abre}}</h3>
+            <h4>{{seance.teacher.lastname}}</h4>
+            <p>{{seance.type}}</p>
+            <p>{{seance.salle.name}}</p>
+            <p>{{seance.starts}} - {{seance.ends}}</p>
+          </td>
+        </tr>
+    </table>
+</div>
