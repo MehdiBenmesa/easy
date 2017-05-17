@@ -9,6 +9,12 @@ module.exports = function(Spec, Seance, Teacher, Salle){
       });
       Teacher.findOne({_id : seanceSave.teacher}, (err, t) => {
           t.emploi[day].push(seance._id);
+          if(t.modules.indexOf(seanceSave.module) == -1) {
+            t.modules.push(seanceSave.module);
+          }
+          if(t.groupes.indexOf(groupeId) == -1) {
+            t.groupes.push(groupeId);
+          }
           t.save();
       });
       Spec.findOne({'sections._id': sectionId, 'sections.groupes._id': groupeId},
@@ -67,10 +73,26 @@ module.exports = function(Spec, Seance, Teacher, Salle){
         callback(err, spec);
       });
   }
+
+  function getSalleEmploie(salleId, callback){
+    Salle.findOne({ _id : salleId}).populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday').exec( (err, seance) => {
+            callback(err,seance);
+    });
+  }
+
+  function getTeacherEmploie(teacherId, callback){
+    Teacher.findOne({ _id : teacherId}).populate('emploi.sunday emploi.monday emploi.tuesday emploi.wednesday emploi.thursday').exec( (err, teacher) => {
+            callback(err, teacher.emploi);
+    });
+  }
+
+
     return {
       addSeance,
+      deleteSeance,
       getTimeTable,
       getTimeTableByGroupe,
-      deleteSeance
+      getTeacherEmploie,
+      getSalleEmploie
     };
 }

@@ -51,6 +51,19 @@ export class EmploiService {
     .share();
   }
 
+  public getTeacherTimeTable(teacher) {
+    let teacherId = teacher._id;
+    this.http.get(`${this.baseUrl}/teacher/${teacherId}`)
+    .map((res: Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'server error'))
+      .subscribe(emploi => {
+        emploi = this.sortEmploi(emploi);
+        this.emploi.next(emploi)
+      });
+      return this.emploi;
+
+  }
+
   public getTimeTable(sectionId, groupeId){
     this.http.get(`${this.baseUrl}/${sectionId}/${groupeId}`)
     .map((res: Response) => res.json())
@@ -81,6 +94,9 @@ export class EmploiService {
         return emploi;
   }
 
+  public getSeances(day :any){
+    return this.emploi.getValue()[day];
+  }
 
 
 }

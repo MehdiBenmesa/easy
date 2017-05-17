@@ -45,5 +45,18 @@ export class TeacherService {
       .map((res: Response) => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
   }
+
+  public getGroupes(teacherId :any){
+    return this.http.get(`${this.baseUrl}/teacher/groupes/${teacherId}`)
+      .map((res: Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
+  }
+
+  public getModules(teacherId :any) {
+    return this.http.get(`${this.baseUrl}/teacher/modules/${teacherId}`)
+      .map((res: Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
+  }
+
 }
 

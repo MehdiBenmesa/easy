@@ -100,7 +100,7 @@ describe("Server test", function () {
             });
         });
     });
-    */
+  
     // Ajouter Absence 
     describe("Post  absences/absence", function () {
         it("Post absence return with code 200", function (done) {
@@ -119,16 +119,14 @@ describe("Server test", function () {
                     seance: "590956b92ed3c43743cb49b4" 
                 }},
                 function (error, response, body) {
-               
                 expect(response.statusCode).toBe(200);
-               
                 request.delete(base_url + "/absences/"+body._id, function(error,response, body) {
                             expect(response.statusCode).toBe(200);
                             });              
                 done();
                 });
         });
-    });
+    });*/
 // Suppression Seance 
 /*
 describe("POST /emploi/delete-seance", function() {
@@ -192,5 +190,43 @@ describe("POST /salle/id", function() {
             
         });
     });
-  */
+  
+  describe("GET  /emploi/salle/5907478ef3e95f19c76d9a3b", function () {
+        it("Get Emploie de Temps de la salle return with code 200", function (done) {
+            request.get(base_url + "/emploi/salle/5907478ef3e95f19c76d9a3b", function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                console.log(body);
+                done();
+            });
+        });
+    });
+    
+      describe("GET  /emploi/teacher/5907478ef3e95f19c76d9a3b", function () {
+        it("Get Emploie de Temps de la salle return with code 200", function (done) {
+            request.get(base_url + "/emploi/teacher/59074db51e02411bf5824574", function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                console.log(body);
+                done();
+            });
+        });
+    });
+    */
+    // groupes by teacher and module
+      describe("GET  /groupes/:modul/:teacher", function () {
+        it("Get Emploie de Temps de la salle return with code 200", function (done) {
+            request.get(base_url + "/scolarite/groupes/58ffcd658768570fc06c1da3/59074f211e02411bf582457e", function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                console.log(" ===============================================================");
+                console.log(" =============== TESTED BY BOUKHETTA SALAH EDDINE ==============");
+                console.log(" ===============================================================");
+                console.log(body);
+                console.log(" ===============================================================");
+                console.log(" =============== TESTED BY BOUKHETTA SALAH EDDINE ==============");
+                console.log(" ===============================================================");
+                done();
+            });
+        });
+    });
+    
+    
 });

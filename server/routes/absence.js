@@ -36,5 +36,12 @@ module.exports = function(express, absenceController) {
         });
     });
 
+  router.get('/teacher/:teacher', (req, res) => {
+    absenceController.getAbsencesTeacher(req.params.teacher, (err, absences) => {
+      if(err) throw err;
+      res.json(absences);
+    });
+  });
+
    return router;
 }

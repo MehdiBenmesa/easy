@@ -43,7 +43,7 @@ module.exports = function(Salle){
       })
     });
   }
-
+  
   return {
     getSalle,
     getSalles,

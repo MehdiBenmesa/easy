@@ -9,8 +9,8 @@
             </md-card>
         </div>
 
-        <div *ngFor="let etudiant of etudiants">
-            <etudiant [student]="etudiant" [modifiable]="false" [numero]="etudiants.indexOf(etudiant)"></etudiant>
+        <div *ngFor="let student of students">
+            <etudiant [student]="student" [modifiable]="false" [numero]="students.indexOf(student)"></etudiant>
         </div>
 
     </div>

@@ -1,0 +1,71 @@
+#container{
+    height: 350px;
+    overflow: auto;
+    padding: 10px;
+}
+#entete{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+#action{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+
+}
+button{
+    background-color:  rgb(182,177,179);
+    margin: 10px;
+}
+table, th, td {
+   border: 1px solid white;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: left;
+    background-color: #ff5555;
+    color: white;
+    font-weight: bold;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color: rgb(182,177,179);}
+tr:nth-child(even):hover {background-color: rgb(182,177,179);}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+.masquable{
+    animation-name: afficher;
+    animation-duration: 0.3s;
+}
+
+@keyframes afficher {
+    0% {
+        opacity: 0;
+        width: 0px;
+        max-width: 0;
+        min-width: 0;
+    }
+    100%{
+        opacity: 1;
+        width:80px;
+        max-width: 80px;
+        min-width: 80px;
+    }
+}
+input{
+    width: 70px;
+}

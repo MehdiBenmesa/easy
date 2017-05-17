@@ -109,15 +109,11 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         });
     }
 
-    function getModuleByStudent(student,callback) {
-                Student.findOne({_id:student}).populate({
-                    path: 'groupe',
-                    populate: {
-                        path : 'module'
-                        }
-                    }).exec( (err, student ) => {
-                        callback(err, student);
-                    });
+    function getModuleByStudent(student,groupe,section,callback) {
+        Spec.findOne({},(err,spec) =>{
+           let specS = spec.sections.id(section).groupes.id(groupe);
+           callback(err,specS);
+        });
     }
 
     function getModuleBySpec(sectionId ,callback) {
@@ -138,6 +134,43 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
                         callback(err, response);
                     });
     }
+
+    function getModuleByTeacher(teacherId, callback){
+        Teacher.findOne({_id : teacherId}, 'modules').populate('modules').exec( (err, result) => {
+            let modules = result.modules;
+            callback(err,modules);
+        });
+    }
+
+    function getGroupeByModule(moduleId,teacherId,callback){
+        Spec.find({"courses.course": moduleId,"courses.teacher" : teacherId},'sections.groupes').
+        populate('sections.groupes.students').exec((err,spec) => {
+            callback(err,spec);
+        });
+    }
+
+  function getTeacherGroupes(teacherId, callback){
+    Teacher.findOne({'_id': teacherId}, (err, teacher) => {
+      Spec.find({'sections.groupes._id': { $in : teacher.groupes }}).populate('sections.groupes.students').exec((err, result) => {
+        let groupes = [];
+        result.forEach(spec => {
+          spec.sections.forEach(section => {
+            section.groupes.forEach(groupe => {
+              if(teacher.groupes.indexOf(groupe._id) != -1){
+                groupe = groupe.toObject();
+                groupe.section = section.sectionName;
+                groupe.spec = spec.name;
+                groupes.push(groupe);
+              }
+            });
+          });
+        });
+        callback(err, groupes);
+      });
+    } );
+
+  }
+
     return{
         addStudent,
         getAllStudents,
@@ -156,6 +189,9 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         getModuleBySpec,
         getAllGroupes,
         getTeacher,
-        checkTeacher
+        checkTeacher,
+        getModuleByTeacher,
+        getGroupeByModule,
+        getTeacherGroupes
     }
 }

@@ -23,6 +23,7 @@ module.exports = function(mongoose, extend){
 
     var teacherSchema = userSchema.extend({
         modules : [{type : mongoose.Schema.Types.ObjectId, ref : 'Module'}],
+        groupes : [{type : mongoose.Schema.Types.ObjectId}],
         emploi : {
           sunday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
           monday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
