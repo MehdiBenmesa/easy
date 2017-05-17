@@ -29,7 +29,11 @@ module.exports = function(mongoose, extend){
           tuesday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
           wednesday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}],
           thursday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}]
-        }
+        },
+        courses : [{
+            course : {type : mongoose.Schema.Types.ObjectId, ref : 'Module'},
+            groupe : [{type : mongoose.Schema.Types.ObjectId}]
+          }]
     });
 
     var User = mongoose.model('User', userSchema);

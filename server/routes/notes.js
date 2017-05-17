@@ -16,5 +16,11 @@ module.exports = function(express, notesController) {
             res.json(note);
         });
     });
+    router.get('/note-by-modules/:student/:module',(req, res) => {
+        notesController.getNoteByModules(req.params.student,req.params.module, (err, note) => {
+            if(err) throw err;
+            res.json(note);
+        });
+    });
    return router;
 }
