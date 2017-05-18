@@ -41,6 +41,19 @@ module.exports = function(express, rdvController) {
             res.json(rdv);
         });
     });
-    
+
+    router.get('/refuse/:id', (req, res) => {
+        rdvController.refuseRdv(req.params.id, (err, rdv) => {
+            if(err) throw err;
+            res.json(rdv);
+        });
+    });
+
+    router.get('/accept/:id', (req, res) => {
+        rdvController.acceptRdv(req.params.id, (err, rdv) => {
+            if(err) throw err;
+            res.json(rdv);
+        });
+    });
    return router;
 }

@@ -17,7 +17,7 @@ module.exports = function(Student, Teacher, Rdv){
     
     function getRdvByStudent(studentId,callback){
         //TODO  
-        Rdv.find({student : studentId},(err, rdv) => {
+        Rdv.find({student : studentId}).populate('teacher').exec( (err, rdv) => {
             callback(err, rdv);
         });
     }
@@ -25,7 +25,7 @@ module.exports = function(Student, Teacher, Rdv){
     
     function getRdvByTeacher(techerId,callback){
         //TODO  
-        Rdv.find({teacher : techerId},(err, rdv) => {
+        Rdv.find({teacher : techerId}).populate('student').exec( (err, rdv) => {
             callback(err, rdv);
         });
     }
@@ -37,12 +37,23 @@ module.exports = function(Student, Teacher, Rdv){
         });
     }
 
-
+    function refuseRdv(rdvId, callback){
+        Rdv.findByIdAndUpdate(rdvId, {$push :{ state : "refused"}}, (err, rdv) => {
+                    callback(err, rdv);
+        }); 
+    }
+    function acceptRdv(rdvId, callback){
+        Rdv.findByIdAndUpdate(rdvId, {$push :{ state : "accepted"}}, (err, rdv) => {
+                    callback(err, rdv);
+        }); 
+    }
     return {
       addRdv,
       deleteRdv,
       getRdvByStudent,
       getRdvByTeacher,
-      getAllRdv
+      getAllRdv,
+      refuseRdv,
+      acceptRdv
     };
 }
