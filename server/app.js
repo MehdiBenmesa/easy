@@ -118,7 +118,6 @@ besma.save((besma) => {
 */
 
 // Models
-const Absence = require('./model/absence.js')(mongoose);
 const Seance = require('./model/seance.js')(mongoose);
 const Users = require('./model/user.js')(mongoose, extend);
 const Spec = require('./model/spec.js')(mongoose);
