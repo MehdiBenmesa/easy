@@ -11,12 +11,12 @@ module.exports = function(express, emploiController) {
   });
 
   // Récupération de l'emploi du temps
- /* router.get('/:section/:groupe', (req, res) => {
+  router.get('/:section/:groupe', (req, res) => {
     emploiController.getTimeTable(req.params.section, req.params.groupe, (err, result) => {
       if(err) throw err;
       res.json(result);
     });
-  });*/
+  });
   
   router.get('/:groupe', (req, res) => {
     emploiController.getTimeTableByGroupe(req.params.groupe, (err, result) => {

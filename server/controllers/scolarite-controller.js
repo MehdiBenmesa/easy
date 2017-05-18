@@ -181,12 +181,6 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module,Groupe){
             callback(err,spec);
         });
     }
-    /*
-    {
-            "course": "58ffcd658768570fc06c1da3",
-            "teacher": "59074cbd1e02411bf5824570"
-        },
-    */
     return{
         addStudent,
         getAllStudents,

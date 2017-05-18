@@ -126,7 +126,7 @@ const Module = require('./model/module.js')(mongoose);
 const Note = require('./model/note.js')(mongoose);
 const Salle = require('./model/salle.js')(mongoose);
 const Absence = require('./model/absence.js')(mongoose);
-
+const Rdv = require('./model/rdv.js')(mongoose);
 // Controllers 
 const notesController = require('./controllers/notes-controller.js')(Users.Student, Note);
 const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module,Groupe);
@@ -134,7 +134,7 @@ const emploiController = require('./controllers/emploi-controller.js')(Spec, Sea
 const salleController = require('./controllers/salle-controller.js')(Salle);
 const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
 const absenceController = require('./controllers/absence-controller.js')(Users.Student,Seance,Absence);
-
+const rdvController = require('./controllers/rdv-Controller.js')(Users.Student,Users.Teacher,Rdv);
 // Routes 
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);
 const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);
@@ -142,6 +142,7 @@ const notesRoute = require('./routes/notes.js')(express, notesController);
 const salleRoute = require('./routes/salle.js')(express, salleController);
 const users = require('./routes/users')(express, userController);
 const absenceRoute = require('./routes/absence.js')(express, absenceController);
+const rdvRouter = require('./routes/rdv.js')(express,rdvController);
 
 app.use('/users', users);
 app.use('/scolarite', scolariteRoute);
@@ -149,6 +150,7 @@ app.use('/notes', notesRoute);
 app.use('/salles', salleRoute);
 app.use('/emploi', emploiRoute);
 app.use('/absences', absenceRoute);
+app.use('/rdv',rdvRouter);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
