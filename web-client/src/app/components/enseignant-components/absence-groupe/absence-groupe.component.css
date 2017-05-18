@@ -9,9 +9,10 @@ md-dialog-container{
 }
 
 .example-card {
-  width: 120px;
+  width: 27%;
   margin:2px;
   float: left;
+  height : 180px;
 }
 
 md-card-header{

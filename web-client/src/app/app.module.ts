@@ -11,6 +11,7 @@ import { AuthentificationComponent } from './components/authentification/authent
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
 
 
+
 import { EspaceGestionnaireComponent } from './components/gestionnaire-components/espace-gestionnaire/espace-gestionnaire.component';
 import { ProfilComponent } from './components/gestionnaire-components/profil/profil.component';
 import { AnneeScolaireComponent } from './components/gestionnaire-components/annee-scolaire/annee-scolaire.component';
@@ -43,6 +44,7 @@ import { Oauth2Component } from './components/oauth2/oauth2.component';
 import { UserService } from './services/user.service' ;
 import { ScolariteService } from './services/scolarite.service';
 import { TeacherService } from './services/teacher.service';
+import { AbsenceService } from './services/absence.service'
 import { ModuleService } from "./services/module.service";
 import { SalleService } from './services/salle.service';
 import { EmploiService} from './services/emploi.service';
@@ -129,7 +131,7 @@ import { SaisieAbsencesComponent } from "./components/enseignant-components/sais
                   AbsencesEtudiantComponent,
                   SaisieAbsencesComponent
                   ],
-  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService],
+  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService],
   entryComponents: [
             SaisiSeanceComponent,
             AbsencesEtudiantComponent,

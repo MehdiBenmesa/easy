@@ -18,11 +18,9 @@ module.exports = function(Student, Seance, Absence){
         }
 
     function getAbsenceBySeance(seanceId, callback){
-        Absence.find({ seance : seanceId }).exec( (err, res) => {
-                     //   let student = res.students;
-                        //console.log(res.students);
+        Absence.find({ 'seance': seanceId }, (err, res) => {
                         callback(err, res);
-                    });
+        });
     }
 
 

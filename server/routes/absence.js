@@ -2,7 +2,7 @@ module.exports = function(express, absenceController) {
 
    const router = express.Router();
 
-    router.post('/absence', (req, res) => {
+    router.post('/', (req, res) => {
         absenceController.addAbsence(req.body, (err, absence) => {
             if(err) throw err;
             res.json(absence);
