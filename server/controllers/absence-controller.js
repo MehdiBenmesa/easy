@@ -7,7 +7,7 @@ module.exports = function(Student, Seance, Absence){
             callback(err, absence);
         });
     }
-    
+
     function getAbsenceByStudent(studentId, callback){
         Absence.find({'students' : studentId}).populate('seance').exec(  (err, res) => {
                       //  let absence = res.seance.id("idmodule").module;
@@ -36,7 +36,7 @@ module.exports = function(Student, Seance, Absence){
         if (arrayOut[arrayOut.length-1] != arrayIn[a]) {
             arrayOut.push(arrayIn[a]);
         }
-    }
+   }
     return arrayOut;
     }
     
@@ -47,25 +47,43 @@ module.exports = function(Student, Seance, Absence){
                         callback(err, res);
                     });
     }
-    
-    
+
+
     function getAllAbsences(callback){
         Absence.find({}).exec((err,absences) =>{
             callback(err,absences);
         });
-        
+
     }
-    
+
     function deleteAbsence(absenceId, callback){
         Absence.findByIdAndRemove(absenceId, (err, module) => {
              callback(err, {message: 'success'})
-    });
+        });
     }
+
+    function getAbsencesTeacher(teacher, callback) {
+      Absence.find({}).populate({
+        path : 'seance',
+        match : {'teacher' :teacher }
+      }).exec( (err, result) => {
+        let absences = [];
+        result.forEach(absence => {
+          if(absence.seance != null){
+            absences.push(absence);
+          }
+        });
+        callback(err, absences);
+      } );
+    }
+
     return {
       getAbsenceByStudent,
       getAllAbsences,
       getAbsenceBySeance,
       addAbsence,
-      getAbsenceByModules
+      deleteAbsence,
+      getAbsenceByModules,
+      getAbsencesTeacher
     };
 }

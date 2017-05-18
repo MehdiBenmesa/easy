@@ -6,6 +6,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
 import { MdIcon, MdIconRegistry} from '@angular/material';
 import { AppComponent }  from './app.component';
+import { DatepickerModule } from 'angular2-material-datepicker';
 import { AuthentificationComponent } from './components/authentification/authentification.component'
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
 
@@ -45,12 +46,15 @@ import { TeacherService } from './services/teacher.service';
 import { ModuleService } from "./services/module.service";
 import { SalleService } from './services/salle.service';
 import { EmploiService} from './services/emploi.service';
+import { AbsencesEtudiantComponent } from "./components/enseignant-components/absences-etudiant/absences-etudiant.component";
+import { SaisieAbsencesComponent } from "./components/enseignant-components/saisie-absences/saisie-absences.component";
 
 @NgModule({
   imports:      [
                   BrowserModule,
                   FormsModule,
                   BrowserAnimationsModule,
+                  DatepickerModule,
                   RouterModule.forRoot([
                     {
                       path : 'oauth2',
@@ -121,13 +125,18 @@ import { EmploiService} from './services/emploi.service';
                   SalleComponent,
                   ListeSalleComponent,
                   SaisiSeanceComponent,
-                  AffichageEmploisDuTempsComponent
+                  AffichageEmploisDuTempsComponent,
+                  AbsencesEtudiantComponent,
+                  SaisieAbsencesComponent
                   ],
   providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService],
   entryComponents: [
-            SaisiSeanceComponent
+            SaisiSeanceComponent,
+            AbsencesEtudiantComponent,
+            SaisieAbsencesComponent
   ],
   bootstrap:    [ AppComponent ]
+
 })
 export class AppModule {
 

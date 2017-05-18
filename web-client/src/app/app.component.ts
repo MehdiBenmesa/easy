@@ -11,7 +11,6 @@ import { DomSanitizer} from '@angular/platform-browser';
 export class AppComponent implements OnInit  {
 
   constructor(private iconRegistry: MdIconRegistry, private sanitizer: DomSanitizer){
-    console.log("appConst");
     this.iconRegistry.addSvgIcon('school',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/school.svg'));
     this.iconRegistry.addSvgIcon('person',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/person.svg'));
     this.iconRegistry.addSvgIcon('delete',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/delete.svg'));

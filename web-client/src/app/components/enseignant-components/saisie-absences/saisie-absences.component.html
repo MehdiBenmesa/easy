@@ -1,0 +1,40 @@
+<div id="entete">
+  <h2>{{spec}} {{section}} {{groupe}}</h2>
+  <material-datepicker (dateChange)="setSeances()" [(date)] = "selectedDate"></material-datepicker>
+  <md-select placeholder="Module">
+    <md-option *ngFor="let seance of seances"> {{seance.module.abre}} {{seance.type}}</md-option>
+  </md-select>
+
+</div>
+
+<div id="container">
+    <table>
+        <tr>
+            <th>N°</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th class="masquable" *ngIf="afficherTout">Séance 1</th>
+            <th class="masquable" *ngIf="afficherTout">Séance 2</th>
+            <th class="masquable" *ngIf="afficherTout">Séance 3</th>
+            <th class="masquable" *ngIf="afficherTout">Séance 4</th>
+            <th>Absence</th>
+        </tr>
+
+        <tr *ngFor="let student of students">
+            <td>{{student.matricule}}</td>
+            <td>{{student.lastname}}</td>
+            <td>{{student.name}}</td>
+            <td class="masquable" *ngIf="afficherTout">*</td>
+            <td class="masquable" *ngIf="afficherTout">*</td>
+            <td class="masquable" *ngIf="afficherTout">A</td>
+            <td class="masquable" *ngIf="afficherTout">*</td>
+            <td><input></td>
+        </tr>
+
+    </table>
+</div>
+<div id="action">
+    <button *ngIf="!afficherTout" md-button (click)="afficher()">Afficher tout</button>
+    <button *ngIf="afficherTout" (click)="masquer()" md-button>Masquer</button>
+    <button md-button (click) ="save()">Enregistrer</button>
+</div>

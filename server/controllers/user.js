@@ -20,49 +20,41 @@ module.exports = function(google, googleConfig, User ){
             return callback(err);
           }
           oauth2Client.setCredentials(tokens);
-          console.log("token = "  + tokens.id_token);
-          console.log("access_token = "  + tokens.access_token);
           oauth2Client.verifyIdToken(
           tokens.id_token,
           googleConfig.CLIENT_ID,
           function(e, login) {
-           let payLoad = login.getPayload(); 
+           let payLoad = login.getPayload();
            if(e) throw e ;
               User.findOne({mail : payLoad.email}, (err, user) => {
                   console.log(user);
+                  let token = tokens.id_token;
                   callback(err, {
-                      tokens,
+                      token,
                       user
                   });
               });
            if (login.getPayload().hd != "esi.dz"){
-             console.log("Not Allowed"); 
+             callback(err, {
+               message: "Authorization required"
+             });
            }
           });
 
         });
     }
 
-    function verifyToken(token){
+    function verifyToken(tokenId, callback){
         oauth2Client.verifyIdToken(
-          token,
+          tokenId,
           googleConfig.CLIENT_ID,
-          // Or, if multiple clients access the backend:
-          //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3],
           function(e, login) {
-            //var payload = login.getPayload();
-            //var userid = payload['sub'];
-            return login.getPayload();
-        //callback(e , login));
-            // If request specified a G Suite domain:
-            //var domain = payload['hd'];
+            callback(e, login);
           });
-        
     }
-    
+
     function androidAuthentification(email,callback) {
        User.findOne({mail : email}, (err, user) => {
-                  console.log(user);
                   callback(err, {
                       user
                   });

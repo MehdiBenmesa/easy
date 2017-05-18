@@ -19,59 +19,16 @@
 
     <div id="content">
         <md-tab-group>
-            <md-tab label="1CPI-G01">
+          <md-tab *ngFor="let groupe of groupes" label="{{groupe.spec}} {{groupe.section}} {{groupe.groupeName}}">
                 <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
-                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
-                </div>  
-            </md-tab>
-            <md-tab label="1CPI-G02">
-                <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
-                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
-                </div>  
-            </md-tab>
-
-            <md-tab label="2CPI-G03">
-                <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
-                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
-                </div>  
-            </md-tab>
-
-            <md-tab label="2CS-SIL-01">
-                <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
-                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
-                </div> 
-            </md-tab>
-
-            <md-tab label="2CS-SIT-02">
-                <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
-                    <notes-groupe *ngIf="affichage==2"></notes-groupe>
-                </div>  
-            </md-tab>
-
-            <md-tab label="2CS-SIQ">
-                <div>
-                    <h1>Module enseigné : MAGIL</h1>
-                    <liste-groupe *ngIf="affichage==0"></liste-groupe>
-                    <absence-groupe *ngIf="affichage==1"></absence-groupe>
+                    <div class="entete">
+                        <div><button md-button *ngIf="affichage==1" (click)="openSaisieAbsencesDialog(groupe.students, groupe.spec, groupe.section, groupe.name)">saisir les absences</button></div>
+                    </div>
+                    <liste-groupe [students]="groupe.students" *ngIf="affichage==0"></liste-groupe>
+                    <absence-groupe [students]="groupe.students"  *ngIf="affichage==1"></absence-groupe>
                     <notes-groupe *ngIf="affichage==2"></notes-groupe>
                 </div>
             </md-tab>
-
         </md-tab-group>
     </div>
 </div>

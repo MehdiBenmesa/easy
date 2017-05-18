@@ -1,5 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from "../../../services/user.service";
 
 @Component({
   selector: 'espace-enseignant',
@@ -8,21 +9,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class EspaceEnseignantComponent implements OnInit{
-    enseignant:any={
-        firstName:"MOSTEFAI",
-        lastName:"Mohamed Amine",
-        adresse:"Adresse",
-        adresseMail:"Adresse Mail",
-        tel:"055555555"
-      };
+    private user: any;
+    constructor(private userService: UserService){
+      this.userService.getUser().subscribe( user => {
+         this.user = user
+      });
+    }
 
     classMenus:string[]=["menu-non-selectionne","menu-selectionne","menu-non-selectionne","menu-non-selectionne","menu-non-selectionne"];
 
 
-    constructor(private route: ActivatedRoute){
-       console.log("enseignant");
-       console.log(this.enseignant);
-    }
 
     ngOnInit(){
 

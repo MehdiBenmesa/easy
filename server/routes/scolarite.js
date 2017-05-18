@@ -3,7 +3,7 @@ module.exports = function(express, scolariteController) {
 
     const router = express.Router();
 
-// get spécialité 
+// get spécialité
     router.get('/specs', (req, res) => {
       scolariteController.getAllSpecs((err, specs) => {
         if(err) throw err;
@@ -94,9 +94,9 @@ module.exports = function(express, scolariteController) {
         if(err) throw err;
         res.json(result);
         });
-    
+
     });
-    
+
     router.get('/students', (req, res) => {
         scolariteController.getAllStudents((err, students) => {
             if(err) throw err;
@@ -113,6 +113,7 @@ module.exports = function(express, scolariteController) {
 
        // la liste des modules d'un étudiant de id :student 
     router.get('/modules-by-student/:section/:groupe',(req,res) => {
+
             scolariteController.getModuleByStudent(
                 req.params.section,
                 req.params.groupe,
@@ -121,16 +122,16 @@ module.exports = function(express, scolariteController) {
                 res.json(modules);
             });
         });
-        
-        
+
+
     router.get('/modules-by-spec/:section',(req,res) => {
             scolariteController.getModuleBySpec(req.params.section,(err,modules) => {
                 if(err) throw err;
                 res.json(modules);
             });
         });
-        
-    router.get('/modules-by-teacher/:id',(req,res) => {
+
+    router.get('/teacher/modules/:id',(req,res) => {
         scolariteController.getModuleByTeacher(req.params.id,(err,modules) => {
             if(err) throw err;
             res.json(modules);
@@ -142,12 +143,19 @@ module.exports = function(express, scolariteController) {
             res.json(groupes);
         });
     });
-    
+
      router.get('/groupes/:modul/:teacher', (req,res) => {
         scolariteController.getGroupeByModule(req.params.modul,req.params.teacher, (err,groupes)=>{
             if(err) throw err;
             res.json(groupes);
         })
     })
+
+  router.get('/teacher/groupes/:teacher', (req, res ) => {
+    scolariteController.getTeacherGroupes(req.params.teacher, (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    })
+  })
    return router;
 }

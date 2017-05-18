@@ -1,5 +1,8 @@
 import { Component, OnInit} from '@angular/core';
-
+import { MdDialog } from '@angular/material';
+import { SaisieAbsencesComponent } from '../saisie-absences/saisie-absences.component';
+import { UserService } from "../../../services/user.service";
+import { TeacherService } from "../../../services/teacher.service";
 @Component({
   selector: 'etudiants',
   templateUrl: 'etudiants.component.html',
@@ -8,8 +11,15 @@ import { Component, OnInit} from '@angular/core';
 export class EtudiantsComponent implements OnInit{
     classItems:string[]=["item-selectionne","item","item"];
     affichage:number=0;
-
-    constructor(){
+    private groupes :any = [];
+    constructor(private dialog:MdDialog,
+                private userService :UserService,
+                private teacherService :TeacherService){
+                  this.userService.getUser().subscribe( (teacher :any) => {
+                    this.teacherService.getGroupes(teacher._id).subscribe(groupes => {
+                      this.groupes = groupes;
+                    });
+                  });
 
     }
     ngOnInit(){
@@ -21,4 +31,11 @@ export class EtudiantsComponent implements OnInit{
       this.classItems[i]="item-selectionne";
     }
 
+    openSaisieAbsencesDialog(students, spec, section, groupe){
+      let dialogRef = this.dialog.open(SaisieAbsencesComponent);
+      dialogRef.componentInstance.students = students;
+      dialogRef.componentInstance.spec = spec;
+      dialogRef.componentInstance.section = section;
+      dialogRef.componentInstance.groupe = groupe;
+    }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit} from '@angular/core';
+import { EmploiService } from "../../../services/emploi.service";
+import { UserService } from "../../../services/user.service";
 
 
 @Component({
@@ -7,10 +9,17 @@ import { Component, OnInit} from '@angular/core';
   styleUrls:['emplois-du-temps.component.css']
 })
 export class EmploisDuTempsComponent implements OnInit{
-
-    constructor(){
+    private emploi :any;
+    constructor(private emploiService :EmploiService,
+                private userService :UserService){
+                  this.userService.getUser().subscribe(user => {
+                    this.emploiService.getTeacherTimeTable(user).subscribe(emploi => {
+                      this.emploi = emploi;
+                    });
+                  });
 
     }
+
     ngOnInit(){
 
     }

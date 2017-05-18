@@ -1,13 +1,12 @@
 #container{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: row;
 }
 
 #content{
-    width: 70%;
-    margin-left: 5%;
-    margin-right:5%;
+    width: 75%;
+    margin-right: 10px;
 }
 
 .item, .item-selectionne{
@@ -15,7 +14,7 @@
     justify-content: flex-start;
     flex-direction:row;
     width: 250px;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     cursor:default;
 }
 #menu md-icon{
@@ -25,11 +24,11 @@
     width: 30px;
     min-height: 30px;
     min-width: 30px;
-     
+
 }
 #menu{
     margin: 1px;
-    margin-top:100px;
+    margin-top:5px;
     width: 15%;
 }
 
@@ -38,7 +37,7 @@
     width: 55px;
     height: 40px;
     border-width:0 0 0 5px;
-    border-color:#d7b9a0 ;
+    border-color:rgb(182,177,179);
     border-style: solid;
 }
 
@@ -58,26 +57,26 @@
     width: 110px;
     justify-content: center;
     flex-direction:column;
-    background-color: #d7b9a0 ;
+    background-color: rgb(182,177,179);
     color:rgb(53,63,64);
     height: 40px;
 }
-.item-selectionne .text{ 
+.item-selectionne .text{
     background-color:  rgb(53,63,64);
-    color:#d7b9a0;
+    color:rgb(182,177,179);
 }
 
 .item:hover .text{
-    width: 150px;
+    width: 130px;
     animation-name: anim;
     animation-duration: 0.5s;
 }
 .fleche_droite {
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent; 
-    border-left: 20px solid #d7b9a0;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid rgb(182,177,179);
 }
 
 .item-selectionne .fleche_droite {
@@ -90,9 +89,24 @@
         width: 110px;
     }
     100%{
-        width: 150px;
+        width: 130px;
     }
 }
 .item-selectionne .text{
-    width: 150px;
+    width: 130px;
+}
+
+.entete{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction:row;
+}
+.entete>div{
+    display: flex;
+    justify-content:center;
+    flex-direction:column;
+}
+.entete button{
+    margin: 5px;
+    background-color: rgb(182,177,179);
 }

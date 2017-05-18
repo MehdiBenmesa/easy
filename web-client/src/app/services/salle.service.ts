@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject, Observable} from 'rxjs';
+import { UserService } from "./user.service";
 
 @Injectable()
 export class SalleService {
   private baseUrl = 'http://localhost:3000/salles';
   private salles  = new BehaviorSubject([]);
-  constructor (private http: Http) {}
+  constructor (private http: Http, private userService :UserService) {
+  }
 
 
   /*ici on récupére les salles par une requete vers la bdd*/
   public getSalles(){
-    this.http.get(`${this.baseUrl}`)
+     let token = JSON.parse(localStorage.getItem('token'));
+     let headers = new Headers({
+       'token': token
+     });
+     let options = new RequestOptions({headers});
+    this.http.get(`${this.baseUrl}`, options)
       .map((res: Response) => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server Error'))
       .subscribe((salles) => this.salles.next(salles));
@@ -20,7 +27,12 @@ export class SalleService {
   }
 
   public addSalle(salle){
-    return this.http.post(`${this.baseUrl}`, salle)
+     let token = JSON.parse(localStorage.getItem('token'));
+     let headers = new Headers({
+       'token': token
+     });
+     let options = new RequestOptions({headers});
+    return this.http.post(`${this.baseUrl}`, salle, options)
       .map((res: Response) =>{
         res = res.json()
         let values = this.salles.getValue();

@@ -1,46 +1,54 @@
-md-card{
-    padding: 3% 0% 4% 3%;
-    cursor: pointer;
+md-dialog-container{
+    padding: 0;
 }
-md-card>div{
-    float: left;
-}
-
-
-.liste{
-    width: 100%;
+#container{
+    padding: 4%;
     display: flex;
     justify-content: center;
+    flex-direction:row;
+}
+
+.example-card {
+  width: 120px;
+  margin:2px;
+  float: left;
+}
+
+md-card-header{
+    display: flex;
+    justify-content: space-between;
     flex-direction: row;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    
 }
 
-.liste>div{
+md-card-actions{
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 70%;
+    justify-content:space-around;
+    flex-direction: row;
 }
-.liste>div>div{
-    width: 100%;
-    margin: 1px;
-}
-
-.entete>div{
+md-card-actions div{
     display: flex;
     justify-content: center;
     flex-direction:column;
-    font-weight: bold;
-    text-align: center;
-    font-size: 15px;
-    width: 26%;
-}
-.entete>div:first-child{
-    display: flex;
-    justify-content: center;
-    flex-direction:column;
-    width: 10%;
 }
 
+md-card-subtitle{
+    margin: 0;
+}
+
+
+.user{
+    color:#0c1329;
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+    min-height: 100px;
+    min-width: 100px;
+}
+
+md-card-actions button{
+    height: 40px;
+    width: 40px;
+    min-height: 40px;
+    min-width: 40px;
+    padding: 0;
+}

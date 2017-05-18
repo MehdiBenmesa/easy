@@ -1,10 +1,16 @@
-<div class="liste">
-    <div>  
-        <md-card class="entete">
-            <div>Rabia Chérif</div>
-            <div> Besma</div>
-        </md-card>      
+
+<div id="container">
+    <div>
+    <md-card *ngFor="let student of students" class="example-card">
+        <md-card-header>
+          <md-card-title>{{student.lastname}} {{student.name}}</md-card-title>
+        </md-card-header>
+       <md-icon svgIcon="person" class="user"></md-icon>
+        <md-card-actions>
+            <div><md-card-subtitle>3 abscences</md-card-subtitle></div>
+            <button md-button (click)="afficherDetailsAbsence()"><md-icon svgIcon="details"></md-icon></button>
+        </md-card-actions>
+    </md-card>
     </div>
 </div>
-
 
