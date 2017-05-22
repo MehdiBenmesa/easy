@@ -1,4 +1,4 @@
-import { Component,Input,OnInit,ElementRef} from '@angular/core';
+import { Component, Input, OnInit, ElementRef} from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { ModuleService } from "../../../services/module.service";
 import { TeacherService } from "../../../services/teacher.service";

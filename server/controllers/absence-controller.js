@@ -4,7 +4,9 @@ module.exports = function (Student, Seance, Absence) {
         //TODO
         let absence = new Absence(obj);
         absence.save((err, absence) => {
-            callback(err, absence);
+          Absence.populate(absence, 'seance', (err, mabsence) => {
+            callback(err, mabsence);
+          });
         });
     }
 
@@ -38,11 +40,9 @@ module.exports = function (Student, Seance, Absence) {
         return arrayOut;
     }
 
-    function getAbsenceBySeance(seanceId, callback) {
-        Absence.find({ seance: seanceId }).exec((err, res) => {
-            //   let student = res.students;
-            //console.log(res.students);
-            callback(err, res);
+    function getAbsenceBySeance(seanceId, callback){
+        Absence.find({ 'seance': seanceId }, (err, res) => {
+                        callback(err, res);
         });
     }
 

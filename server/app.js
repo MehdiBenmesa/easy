@@ -21,8 +21,8 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
-       res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
         res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
         next();
 });
@@ -117,7 +117,7 @@ besma.save((besma) => {
 });
 */
 
-// Models 
+// Models
 const Seance = require('./model/seance.js')(mongoose);
 const Users = require('./model/user.js')(mongoose, extend);
 const Spec = require('./model/spec.js')(mongoose);
@@ -126,7 +126,7 @@ const Note = require('./model/note.js')(mongoose);
 const Salle = require('./model/salle.js')(mongoose);
 const Absence = require('./model/absence.js')(mongoose);
 const Rdv = require('./model/rdv.js')(mongoose);
-// Controllers 
+// Controllers
 const notificationController = require('./controllers/notifications-controller.js')(gcm,appConfig.notification);
 const notesController = require('./controllers/notes-controller.js')(Users.Student , Note , notificationController);
 const scolariteController = require('./controllers/scolarite-controller.js')(Users.Student, Users.Manager, Users.Teacher,  Spec, Module);
@@ -136,7 +136,7 @@ const userController = require('./controllers/user.js')(google, googleConfig, Us
 const absenceController = require('./controllers/absence-controller.js')(Users.Student,Seance,Absence , notificationController);
 const rdvController = require('./controllers/rdv-controller.js')(Users.Student, Users.Teacher , Rdv);
 
-// Routes 
+// Routes
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);
 const scolariteRoute = require('./routes/scolarite.js')(express, scolariteController);
 const notesRoute = require('./routes/notes.js')(express, notesController);
@@ -181,5 +181,5 @@ app.use(function(err, req, res, next) {
 
 
 
-module.exports = app 
-                
+module.exports = app
+

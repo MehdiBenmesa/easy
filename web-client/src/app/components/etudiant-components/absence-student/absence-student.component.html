@@ -1,0 +1,15 @@
+<div class="container">
+  <md-card class="card" *ngFor="let module of modules">
+    <md-card-header>
+      <md-card-title>{{module.name}}</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <md-list>
+      <md-list-item *ngFor="let absence of module.absences">
+        {{absence.date }} {{absence.seance.starts}} - {{absence.seance.ends}} {{absence.seance.salle.name}}
+      </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+<div>
+

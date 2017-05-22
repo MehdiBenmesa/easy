@@ -1,8 +1,8 @@
 <div id="entete">
-  <h2>{{spec}} {{section}} {{groupe}}</h2>
+  <h2>{{groupe}}</h2>
   <material-datepicker (dateChange)="setSeances()" [(date)] = "selectedDate"></material-datepicker>
-  <md-select placeholder="Module">
-    <md-option *ngFor="let seance of seances"> {{seance.module.abre}} {{seance.type}}</md-option>
+  <md-select placeholder="Module" (change)="getAbsences()" [(ngModel)]="selectedSeance">
+    <md-option *ngFor="let seance of seances" [value]="seance"> {{seance.module.abre}} {{seance.type}} {{seance.starts}} {{seance.ends}}</md-option>
   </md-select>
 
 </div>
@@ -13,10 +13,7 @@
             <th>N°</th>
             <th>Nom</th>
             <th>Prénom</th>
-            <th class="masquable" *ngIf="afficherTout">Séance 1</th>
-            <th class="masquable" *ngIf="afficherTout">Séance 2</th>
-            <th class="masquable" *ngIf="afficherTout">Séance 3</th>
-            <th class="masquable" *ngIf="afficherTout">Séance 4</th>
+            <th [hidden]="!afficherTout" class="masquable" *ngFor="let absence of absenceSeance">{{absence.date | date}}</th>
             <th>Absence</th>
         </tr>
 
@@ -24,11 +21,12 @@
             <td>{{student.matricule}}</td>
             <td>{{student.lastname}}</td>
             <td>{{student.name}}</td>
-            <td class="masquable" *ngIf="afficherTout">*</td>
-            <td class="masquable" *ngIf="afficherTout">*</td>
-            <td class="masquable" *ngIf="afficherTout">A</td>
-            <td class="masquable" *ngIf="afficherTout">*</td>
-            <td><input></td>
+
+              <td [hidden]="!afficherTout" class="masquable" *ngFor="let absence of absenceSeance">
+                {{printAbsence(student, absence)}}
+              </td>
+            <td><md-checkbox [value]="student" (change)="setStudent(student, $event)"></md-checkbox></td>
+
         </tr>
 
     </table>

@@ -98,5 +98,17 @@ export class EmploiService {
     return this.emploi.getValue()[day];
   }
 
+  public getModules(){
+    let modules = new Set();
+    ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'].forEach(day => {
+      this.emploi.getValue()[day].forEach( (seance :any) => {
+        let module = seance.module;
+        module.absences = [];
+        modules.add(JSON.stringify(module));
+      });
+    });
+    return Array.from(modules).map(m => JSON.parse(m));
+  }
+
 
 }

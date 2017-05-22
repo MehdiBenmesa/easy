@@ -14,9 +14,8 @@ module.exports = function(express, salleController){
       res.json(salle);
     });
   });
-  
+
   router.post('/', (req, res) => {
-    console.log( req.headers['x-access-token']);
     salleController.saveSalle(req.body , (error, salle) => {
       if(error) throw error;
       res.json(salle);
@@ -30,7 +29,7 @@ module.exports = function(express, salleController){
       });
     });
 
-    
+
   router.post('/check', (req, res) => {
     salleController.checkSalle(req.body.salleId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
       if(err) throw err;
