@@ -240,7 +240,6 @@ public class StartActivity extends BaseActivity implements
             mProgressDialog.hide();
         }
     }
-
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -251,7 +250,6 @@ public class StartActivity extends BaseActivity implements
            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -54,6 +54,10 @@
          from https://console.developers.google.com/ -->
     <string name="server_client_id">48644440579-o6mirfj8dqvhgvdsa5r5rp0vn1q1kqv8.apps.googleusercontent.com</string>
 
+    <string name="horizontal_timeline">Horizontal Timeline</string>
+    <string name="vertical_timeline">Vertical Timeline</string>
+
+
     <string-array name="dept_array">
         <item>Apparel</item>
         <item>Beauty</item>
@@ -65,6 +69,10 @@
     </string-array>
     <string name="settings">Settings</string>
     <string name="article_detail_more_info">More Info</string>
+    <string name="article_detail_exam">Examen</string>
+    <string name="article_detail_control">Control</string>
+    <string name="article_detail_tp">Tp</string>
+    <string name="article_detail_intero">Interrogation</string>
     <string name="NoteManager">Gestion des Notes</string>
     <string name="AbsentManager">Gestion des Absences</string>
     <string name="TimetableManager">Gestion d\'emploi du temps</string>

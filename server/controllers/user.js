@@ -20,50 +20,72 @@ module.exports = function(google, googleConfig, User ){
             return callback(err);
           }
           oauth2Client.setCredentials(tokens);
+          console.log("token = "  + tokens.id_token);
+          console.log("access_token = "  + tokens.access_token);
           oauth2Client.verifyIdToken(
           tokens.id_token,
           googleConfig.CLIENT_ID,
           function(e, login) {
-           let payLoad = login.getPayload();
+           let payLoad = login.getPayload(); 
            if(e) throw e ;
               User.findOne({mail : payLoad.email}, (err, user) => {
                   console.log(user);
-                  let token = tokens.id_token;
                   callback(err, {
-                      token,
+                      tokens,
                       user
                   });
               });
            if (login.getPayload().hd != "esi.dz"){
-             callback(err, {
-               message: "Authorization required"
-             });
+             console.log("Not Allowed"); 
            }
           });
 
         });
     }
 
-    function verifyToken(tokenId, callback){
+    function verifyToken(token){
         oauth2Client.verifyIdToken(
-          tokenId,
+          token,
           googleConfig.CLIENT_ID,
+          // Or, if multiple clients access the backend:
+          //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3],
           function(e, login) {
-            callback(e, login);
+            //var payload = login.getPayload();
+            //var userid = payload['sub'];
+            return login.getPayload();
+        //callback(e , login));
+            // If request specified a G Suite domain:
+            //var domain = payload['hd'];
           });
+        
     }
 
+
+    
     function androidAuthentification(email,callback) {
        User.findOne({mail : email}, (err, user) => {
+                  console.log(user);
+                  callback(err, {
+                      user
+                  });
+              });
+
+     }
+
+     function setOrUpdategmcToken(body,callback) {
+       User.findOneAndUpdate({mail : body.email}, {$set:{gcmtoken: body.registrationId }}, {new: true} , (err, user) => {
+                  console.log(user);
                   callback(err, {
                       user
                   });
               });
     }
+    
     return{
       getUrl,
       getAccessToken ,
       verifyToken,
-      androidAuthentification
+      androidAuthentification , 
+      setOrUpdategmcToken
       }
 }

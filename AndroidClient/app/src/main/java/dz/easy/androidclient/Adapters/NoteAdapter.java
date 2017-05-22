@@ -1,76 +1,109 @@
 package dz.easy.androidclient.Adapters;
-import android.app.Activity;
-import android.content.Context;
+
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import dz.easy.androidclient.Model.Note;
+import java.util.Random;
+
+import butterknife.BindArray;
+import butterknife.BindDrawable;
+import dz.easy.androidclient.Activities.ModuleActivity;
 import dz.easy.androidclient.R;
 
+/**
+ * Created by Mon pc on 10/05/2017.
+ */
 
-public class NoteAdapter extends ArrayAdapter {
-    private Context context;
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder> {
 
-    public NoteAdapter(Context context, ArrayList<Note> depenses){
-        super(context, 0, depenses);
-        this.context = context;
+    JSONArray contents;
+
+    static final int TYPE_HEADER = 0;
+    static final int TYPE_CELL = 1;
+
+    @BindArray(R.array.androidcolors)
+    int[] androidColors;
+
+    @BindDrawable(R.drawable.circle)
+    Drawable btn;
+    public NoteAdapter(JSONArray contents) {
+        this.contents = contents;
+    }
+
+    public interface ModuleAdapterClickListener {
+        void recyclerViewClick(String albumID);
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return TYPE_CELL;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        final Note site = (Note) getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_note, parent, false);
+    public int getItemCount() {
+        return contents.length();
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_card_absence, parent, false);
+        return new MyViewHolder(view) {};
+    }
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        try {
+            final JSONObject json = contents.getJSONObject(position);
+
+          //  final JSONObject seance = json.getJSONObject("seance");
+            //final JSONObject module = seance.getJSONObject("module");
+
+            //final JSONObject teacher = seance.getJSONObject("teacher");
+           // String date = json.getString("date");
+
+            holder.title.setText(json.getString("reason"));
+
+         //   holder.count.setText(date);
+
+            holder.prof.setText("Valuer : "+json.getString("value"));
+
+            holder.module.setText(json.getString("reason"));
+
+            //holder.credit.setText(seance.getString("starts") + "-" + seance.getString("ends")  );
+          /*  ShapeDrawable bgShape = (ShapeDrawable)btn;
+            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+            bgShape.getPaint().setColor(randomAndroidColor);
+            holder.module.setBackgroundColor(randomAndroidColor);
+*/
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        // Lookup view for data population
-        TextView note = (TextView) convertView.findViewById(R.id.note);
-        TextView etudiant = (TextView) convertView.findViewById(R.id.etudiant);
-        TextView module = (TextView) convertView.findViewById(R.id.module);
-
-        convertView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if(isTwopane()){
-                   // printDetails(site);
-                }else{
-                    /*Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra("detail", site);
-                    context.startActivity(intent);*/
-                }
-            }
-
-        });
-
-        // Populate the data into the template view using the data object
-        note.setText(site.getNote()+"");
-        module.setText(String.valueOf(site.getModule()));
-        etudiant.setText(site.getStudent());
-
-        // Return the completed view to render on screen
-        return convertView;
     }
 
-    public boolean isTwopane(){
-        View view = ((Activity) context).findViewById(R.id.item);
-        return (view != null);
-    }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CardView cardItem;
+        public TextView title, count , module , credit, prof;
+        public ModuleAdapterClickListener listener;
+        public MyViewHolder(View view) {
+            super(view);
+            cardItem = (CardView) view.findViewById(R.id.card_view);
+            title = (TextView) view.findViewById(R.id.title);
+            count = (TextView) view.findViewById(R.id.count);
+            prof = (TextView) view.findViewById(R.id.prof);
+            module = (TextView) view.findViewById(R.id.module);
+            credit = (TextView) view.findViewById(R.id.credit);
+        }
 
-    public void printDetails(Note note){
-      /*  ImageView imageView = (ImageView)((Activity) context).findViewById(R.id.imageView2);
-        TextView textView = (TextView) ((Activity) context).findViewById(R.id.textView);
-        TextView textView2 = (TextView) ((Activity) context).findViewById(R.id.textView2);
-        TextView textView3 = (TextView) ((Activity) context).findViewById(R.id.textView3);
-
-        textView.setText(site.getNom());
-        textView2.setText(site.getDescription());
-        textView3.setText(site.getHistorique());
-        imageView.setImageResource(site.getImage());*/
     }
 }

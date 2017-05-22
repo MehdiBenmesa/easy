@@ -61,7 +61,14 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.github.vipulasri:timelineview:1.0.5'
+    compile 'com.android.support:support-vector-drawable:25.2.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

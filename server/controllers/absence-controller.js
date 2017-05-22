@@ -1,8 +1,8 @@
-module.exports = function(Student, Seance, Absence){
+module.exports = function (Student, Seance, Absence) {
 
-   function addAbsence(obj, callback){
+    function addAbsence(obj, callback) {
         //TODO
-       let absence = new Absence(obj);
+        let absence = new Absence(obj);
         absence.save((err, absence) => {
           Absence.populate(absence, 'seance', (err, mabsence) => {
             callback(err, mabsence);
@@ -10,14 +10,35 @@ module.exports = function(Student, Seance, Absence){
         });
     }
 
-    function getAbsenceByStudent(studentId, callback){
+    function getAbsenceByStudent(studentId, callback) {
+        Absence.find({ 'students': studentId }).populate('seance').exec((err, res) => {
+            callback(err, res);
+        });
+    }
 
-        Absence.find({'students' : studentId}).populate('seance').exec(  (err, res) => {
-                     //   let student = res.students;
-                        //console.log(res.students);
-                        callback(err, res);
-                    });
+    function getAbsenceByModules(studentId, moduleId, callback) {
+        Absence.find({ 'students': studentId }).populate('seance').exec((err, res) => {
+            let absences = [];
+            for (var i = 0; i < res.length; i++) {
+                let absence = res[i].seance.module.id;
+                if (absence == moduleId) {
+                    absences.push(res[i]);
+                }
+            }
+            let absencesRes = removeDuplicates(absences);
+            callback(err, absencesRes);
+        });
+    }
+
+    function removeDuplicates(arrayIn) {
+        var arrayOut = [];
+        for (var a = 0; a < arrayIn.length; a++) {
+            if (arrayOut[arrayOut.length - 1] != arrayIn[a]) {
+                arrayOut.push(arrayIn[a]);
+            }
         }
+        return arrayOut;
+    }
 
     function getAbsenceBySeance(seanceId, callback){
         Absence.find({ 'seance': seanceId }, (err, res) => {
@@ -26,39 +47,63 @@ module.exports = function(Student, Seance, Absence){
     }
 
 
-    function getAllAbsences(callback){
-        Absence.find({}).exec((err,absences) =>{
-            callback(err,absences);
+    function getAllAbsences(callback) {
+        Absence.find({}).populate('seance').exec((err, absences) => {
+            callback(err, absences);
         });
 
     }
 
-    function deleteAbsence(absenceId, callback){
+    function deleteAbsence(absenceId, callback) {
         Absence.findByIdAndRemove(absenceId, (err, module) => {
-             callback(err, {message: 'success'})
+            callback(err, { message: 'success' })
         });
     }
 
     function getAbsencesTeacher(teacher, callback) {
-      Absence.find({}).populate({
-        path : 'seance',
-        match : {'teacher' :teacher }
-      }).exec( (err, result) => {
-        let absences = [];
-        result.forEach(absence => {
-          if(absence.seance != null){
-            absences.push(absence);
-          }
+        Absence.find({}).populate({
+            path: 'seance',
+            match: { 'teacher': teacher }
+        }).exec((err, result) => {
+            let absences = [];
+            result.forEach(absence => {
+                if (absence.seance != null) {
+                    absences.push(absence);
+                }
+            });
+            callback(err, absences);
         });
-        callback(err, absences);
-      } );
+    }
+
+    function getAbsenceBySeanceDate(seanceId,dateinput, callback) {
+        Absence.find({ seance: seanceId, date : dateinput }).exec((err, res) => {
+            callback(err, res);
+        });
+    }
+
+    function getAbsenceByModulesDate(studentId, moduleId,dateinput, callback) {
+        Absence.find({ 'students': studentId, 'date': dateinput }).populate('seance').exec((err, res) => {
+            let absences = [];
+            for (var i = 0; i < res.length; i++) {
+                let absence = res[i].seance.module.id;
+                if (absence == moduleId) {
+                    absences.push(res[i]);
+                }
+            }
+            let absencesRes = removeDuplicates(absences);
+            callback(err, absencesRes);
+        });
     }
 
     return {
-      getAbsenceByStudent,
-      getAllAbsences,
-      getAbsenceBySeance,
-      addAbsence,
-      getAbsencesTeacher
+        getAbsenceByStudent,
+        getAllAbsences,
+        getAbsenceBySeance,
+        addAbsence,
+        deleteAbsence,
+        getAbsenceByModules,
+        getAbsencesTeacher,
+        getAbsenceBySeanceDate,
+        getAbsenceByModulesDate
     };
 }

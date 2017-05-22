@@ -1,109 +1,144 @@
 package dz.easy.androidclient.Adapters;
 
-/**
- * Created by Mon pc on 04/04/2017.
- */
-import java.util.ArrayList;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Parcelable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.BaseExpandableListAdapter;
-        import android.widget.TextView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import dz.easy.androidclient.HeaderInfo;
-import dz.easy.androidclient.ModuleInfo;
+import java.util.List;
+import java.util.Random;
+
+import butterknife.BindArray;
+import butterknife.BindDrawable;
+import butterknife.BindView;
+import dz.easy.androidclient.Activities.GroupeByModuleActivity;
+import dz.easy.androidclient.Activities.ModuleActivity;
+import dz.easy.androidclient.Activities.ViewPagerActivity;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.SessionManager;
 
-public class ModuleListAdapter extends BaseExpandableListAdapter {
+/**
+ * Created by florentchampigny on 24/04/15.
+ */
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.MyViewHolder>{
 
-    private Context context;
-    private ArrayList<HeaderInfo> deptList;
+    JSONArray contents;
 
-    public ModuleListAdapter(Context context, ArrayList<HeaderInfo> deptList) {
-        this.context = context;
-        this.deptList = deptList;
+    static final int TYPE_HEADER = 0;
+    static final int TYPE_CELL = 1;
+    String user;
+    @BindArray(R.array.androidcolors)
+    int[] androidColors;
+
+    private AdapterInterface buttonListner;
+
+    @BindDrawable(R.drawable.circle)
+    Drawable btn;
+    public ModuleListAdapter(JSONArray contents , AdapterInterface listner) {
+        this.contents = contents;
+        this.buttonListner = listner ;
+    }
+
+    public interface ModuleAdapterClickListener {
+        void recyclerViewClick(String albumID);
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return TYPE_CELL;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        ArrayList<ModuleInfo> productList = deptList.get(groupPosition).getProductList();
-        return productList.get(childPosition);
+    public int getItemCount() {
+        return contents.length();
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_card_big, parent, false);
+        SessionManager sessionManager = new SessionManager(view.getContext());
+        System.out.println("USER SESSION : "+sessionManager.getUser());
+
+            user = sessionManager.getUser();
+        return new MyViewHolder(view) {};
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-                             View view, ViewGroup parent) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        try {
+            final JSONObject json = contents.getJSONObject(position);
 
-        ModuleInfo detailInfo = (ModuleInfo) getChild(groupPosition, childPosition);
-        if (view == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = infalInflater.inflate(R.layout.module, null);
+            holder.title.setText("Nom du Module : " + json.getString("name"));
+            holder.count.setText("Coefficient : " + json.getString("coef"));
+            holder.module.setText(json.getString("abre"));
+            holder.credit.setText("Credit : " + json.getString("credit"));
+
+            holder.cardItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    try {
+                        JSONObject userjson = new JSONObject(user);
+                        if(userjson.getString("_type").equals("Teacher")){
+                            //Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
+                            buttonListner.buttonPressed(json);
+                        }else if (userjson.getString("_type").equals("Manager")){
+                            //Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
+                            //getTeachers();
+                        }else if (userjson.getString("_type").equals("Student")){
+                            //Toast.makeText(getContext() , "Hi Student" , Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(view.getContext() , ViewPagerActivity.class);
+                            try {
+                                i.putExtra("module",json.getString("_id"));
+                                i.putExtra("namemodule",json.getString("name"));
+                                i.putExtra("user", user);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            view.getContext().startActivity(i);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CardView cardItem;
+        public TextView title, count , module , credit;
+        public ModuleAdapterClickListener listener;
+        public MyViewHolder(View view) {
+            super(view);
+            cardItem = (CardView) view.findViewById(R.id.card_view);
+            title = (TextView) view.findViewById(R.id.title);
+            count = (TextView) view.findViewById(R.id.count);
+            module = (TextView) view.findViewById(R.id.module);
+            credit = (TextView) view.findViewById(R.id.credit);
         }
 
-        TextView sequence = (TextView) view.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getSequence().trim() + ") ");
-        TextView childItem = (TextView) view.findViewById(R.id.childItem);
-        childItem.setText(detailInfo.getName().trim());
-
-        return view;
     }
 
-    @Override
-    public int getChildrenCount(int groupPosition) {
-
-        ArrayList<ModuleInfo> productList = deptList.get(groupPosition).getProductList();
-        return productList.size();
-
+    public interface AdapterInterface{
+        public void buttonPressed(JSONObject module);
     }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return deptList.get(groupPosition);
-    }
-
-    @Override
-    public int getGroupCount() {
-        return deptList.size();
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isLastChild, View view,
-                             ViewGroup parent) {
-
-        HeaderInfo headerInfo = (HeaderInfo) getGroup(groupPosition);
-        if (view == null) {
-            LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inf.inflate(R.layout.module_list, null);
-        }
-
-        TextView heading = (TextView) view.findViewById(R.id.heading);
-        heading.setText(headerInfo.getName().trim());
-
-        return view;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-
-
-
 }

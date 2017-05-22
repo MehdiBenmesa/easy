@@ -19,7 +19,11 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dz.easy.androidclient.R;
-import dz.easy.androidclient.fragment.Fragment1;
+import dz.easy.androidclient.Util.SessionManager;
+import dz.easy.androidclient.fragment.AbsenceFragment;
+import dz.easy.androidclient.fragment.ModuleFragment;
+import dz.easy.androidclient.fragment.RendeVousFragment;
+import dz.easy.androidclient.fragment.TimeTableFragment;
 
 public class UserActivity extends DrawerActivity {
 
@@ -45,8 +49,12 @@ public class UserActivity extends DrawerActivity {
 
         try {
             user = new JSONObject(jsonString);
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.createLoginSession(user.getString("name"),user.getString("mail"), user.getString("_id"));
+            sessionManager.setUser(jsonString);
             Resources res = getResources();
-            String text = String.format(res.getString(R.string.accountName), user.getString("_type"), user.getString("lastname") + " " +  user.getString("name"));
+            String text =  user.getString("lastname") + " " +  user.getString("name");
+
             ((TextView)findViewById(R.id.logo_white)).setText(text);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -58,13 +66,13 @@ public class UserActivity extends DrawerActivity {
             public Fragment getItem(int position) {
                 switch (position % 4) {
                     case 0:
-                        return Fragment1.newInstance(user);
-                    //case 1:
-                    //    return Fragment1.newInstance();
-                    //case 2:
-                    //    return WebViewFragment.newInstance();
+                        return ModuleFragment.newInstance(user);
+                    case 1:
+                        return ModuleFragment.newInstance(user);
+                    case 2:
+                        return TimeTableFragment.newInstance(user);
                     default:
-                        return Fragment1.newInstance(user);
+                        return ModuleFragment.newInstance(user);
                 }
             }
 
@@ -75,7 +83,7 @@ public class UserActivity extends DrawerActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                switch (position % 4) {
+                switch (position % 3) {
                     case 0:
                         return getResources().getString(R.string.NoteManager);
                     case 1:
@@ -83,7 +91,8 @@ public class UserActivity extends DrawerActivity {
                     case 2:
                         return getResources().getString(R.string.TimetableManager);
                     case 3:
-                        return "Gestion .........";
+                        return  "Gestion .. ";
+
                 }
                 return "";
             }
@@ -105,7 +114,7 @@ public class UserActivity extends DrawerActivity {
                         return HeaderDesign.fromColorResAndUrl(
                             R.color.cyan,
                             "http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg");
-                    case 3:
+                     case 3:
                         return HeaderDesign.fromColorResAndUrl(
                             R.color.red,
                             "http://www.tothemobile.com/wp-content/uploads/2014/07/original.jpg");

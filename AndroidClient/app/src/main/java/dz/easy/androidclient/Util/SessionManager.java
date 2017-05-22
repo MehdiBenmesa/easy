@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -25,6 +27,8 @@ public class SessionManager {
 
     private static final String USER_ID = "idUser";
 
+    private static final String USER = "user";
+
     private static final String KEY_NAME = "name";
 
     private static final String KEY_EMAIL = "email";
@@ -45,14 +49,14 @@ public class SessionManager {
         return pref.getBoolean(GOOGLE_PLUS,false);
     }
 
-    public void createLoginSession(String name, String email, int idUser){
+    public void createLoginSession(String name, String email, String idUser){
         editor.putBoolean(IS_LOGIN,true);
 
         editor.putString(KEY_EMAIL,email);
 
         editor.putString(KEY_NAME,name);
 
-        editor.putInt(USER_ID,idUser);
+        editor.putString(USER_ID,idUser);
 
         editor.commit();
     }
@@ -79,8 +83,15 @@ public class SessionManager {
         editor.commit();
     }
 
-    public int getIdUser(){
-        return pref.getInt(USER_ID,0);
+    public String getIdUser(){
+        return pref.getString(USER_ID,"");
+    }
+    public void setUser(String user){
+        editor.putString(USER,user);
+        editor.commit();
+    }
+    public String getUser(){
+        return pref.getString(USER,"");
     }
 
 }

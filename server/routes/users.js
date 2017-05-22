@@ -17,13 +17,24 @@ module.exports = function(express, userController) {
             res.json(response);
         });
     });
-
-    router.post('/Auth-android', (req, res) => {
-      userController.androidAuthentification(req.body.email, (err,response) =>{
-              if(err) throw err;
-              res.json(response);
-          });
+   
+    router.post('/Auth-android', (req, res) => {  
+    console.log("idToken " + req.body.idToken);
+    console.log("\n email : " + req.body.email );   
+    userController.androidAuthentification(req.body.email, (err,response) =>{
+            if(err) throw err;
+            res.json(response);
+        });
     });
 
+
+    router.post('/gmcToken', (req, res) => {  
+    console.log("gmcToken " + req.body.registrationId);
+    userController.setOrUpdategmcToken(req.body, (err,response) =>{
+            if(err) throw err;
+            res.json(response);
+        });
+    });
+    
    return router;
 }

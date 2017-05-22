@@ -108,13 +108,47 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             callback(err,teacher);
         });
     }
+  
+    function getModuleByStudent(sectionId,groupeId,callback) {
+            Spec.findOne({'sections._id':sectionId, 'sections.groupes._id' : groupeId},'sections')
+      .populate('sections.groupes.emploi.sunday\
+                sections.groupes.emploi.monday\
+                sections.groupes.emploi.tuesday\
+                sections.groupes.emploi.wednesday\
+                sections.groupes.emploi.thursday').exec((err, spec) => {
 
-    function getModuleByStudent(student,groupe,section,callback) {
-        Spec.findOne({},(err,spec) =>{
-           let specS = spec.sections.id(section).groupes.id(groupe);
-           callback(err,specS);
-        });
+        let emploi = spec.sections.id(sectionId).groupes.id(groupeId).emploi;
+        let modules = [];
+        for(var i=0;i<emploi.sunday.length;i++){
+            modules.push(emploi.sunday[i].module);    
+        }
+        for(i;i<emploi.monday.length;i++){
+            modules.push(emploi.monday[i].module);    
+        }
+        for(i;i<emploi.tuesday.length;i++){
+            modules.push(emploi.tuesday[i].module);    
+        }
+        for(i;i<emploi.wednesday.length;i++){
+            modules.push(emploi.wednesday[i].module);    
+        }
+        for(i;i<emploi.thursday.length;i++){
+            modules.push(emploi.thursday[i].module);    
+        }
+        let moduleRes = removeDuplicates(modules);  
+        
+        callback(err, moduleRes);
+    });
     }
+    
+    function removeDuplicates(arrayIn) {
+    var arrayOut = [];
+    for (var a=0; a < arrayIn.length; a++) {
+        if (arrayOut[arrayOut.length-1] != arrayIn[a]) {
+            arrayOut.push(arrayIn[a]);
+        }
+    }
+    return arrayOut;
+}
 
     function getModuleBySpec(sectionId ,callback) {
         Spec.findOne({'sections._id': sectionId},
@@ -125,6 +159,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             });
         });
     }
+    
     function getAllGroupes(callback) {
          Spec.findOne({}).populate({
                     path: 'sections'
@@ -134,7 +169,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
                         callback(err, response);
                     });
     }
-
+    
     function getModuleByTeacher(teacherId, callback){
         Teacher.findOne({_id : teacherId}, 'modules').populate('modules').exec( (err, result) => {
             let modules = result.modules;
@@ -143,15 +178,35 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
     }
 
     function getGroupeByModule(moduleId,teacherId,callback){
-        Spec.find({"courses.course": moduleId,"courses.teacher" : teacherId},'sections.groupes').
-        populate('sections.groupes.students').exec((err,spec) => {
-            callback(err,spec);
+    Teacher.findOne({'_id': teacherId, 'courses.course' : moduleId}, (err, teacher) => {
+        if(teacher!=null){
+        teacher.courses.forEach(course => {
+                Spec.find({'sections.groupes._id': { $in : course.groupes }}).populate('sections.groupes.students').exec((err, result) => {
+                    let groupes = [];
+                    result.forEach(spec => {
+                    spec.sections.forEach(section => {
+                        section.groupes.forEach(groupe => {
+                        if(teacher.groupes.indexOf(groupe._id) != -1){
+                            groupe = groupe.toObject();
+                            groupe.section = section.sectionName;
+                            groupe.spec = spec.name;
+                            groupes.push(groupe);
+                        } 
+                        });
+                    });
+                });
+                callback(err, groupes);
+            });
+        }); 
+    }else
+    callback(err,teacher);  
         });
     }
-
   function getTeacherGroupes(teacherId, callback){
     Teacher.findOne({'_id': teacherId}, (err, teacher) => {
-      Spec.find({'sections.groupes._id': { $in : teacher.groupes }}).populate('sections.groupes.students').exec((err, result) => {
+        if(teacher!=null){
+        teacher.courses.forEach(course => {
+        Spec.find({'sections.groupes._id': { $in : teacher.groupes }}).populate('sections.groupes.students').exec((err, result) => {
         let groupes = [];
         result.forEach(spec => {
           spec.sections.forEach(section => {
@@ -165,13 +220,21 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             });
           });
         });
+            
         callback(err, groupes);
       });
-    } );
+    });
+        }else
+            {if (err) {
+            return res.send();
+            }
+            callback(err,teacher);
+            }
+    });
 
   }
 
-    return{
+    return {
         addStudent,
         getAllStudents,
         addSpec,

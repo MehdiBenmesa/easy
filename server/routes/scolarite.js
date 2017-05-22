@@ -111,12 +111,12 @@ module.exports = function(express, scolariteController) {
         });
     });
 
-       // la liste des modules d'un étudiant de id :student
-    router.get('/modules-by-student/:student/:groupe/:section',(req,res) => {
+       // la liste des modules d'un étudiant de id :student 
+    router.get('/modules-by-student/:section/:groupe',(req,res) => {
+
             scolariteController.getModuleByStudent(
-                req.params.student,
-                req.params.groupe,
                 req.params.section,
+                req.params.groupe,
                 (err,modules) => {
                 if(err) throw err;
                 res.json(modules);
@@ -152,9 +152,9 @@ module.exports = function(express, scolariteController) {
     })
 
   router.get('/teacher/groupes/:teacher', (req, res ) => {
-    scolariteController.getTeacherGroupes(req.params.teacher, (err, result) => {
+    scolariteController.getTeacherGroupes(req.params.teacher, (err, groupe) => {
       if(err) throw err;
-      res.json(result);
+      res.json(groupe);
     })
   })
    return router;

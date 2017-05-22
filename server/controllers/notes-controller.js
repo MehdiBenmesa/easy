@@ -1,14 +1,22 @@
-module.exports = function(Student, Note){
+module.exports = function(User, Note , NotificationController){
 
-    function addNote(obj, callback){
+     function addNote(obj  , callback){
         //TODO
        let note = new Note(obj);
         note.save((err, note) => {
-            Student.findByIdAndUpdate(obj.student,
+        User.findByIdAndUpdate(obj.student,
                     {$push: {notes : note._id}},
                     {new: true}, (err) => {});
             callback(err, note);
         });
+        User.findOne({_id : obj.student}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Ajouter Note avec Succes" , (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });
+
     }
 
 
@@ -17,8 +25,40 @@ module.exports = function(Student, Note){
                 callback(err, student.notes);
          });
     }
+    
+    function getNoteByModules(student,module, callback) {
+        Student.findOne({_id:student}).populate('notes').exec( (err, student ) => {
+            let notemodule = student.notes; 
+            let notes = [];
+            for(var i=0;i< notemodule.length;i++){
+                let note = notemodule[i].module;   
+                 
+                if(note==module){
+                    notes.push(student.notes[i]);
+                }
+            }
+            let notesRes = removeDuplicates(notes);
+            callback(err, notesRes);
+         });
+    }
+    function removeDuplicates(arrayIn) {
+    var arrayOut = [];
+        for (var a=0; a < arrayIn.length; a++) {
+            if (arrayOut[arrayOut.length-1] != arrayIn[a]) {
+                arrayOut.push(arrayIn[a]);
+            }
+        }
+    }
+
+    function getAllNotes(callback){
+        Note.find({}).populate('module').exec((err,res) =>{
+            callback(err,res);
+        });
+    }
     return {
       addNote,
-      getNoteByStudent
+      getNoteByStudent,
+      getNoteByModules,
+      getAllNotes
     };
 }
