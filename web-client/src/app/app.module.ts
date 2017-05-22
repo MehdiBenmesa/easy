@@ -1,4 +1,4 @@
-import { NgModule ,Injectable}      from '@angular/core';
+import { NgModule ,Injectable} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@angular/material';
 import { FormsModule }   from '@angular/forms';
@@ -50,6 +50,8 @@ import { SalleService } from './services/salle.service';
 import { EmploiService} from './services/emploi.service';
 import { AbsencesEtudiantComponent } from "./components/enseignant-components/absences-etudiant/absences-etudiant.component";
 import { SaisieAbsencesComponent } from "./components/enseignant-components/saisie-absences/saisie-absences.component";
+import { StudentTimeTableComponent } from './components/etudiant-components/student-time-table/student-time-table.component';
+import { AbsenceStudentComponent } from './components/etudiant-components/absence-student/absence-student.component';
 
 @NgModule({
   imports:      [
@@ -88,10 +90,9 @@ import { SaisieAbsencesComponent } from "./components/enseignant-components/sais
                       path:'student',
                       component:EspaceEtudiantComponent,
                       children: [
-                        { path:'profile',component: ProfilComponent},
-                        { path:'years',component: AnneeScolaireComponent },
-                        { path:'students',component: FiltreGroupeComponent },
-                        { path:'specs',component: NiveauxSpecialitesComponent }
+                        { path:'profil',component: ProfilComponent},
+                        { path:'calendar',component: StudentTimeTableComponent},
+                        { path:'absences',component: AbsenceStudentComponent}
                       ]
                     },
                     {
@@ -129,7 +130,9 @@ import { SaisieAbsencesComponent } from "./components/enseignant-components/sais
                   SaisiSeanceComponent,
                   AffichageEmploisDuTempsComponent,
                   AbsencesEtudiantComponent,
-                  SaisieAbsencesComponent
+                  SaisieAbsencesComponent,
+                  StudentTimeTableComponent,
+                  AbsenceStudentComponent
                   ],
   providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService],
   entryComponents: [

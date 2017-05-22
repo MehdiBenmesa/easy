@@ -1,48 +1,9 @@
 
 <div id="container">
-    <div>
-        <p class="entete">Absence 1 </p>
-        <p class="content">22/10/2016</p>
-        <p>Séance de TD </p>
+    <div *ngFor="let absence of absences">
+      <p class="entete">{{absence.date | date}} {{absence.seance.starts}} - {{absence.seance.ends}} </p>
+      <p class="content">{{absence.seance.module.abre}} </p>
+      <p>{{absence.seance.type}} - {{absence.seance.salle.name}}</p>
     </div>
-
-    <div>
-        <p class="entete">Absence 2 </p>
-        <p class="content">22/05/2017</p>
-        <p>Séance de Cour </p>
-    </div>
-
-    <div>
-        <p class="entete">Absence 2 </p>
-        <p class="content">13/06/2017</p>
-        <p>Séance de TD </p>
-    </div>
-
-    <div>
-        <p class="entete">Absence 3 </p>
-        <p class="content">13/06/2017</p>
-        <p>Séance de TD </p>
-    </div>
-
-    <div>
-        <p class="entete">Absence 4 </p>
-        <p class="content">13/06/2017</p>
-        <p>Séance de TD </p>
-    </div>
-    
-    <div>
-        <p class="entete">Absence 5 </p>
-        <p class="content">13/06/2017</p>
-        <p>Séance de TD </p>
-    </div>
-    
-    <div>
-        <p class="entete">Absence 6 </p>
-        <p class="content">13/06/2017</p>
-        <p>Séance de TD </p>
-    </div>
-
-
-    
 </div>
 

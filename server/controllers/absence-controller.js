@@ -4,7 +4,9 @@ module.exports = function(Student, Seance, Absence){
         //TODO
        let absence = new Absence(obj);
         absence.save((err, absence) => {
-            callback(err, absence);
+          Absence.populate(absence, 'seance', (err, mabsence) => {
+            callback(err, mabsence);
+          });
         });
     }
 

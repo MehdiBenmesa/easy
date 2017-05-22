@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import { UserService } from "../../../services/user.service";
 
 
 @Component({
@@ -7,11 +8,12 @@ import { Component, OnInit} from '@angular/core';
   styleUrls:['espace-etudiant.component.css']
 })
 export class EspaceEtudiantComponent implements OnInit{
-    nom:string="RABIA CHERIF";
-    prenom:string="Besma";
     classMenus:string[]=["menu-non-selectionne","menu-selectionne","menu-non-selectionne","menu-non-selectionne","menu-non-selectionne"];
-
-    constructor(){
+    private student :any;
+    constructor(private userService :UserService){
+      this.userService.getUser().subscribe(student => {
+        this.student = student;
+      })
 
     }
     ngOnInit(){

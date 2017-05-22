@@ -20,4 +20,16 @@ export class AbsenceService {
     .map((res :Response) => res.json())
     .catch((error:any) => Observable.throw(error.json().error || 'server error'))
   }
+
+  public getAbsencesTeacher(teacher):Observable<any>{
+    return this.http.get(`${this.baseUrl}/teacher/${teacher}`)
+    .map((res :Response) => res.json())
+    .catch((error:any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  public getAbsenceStudent(student) :Observable<any>{
+    return this.http.get(`${this.baseUrl}/student/${student}`)
+    .map((res :Response) => res.json())
+    .catch((error:any) => Observable.throw(error.json().error || 'server error'));
+  }
 }

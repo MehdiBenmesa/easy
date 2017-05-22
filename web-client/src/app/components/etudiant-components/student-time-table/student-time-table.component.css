@@ -1,0 +1,71 @@
+
+#container{
+    padding: 10px;
+    display: flex;
+}
+table, th, td {
+   border: 1px solid white;
+}
+
+table {
+    width: 20%;
+    border-collapse: collapse;
+}
+
+
+th {
+    text-align: center;
+    background-color: #ff5555;
+    color: white;
+    font-weight: bold;
+}
+th, td {
+    padding: 5px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+h3,h4,p{
+    margin: 0;
+}
+tr:hover {background-color: #d7b9a0;}
+tr:nth-child(even):hover {background-color: #d7b9a0;}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+.action{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+.action>p{
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 70%;
+}
+.action>button{
+    background-color: #d7b9a0;
+}
+#edit{
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 5px;
+    margin: 0;
+}
+#edit:hover{
+    border-color: #ff5555;
+}
+#edit md-icon{
+    width: 20px;
+    max-width: 20px;
+    min-width: 20px;
+    color: #d7b9a0;
+}
+
+tr:hover #edit md-icon{
+    color: initial;
+}

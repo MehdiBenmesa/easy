@@ -2,6 +2,7 @@ import { Component,Input,OnInit} from '@angular/core';
 import { MdDialog} from '@angular/material';
 import { AbsencesEtudiantComponent } from './../absences-etudiant/absences-etudiant.component';
 import { AbsenceService } from "../../../services/absence.service";
+import { UserService } from "../../../services/user.service";
 
 @Component({
   selector: 'absence-groupe',
@@ -10,19 +11,18 @@ import { AbsenceService } from "../../../services/absence.service";
 })
 export class AbsenceGroupeComponent implements OnInit{
 
-
     @Input() students :any;
-    @Input() teacher :any;
-    constructor(private dialog:MdDialog,
-                private absenceService :AbsenceService){
+    constructor(private dialog:MdDialog){
 
 
     }
     ngOnInit(){
     }
 
-  afficherDetailsAbsence(){
-      this.dialog.open(AbsencesEtudiantComponent);
+  afficherDetailsAbsence(student){
+      let dialogRef = this.dialog.open(AbsencesEtudiantComponent);
+      dialogRef.componentInstance.absences = student.absences;
+
   }
 
 

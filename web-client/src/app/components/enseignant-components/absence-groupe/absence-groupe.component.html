@@ -7,8 +7,8 @@
         </md-card-header>
        <md-icon svgIcon="person" class="user"></md-icon>
         <md-card-actions>
-            <div><md-card-subtitle>3 abscences</md-card-subtitle></div>
-            <button md-button (click)="afficherDetailsAbsence()"><md-icon svgIcon="details"></md-icon></button>
+          <div><md-card-subtitle>{{student.absences.length}}</md-card-subtitle></div>
+            <button md-button (click)="afficherDetailsAbsence(student)"><md-icon svgIcon="details"></md-icon></button>
         </md-card-actions>
     </md-card>
     </div>

@@ -13,7 +13,7 @@
             <th>N°</th>
             <th>Nom</th>
             <th>Prénom</th>
-            <th class="masquable" *ngFor="let absence of absenceSeance">{{absence.date | date}}</th>
+            <th [hidden]="!afficherTout" class="masquable" *ngFor="let absence of absenceSeance">{{absence.date | date}}</th>
             <th>Absence</th>
         </tr>
 
@@ -21,9 +21,10 @@
             <td>{{student.matricule}}</td>
             <td>{{student.lastname}}</td>
             <td>{{student.name}}</td>
-            <td class="masquable" *ngFor="let absence of absenceSeance">
-              {{printAbsence(student, absence)}}
-            </td>
+
+              <td [hidden]="!afficherTout" class="masquable" *ngFor="let absence of absenceSeance">
+                {{printAbsence(student, absence)}}
+              </td>
             <td><md-checkbox [value]="student" (change)="setStudent(student, $event)"></md-checkbox></td>
 
         </tr>

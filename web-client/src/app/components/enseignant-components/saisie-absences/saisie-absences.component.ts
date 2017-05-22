@@ -1,5 +1,5 @@
 import { Component,Input,OnInit} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MdDialogRef, MdSnackBar} from '@angular/material';
 import { EmploiService } from "../../../services/emploi.service";
 import { AbsenceService } from "../../../services/absence.service";
 
@@ -20,7 +20,8 @@ export class SaisieAbsencesComponent implements OnInit{
 
  constructor(public dialogRef: MdDialogRef<SaisieAbsencesComponent>,
               private emploiService :EmploiService,
-              private absenceService :AbsenceService){
+              private absenceService :AbsenceService,
+              public mdSnackBar :MdSnackBar){
         this.selectedDate = new Date();
     }
 
@@ -43,7 +44,6 @@ export class SaisieAbsencesComponent implements OnInit{
     public getAbsences(){
       this.absenceService.getAbsenceSeance(this.selectedSeance._id).subscribe(res => {
         this.absenceSeance = res;
-        console.log(this.absenceSeance)
       })
     }
 
@@ -52,14 +52,21 @@ export class SaisieAbsencesComponent implements OnInit{
     }
 
     public save(){
-      let absence = {
-        date : this.selectedDate,
-        students : this.selectedStudents,
-        seance : this.selectedSeance._id
+      if(this.selectedSeance){
+        let absence = {
+          date : this.selectedDate,
+          students : this.selectedStudents,
+          seance : this.selectedSeance._id
+        }
+        this.absenceService.addAbsence(absence).subscribe(absence => {
+          if(absence) this.dialogRef.close(absence);
+        });
+
+      }else{
+        this.mdSnackBar.open("Veillez Choisir la Seance", "Easy", {
+          duration : 2000
+        });
       }
-      this.absenceService.addAbsence(absence).subscribe(absence => {
-        console.log(absence);
-      });
     }
 
     public setStudent(student, source ){

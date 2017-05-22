@@ -6,10 +6,9 @@ import { MdDialogRef } from '@angular/material';
   styleUrls:['absences-etudiant.component.css']
 })
 export class AbsencesEtudiantComponent implements OnInit{
-
+    public absences = [];
     constructor(public dialogRef: MdDialogRef<AbsencesEtudiantComponent>){
 
-      console.log("absence");
     }
 
     ngOnInit(){

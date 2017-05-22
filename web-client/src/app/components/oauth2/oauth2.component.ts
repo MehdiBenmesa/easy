@@ -16,7 +16,7 @@ export class Oauth2Component implements OnInit {
     data.user.subscribe((user) => {
        this.user = user;
        if(this.user._type == 'Manager') window.location.assign('http://localhost:4200/manager');
-       else if(this.user._type == 'Student')window.location.assign('http://localhost:4200/student');
+       else if(this.user._type == 'Student')window.location.assign('http://localhost:4200/student/calendar');
        else if(this.user._type == 'Teacher')window.location.assign('http://localhost:4200/teacher/calendar');
     });
 
