@@ -44,7 +44,7 @@ module.exports = function(express, absenceController) {
     });
     
     
-    router.get('/seance-date/:seance/:date',(req, res) => {
+  /*  router.get('/seance-date/:seance/:date',(req, res) => {
         absenceController.getAbsenceBySeanceDate(req.params.seance,req.params.date, (err, absence) => {
             if(err) throw err;
             res.json(absence);
@@ -56,7 +56,7 @@ module.exports = function(express, absenceController) {
             if(err) throw err;
             res.json(absence);
         });
-    });
+    });*/
     
     // router.get('/absence-by-seance/:seance',(req, res) => {
     //     absenceController.getNoteByStudent(req.params.student, (err, note) => {
