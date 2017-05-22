@@ -10,6 +10,7 @@ module.exports = function(express, scolariteController) {
         res.json(specs);
       });
     });
+
 // ajouter spécialité
     router.post('/spec', (req, res) => {
         scolariteController.addSpec(req.body, (err, spec) => {
@@ -17,7 +18,20 @@ module.exports = function(express, scolariteController) {
             res.json(spec);
         });
     });
-
+  //Ajouter une section
+  router.post('/section', (req, res) => {
+    scolariteController.addSection(req.body.specId, req.body.section, (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    });
+  });
+  //Ajouter un groupe
+  router.post('/groupe', (req, res) => {
+    scolariteController.addGroupe(req.body.specId, req.body.sectionId, req.body.groupe, (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    });
+  });
 
   router.post('/teacher/check', (req, res) => {
     scolariteController.checkTeacher(req.body.teacherId, req.body.day, req.body.starts, req.body.ends, (err, occupied) => {
@@ -111,7 +125,7 @@ module.exports = function(express, scolariteController) {
         });
     });
 
-       // la liste des modules d'un étudiant de id :student 
+       // la liste des modules d'un étudiant de id :student
     router.get('/modules-by-student/:section/:groupe',(req,res) => {
 
             scolariteController.getModuleByStudent(

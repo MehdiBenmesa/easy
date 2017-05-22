@@ -1,0 +1,17 @@
+
+#container{
+    overflow: auto;
+    padding: 10px;
+}
+#entete{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+#action{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+
+}

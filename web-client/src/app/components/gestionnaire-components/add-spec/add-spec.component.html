@@ -1,0 +1,13 @@
+<div id="entete">
+  <h2>Veuillez saisir le nom de la spécialité</h2>
+</div>
+
+<div id="container">
+  <md-input-container>
+      <input mdInput placeholder="Spécialité" #spec >
+  </md-input-container>
+</div>
+<div id="action">
+    <button md-button (click) ="cancel()">Annuler</button>
+    <button md-button (click) ="save(spec.value)">Valider</button>
+</div>
