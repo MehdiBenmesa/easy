@@ -6,5 +6,7 @@ module.exports = function(mongoose){
                         student : {type : mongoose.Schema.Types.ObjectId, ref: 'Student'},
                         date : {type: Date, default: Date.now}
                     } , {collection : 'note'});
+                    
     return mongoose.model('Note', noteSchema);
 }
+

@@ -1,10 +1,16 @@
 package dz.easy.androidclient.fragment;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,14 +21,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
+import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
+import dz.easy.androidclient.Model.Module;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.TestRecyclerViewAdapter;
+import dz.easy.androidclient.Util.CustomRequest;
+import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.SessionManager;
+
+import static dz.easy.androidclient.App.BaseActivity.TAG;
 
 
 /**
@@ -38,46 +57,48 @@ public class ModuleDetailFragment extends Fragment implements Constants {
     /**
      * The dummy content of this fragment.
      */
-
     static JSONObject module;
-
-    @BindView(R.id.quote)
-    TextView quote;
-
-    @BindView(R.id.content)
-    TextView content;
-
-
-    @BindView(R.id.author)
-    TextView author;
+    public static String userID="";
+    public static String moduleID="";
+    public static String nomModule="";
 
     @BindView(R.id.backdrop)
     ImageView backdropImg;
-
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-
     @BindView(R.id.uploadToDrive)
     FloatingActionButton uploadToDrive;
 
+    private static JSONObject user;
+
+    TextView exam;
+    TextView controle;
+    TextView intero;
+    TextView tp;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SessionManager sessionManager = new SessionManager(getContext());
+        userID = sessionManager.getIdUser();
+        //String Module = sessionManager
+        getNotesByModule();
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // load dummy item by using the passed item ID.
             //accident = AppContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
-        Toast.makeText(getContext() , module.toString() , Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext() , moduleID , Toast.LENGTH_LONG).show();
+
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate( R.layout.fragment_article_detail , container);
-
-
+        View rootView = inflater.inflate( R.layout.fragment_article_detail , container,false);
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(nomModule);
         return rootView;
     }
 
@@ -98,26 +119,81 @@ public class ModuleDetailFragment extends Fragment implements Constants {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public static ModuleDetailFragment newInstance(String user) {
+    public static ModuleDetailFragment newInstance(String nomModul,String moduleid) {
         ModuleDetailFragment fragment = new ModuleDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ModuleDetailFragment.ARG_ITEM_ID, user);
+
+        //module = new JSONObject();
+            moduleID = moduleid;
+            nomModule = nomModul;
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+    /*
+    public static ModuleDetailFragment newInstance(JSONObject user) {
+        ModuleDetailFragment fragment = new ModuleDetailFragment();
+        Bundle args = new Bundle();
         try {
             module = new JSONObject(user);
+            moduleID = moduleid;
+            nomModule = nomModul;
         } catch (JSONException e) {
             e.printStackTrace();
         }
         fragment.setArguments(args);
         return fragment;
-    }
-
+    }*/
     public ModuleDetailFragment() {
-
     }
 
 
+    private void getNotesByModule() {
 
+        CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_NOTE_BY_STUDENT + "/" + userID, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i(TAG, "Réponse de Notes : " + response);
+                        exam = (TextView) getActivity().findViewById(R.id.exam);
+                        controle = (TextView) getActivity().findViewById(R.id.control);
+                        intero = (TextView) getActivity().findViewById(R.id.intero);
+                        tp = (TextView) getActivity().findViewById(R.id.tps);
 
+                        for (int i=0;i<response.length();i++){
+                            try {
+                                JSONObject note = response.getJSONObject(i);
+                                if(moduleID.equals(note.getString("module"))){
+                                if(note.getString("reason").equals("exam")){
+                                    exam.setText(note.getInt("value")+"");
+                                }
+                                if(note.getString("reason").equals("controle")){
+                                    controle.setText(note.getInt("value")+"");
+                                }
+                                if(note.getString("reason").equals("intero")){
+                                    intero.setText(note.getInt("value")+"");
+                                }
+                                if(note.getString("reason").equals("tp")){
+                                    tp.setText(note.getInt("value")+"");
+                                }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
+                        }
+
+                        //  JSONArray modules = groupe.getJSONArray("module");
+                        //    Log.i(TAG, "Notes : " + groupe);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        App.getInstance().addToRequestQueue(jsonReq);
+
+    }
 }

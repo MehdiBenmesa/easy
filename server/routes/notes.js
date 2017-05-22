@@ -2,9 +2,11 @@
 
 module.exports = function(express, notesController) {
 
+
+
    const router = express.Router();
     router.post('/note', (req, res) => {
-        notesController.addNote(req.body, (err, note) => {
+        notesController.addNote(req.body , (err, note) => {
             if(err) throw err;
             res.json(note);
         });
@@ -16,8 +18,15 @@ module.exports = function(express, notesController) {
             res.json(note);
         });
     });
+
     router.get('/note-by-modules/:student/:module',(req, res) => {
         notesController.getNoteByModules(req.params.student,req.params.module, (err, note) => {
+            if(err) throw err;
+            res.json(note);
+        });
+    });
+    router.get('/', (req, res) => {
+        notesController.getAllNotes( (err, note) => {
             if(err) throw err;
             res.json(note);
         });

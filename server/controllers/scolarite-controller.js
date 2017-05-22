@@ -148,7 +148,8 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         }
     }
     return arrayOut;
-    }
+}
+
     function getModuleBySpec(sectionId ,callback) {
         Spec.findOne({'sections._id': sectionId},
         (err, spec) => {
@@ -177,14 +178,35 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
     }
 
     function getGroupeByModule(moduleId,teacherId,callback){
-        Spec.find({"courses.course": moduleId,"courses.teacher" : teacherId},'sections.groupes').
-        populate('sections.groupes').exec((err,spec) => {
-            callback(err,spec);
+    Teacher.findOne({'_id': teacherId, 'courses.course' : moduleId}, (err, teacher) => {
+        if(teacher!=null){
+        teacher.courses.forEach(course => {
+                Spec.find({'sections.groupes._id': { $in : course.groupes }}).populate('sections.groupes.students').exec((err, result) => {
+                    let groupes = [];
+                    result.forEach(spec => {
+                    spec.sections.forEach(section => {
+                        section.groupes.forEach(groupe => {
+                        if(teacher.groupes.indexOf(groupe._id) != -1){
+                            groupe = groupe.toObject();
+                            groupe.section = section.sectionName;
+                            groupe.spec = spec.name;
+                            groupes.push(groupe);
+                        } 
+                        });
+                    });
+                });
+                callback(err, groupes);
+            });
+        }); 
+    }else
+    callback(err,teacher);  
         });
     }
   function getTeacherGroupes(teacherId, callback){
     Teacher.findOne({'_id': teacherId}, (err, teacher) => {
-      Spec.find({'sections.groupes._id': { $in : teacher.groupes }}).populate('sections.groupes.students').exec((err, result) => {
+        if(teacher!=null){
+        teacher.courses.forEach(course => {
+        Spec.find({'sections.groupes._id': { $in : teacher.groupes }}).populate('sections.groupes.students').exec((err, result) => {
         let groupes = [];
         result.forEach(spec => {
           spec.sections.forEach(section => {
@@ -198,9 +220,17 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             });
           });
         });
+            
         callback(err, groupes);
       });
-    } );
+    });
+        }else
+            {if (err) {
+            return res.send();
+            }
+            callback(err,teacher);
+            }
+    });
 
   }
 

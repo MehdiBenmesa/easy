@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +28,7 @@ import dz.easy.androidclient.Activities.ModuleActivity;
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.MyViewHolder> {
+public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.MyViewHolder>{
 
     JSONArray contents;
 
@@ -71,18 +72,27 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         try {
             final JSONObject json = contents.getJSONObject(position);
-            holder.title.setText("Nom du Module : " + json.getString("name"));
-            holder.count.setText("Coefficient : " + json.getString("coef"));
+            final JSONObject course = json.getJSONObject("course");
+            holder.title.setText("Nom du Module : " + course.getString("name"));
+            holder.count.setText("Coefficient : " + course.getString("coef"));
             holder.module.setText(json.getString("abre"));
-            holder.credit.setText("Credit : " + json.getString("credit"));
+            holder.credit.setText("Credit : " + course.getString("credit"));
+
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Intent i = new Intent(view.getContext() , ModuleActivity.class);
-                    i.putExtra("user" ,json.toString() );
+                    i.putExtra("user" ,course.toString() );
+                    try {
+                        i.putExtra("module",course.getString("_id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     view.getContext().startActivity(i);
                 }
             });
+
             //ShapeDrawable bgShape = (ShapeDrawable)btn;
             //int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
             //bgShape.getPaint().setColor(randomAndroidColor);
@@ -104,8 +114,6 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
             count = (TextView) view.findViewById(R.id.count);
             module = (TextView) view.findViewById(R.id.module);
             credit = (TextView) view.findViewById(R.id.credit);
-
-
         }
 
     }

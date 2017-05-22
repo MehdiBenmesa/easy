@@ -152,9 +152,9 @@ module.exports = function(express, scolariteController) {
     })
 
   router.get('/teacher/groupes/:teacher', (req, res ) => {
-    scolariteController.getTeacherGroupes(req.params.teacher, (err, result) => {
+    scolariteController.getTeacherGroupes(req.params.teacher, (err, groupe) => {
       if(err) throw err;
-      res.json(result);
+      res.json(groupe);
     })
   })
    return router;

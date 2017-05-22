@@ -7,6 +7,7 @@ module.exports = function(mongoose, extend){
                         mail: {type : String , required : true} ,
                         address : String ,
                         tell : String,
+                        gcmtoken : String
                     } , {collection : 'user', discriminatorKey : '_type'});
 
     var studentSchema = userSchema.extend({
@@ -32,10 +33,19 @@ module.exports = function(mongoose, extend){
           thursday: [{type : mongoose.Schema.Types.ObjectId, ref : 'Seance'}]
         },
         courses : [{
-            course : {type : mongoose.Schema.Types.ObjectId, ref : 'Module'},
-            groupe : [{type : mongoose.Schema.Types.ObjectId}]
+            course : {type : mongoose.Schema.Types.ObjectId},
+            groupes : [{type : mongoose.Schema.Types.ObjectId}]
           }]
     });
+
+    var autoPopulateNote= function(next) {
+    this.populate('notes');
+    next();
+    };
+
+  studentSchema.pre('find', autoPopulateNote);
+  studentSchema.pre('findOne', autoPopulateNote);
+
 
     var User = mongoose.model('User', userSchema);
     var Manager = mongoose.model('Manager', managerSchema);

@@ -1,14 +1,22 @@
-module.exports = function(Student, Note){
+module.exports = function(User, Note , NotificationController){
 
-    function addNote(obj, callback){
+     function addNote(obj  , callback){
         //TODO
        let note = new Note(obj);
         note.save((err, note) => {
-            Student.findByIdAndUpdate(obj.student,
+        User.findByIdAndUpdate(obj.student,
                     {$push: {notes : note._id}},
                     {new: true}, (err) => {});
             callback(err, note);
         });
+        User.findOne({_id : obj.student}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Ajouter Note avec Succes" , (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });
+
     }
 
 
@@ -29,8 +37,8 @@ module.exports = function(Student, Note){
                     notes.push(student.notes[i]);
                 }
             }
-            //let notesRes = removeDuplicates(notes);
-            callback(err, notes);
+            let notesRes = removeDuplicates(notes);
+            callback(err, notesRes);
          });
     }
     function removeDuplicates(arrayIn) {
@@ -41,9 +49,16 @@ module.exports = function(Student, Note){
             }
         }
     }
+
+    function getAllNotes(callback){
+        Note.find({}).populate('module').exec((err,res) =>{
+            callback(err,res);
+        });
+    }
     return {
       addNote,
       getNoteByStudent,
-      getNoteByModules
+      getNoteByModules,
+      getAllNotes
     };
 }

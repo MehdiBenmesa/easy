@@ -112,6 +112,28 @@ describe("GET  /groupes/:modul/:teacher", function () {
             });
         });
     });    
+        // Ajouter NOTE 
+    describe("Post  /notes/note", function () {
+        it("Post note return with code 200", function (done) {
+            request.post({
+                url : base_url + "/notes/note", 
+                form : {
+                    reason : "intero",
+                    value : 18,
+                    student : "58e3cb7bf36d283c9c874926",
+                    module: "58ffcde08768570fc06c1da5" 
+                }},
+                function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                console.log(body);
+                let bodyJson = JSON.parse(body);
+                request.delete(base_url + "/notes/"+bodyJson._id, function(error,response, body) {
+                            expect(response.statusCode).toBe(200);
+                            });           
+                done();
+                });
+        });
+    });
 // ********************************************************************************************
 // ********************************************************************************************
 // *******************       END TEST DES NOTES                  ******************************

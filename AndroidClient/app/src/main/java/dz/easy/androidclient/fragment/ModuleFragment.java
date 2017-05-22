@@ -1,5 +1,6 @@
 package dz.easy.androidclient.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,11 +23,13 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dz.easy.androidclient.Activities.GroupActivity;
+import dz.easy.androidclient.Adapters.ModuleListAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
-import dz.easy.androidclient.TeachersAdapter;
-import dz.easy.androidclient.TestRecyclerViewAdapter;
+import dz.easy.androidclient.Adapters.TeachersAdapter;
+import dz.easy.androidclient.Adapters.TestRecyclerViewAdapter;
 import dz.easy.androidclient.Util.CustomRequest;
 import dz.easy.androidclient.Util.CustomRequestArray;
 
@@ -36,7 +38,7 @@ import static dz.easy.androidclient.App.BaseActivity.TAG;
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class Fragment1 extends Fragment implements Constants{
+public class ModuleFragment extends Fragment implements Constants, ModuleListAdapter.AdapterInterface{
 
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 100;
@@ -46,9 +48,9 @@ public class Fragment1 extends Fragment implements Constants{
 
     private static  JSONObject user;
 
-    public static Fragment1 newInstance(JSONObject managerData) {
+    public static ModuleFragment newInstance(JSONObject managerData) {
         user = managerData;
-        return new Fragment1();
+        return new ModuleFragment();
     }
 
     @Override
@@ -79,41 +81,33 @@ public class Fragment1 extends Fragment implements Constants{
 
     }
 
-    private void getModulesByStudent() {
+    public void getModulesByStudent() {
         try {
-            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_MODULES_BY_STUDENT + "/" + user.getString("_id"), null,
-                    new Response.Listener<JSONObject>() {
+
+            CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_MODULES_BY_STUDENT + "/" + user.getString("section") + "/"+user.getString("groupe") , null,
+                    new Response.Listener<JSONArray>() {
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(JSONArray response) {
+                            // JSONObject modules = response.getJSONObject("course");
+                            JSONArray modules = response;
+                            Log.i(TAG, "Signed in as: " + modules);
 
-                            try {
-                                JSONObject groupe = response.getJSONObject("groupe");
-                                JSONArray modules = groupe.getJSONArray("module");
-                                Log.i(TAG, "Signed in as: " + modules);
+                            //setup materialviewpager
 
-                                //setup materialviewpager
-
-                                if (GRID_LAYOUT) {
-                                    mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                                } else {
-                                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                }
-                                mRecyclerView.setHasFixedSize(true);
-
-                                //Use this now
-                                mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-                                mRecyclerView.setAdapter(new TestRecyclerViewAdapter(modules));
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            if (GRID_LAYOUT) {
+                                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                            } else {
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             }
+                            mRecyclerView.setHasFixedSize(true);
+                            //Use this now
+                            mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+                            mRecyclerView.setAdapter(new ModuleListAdapter(modules, ModuleFragment.this));
 
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
                 }
             });
 
@@ -125,34 +119,28 @@ public class Fragment1 extends Fragment implements Constants{
     }
 
     private void  getModulesByTeacher() {
-
         try {
-            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_MODULES_BY_TEACHER + "/" + user.getString("_id"), null,
-                    new Response.Listener<JSONObject>() {
+            CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_MODULES_BY_TEACHER + "/" + user.getString("_id"), null,
+                    new Response.Listener<JSONArray>() {
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(JSONArray response) {
 
-                            try {
-                                JSONArray modules = response.getJSONArray("modules");
-                                Log.i(TAG, "Signed in as: " + modules);
+                            //   JSONArray modules = response.getJSONArray("modules");
+                            Log.i(TAG, "Signed in as: " + response);
 
-                                //setup materialviewpager
+                            //setup materialviewpager
 
-                                if (GRID_LAYOUT) {
-                                    mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                                } else {
-                                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                }
-                                mRecyclerView.setHasFixedSize(true);
-
-                                //Use this now
-                                mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-                                mRecyclerView.setAdapter(new TestRecyclerViewAdapter(modules));
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            if (GRID_LAYOUT) {
+                                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                            } else {
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             }
+                            mRecyclerView.setHasFixedSize(true);
+
+                            //Use this now
+                            mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+                            mRecyclerView.setAdapter(new ModuleListAdapter(response, ModuleFragment.this));
+
 
                         }
                     }, new Response.ErrorListener() {
@@ -203,10 +191,16 @@ public class Fragment1 extends Fragment implements Constants{
         });
 
         App.getInstance().addToRequestQueue(jsonReq);
-
+    }
+    @Override
+    public void buttonPressed(JSONObject module) {
+        Intent i = new Intent(getContext() , GroupActivity.class);
+        i.putExtra("user" ,user.toString());
+        i.putExtra("module" ,module.toString());
+        getContext().startActivity(i);
     }
 
-    }
+}
 
 
 

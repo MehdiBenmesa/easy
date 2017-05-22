@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_grey_500">#607D8B</color>
+  <color name="blue_grey_500">#607D8B</color>
     <color name="blue_grey_600">#546E7A</color>
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
     <color name="white">#ffffff</color>
+    <color name="tab_strip">#B42929</color>
 
+    <color name="primary">#F44336</color>
+
+
+    <color name="colorBackground">#eeeeee</color>
 
     <color name="colorPrimary">#F50057</color>
     <color name="colorPrimaryDark">#F50057</color>

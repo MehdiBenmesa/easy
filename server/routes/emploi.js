@@ -18,6 +18,13 @@ module.exports = function(express, emploiController) {
     });
   });
 
+  router.get('/teacher/:id/:day', (req, res) => {
+    emploiController.getTeacherEmploieDay(req.params.id,req.params.day, (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    });
+  });
+
   // Récupération de l'emploi du temps
   router.get('/:section/:groupe', (req, res) => {
     emploiController.getTimeTable(req.params.section, req.params.groupe, (err, result) => {
@@ -34,8 +41,12 @@ module.exports = function(express, emploiController) {
     });
   });
 
-
-
+router.get('/seances', (req, res) => {
+    emploiController.getAllSeances( (err, result) => {
+      if(err) throw err;
+      res.json(result);
+    });
+  });
 
    router.get('/salle/:id', (req, res) => {
       emploiController.getSalleEmploie(req.params.id , (error, salle) => {
@@ -54,6 +65,13 @@ module.exports = function(express, emploiController) {
       req.body.salleId,
       req.body.day,
       (err, result) => {
+        if(err) throw err;
+        res.json(result);
+      });
+  });
+
+  router.get('/teacher-date/:teacher/:date', (req, res) => {
+      emploiController.getTeacherEmploieDate(req.params.id, (err, result) => {
         if(err) throw err;
         res.json(result);
       });

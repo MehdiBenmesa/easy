@@ -28,9 +28,11 @@ public class ModuleActivity extends AppCompatActivity implements Constants {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Intent i = getIntent();
+        String moduleid = i.getStringExtra("module");
+        String nomModul = i.getStringExtra("namemodule");
         if(i.hasExtra(ModuleDetailFragment.ARG_ITEM_ID)){
-            Fragment fragment =  ModuleDetailFragment.newInstance(i.getStringExtra(ModuleDetailFragment.ARG_ITEM_ID));
-            getSupportFragmentManager().beginTransaction().add(R.id.module_detail_container , fragment).commit();
+            //Fragment fragment =  ModuleDetailFragment.newInstance(nomModul,moduleid,i.getStringExtra(ModuleDetailFragment.ARG_ITEM_ID));
+            //getSupportFragmentManager().beginTransaction().add(R.id.module_detail_container , fragment).commit();
         }
 
     }
