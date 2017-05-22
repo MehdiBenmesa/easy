@@ -60,6 +60,24 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         } );
     }
 
+  function addSection(specId, section, callback){
+    Spec.findOne( {'_id': specId}, (err, spec) => {
+      spec.sections.push(section);
+      spec.save((err, spec) => {
+        callback(err, spec);
+      });
+    });
+  }
+
+  function addGroupe(specId, sectionId, groupe, callback){
+    Spec.findOne({'_id' :specId}, (err, spec) => {
+      spec.sections.id(sectionId).groupes.push(groupe);
+      spec.save((err, spec) => {
+        callback(err, spec);
+      });
+    });
+  }
+
   function getAllSpecs(callback){
     Spec.find().populate('sections.groupes.students').exec((err, specs) => {
         callback(err, specs);
@@ -108,7 +126,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             callback(err,teacher);
         });
     }
-  
+
     function getModuleByStudent(sectionId,groupeId,callback) {
             Spec.findOne({'sections._id':sectionId, 'sections.groupes._id' : groupeId},'sections')
       .populate('sections.groupes.emploi.sunday\
@@ -120,26 +138,26 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         let emploi = spec.sections.id(sectionId).groupes.id(groupeId).emploi;
         let modules = [];
         for(var i=0;i<emploi.sunday.length;i++){
-            modules.push(emploi.sunday[i].module);    
+            modules.push(emploi.sunday[i].module);
         }
         for(i;i<emploi.monday.length;i++){
-            modules.push(emploi.monday[i].module);    
+            modules.push(emploi.monday[i].module);
         }
         for(i;i<emploi.tuesday.length;i++){
-            modules.push(emploi.tuesday[i].module);    
+            modules.push(emploi.tuesday[i].module);
         }
         for(i;i<emploi.wednesday.length;i++){
-            modules.push(emploi.wednesday[i].module);    
+            modules.push(emploi.wednesday[i].module);
         }
         for(i;i<emploi.thursday.length;i++){
-            modules.push(emploi.thursday[i].module);    
+            modules.push(emploi.thursday[i].module);
         }
-        let moduleRes = removeDuplicates(modules);  
-        
+        let moduleRes = removeDuplicates(modules);
+
         callback(err, moduleRes);
     });
     }
-    
+
     function removeDuplicates(arrayIn) {
     var arrayOut = [];
     for (var a=0; a < arrayIn.length; a++) {
@@ -159,7 +177,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             });
         });
     }
-    
+
     function getAllGroupes(callback) {
          Spec.findOne({}).populate({
                     path: 'sections'
@@ -169,7 +187,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
                         callback(err, response);
                     });
     }
-    
+
     function getModuleByTeacher(teacherId, callback){
         Teacher.findOne({_id : teacherId}, 'modules').populate('modules').exec( (err, result) => {
             let modules = result.modules;
@@ -191,15 +209,15 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
                             groupe.section = section.sectionName;
                             groupe.spec = spec.name;
                             groupes.push(groupe);
-                        } 
+                        }
                         });
                     });
                 });
                 callback(err, groupes);
             });
-        }); 
+        });
     }else
-    callback(err,teacher);  
+    callback(err,teacher);
         });
     }
   function getTeacherGroupes(teacherId, callback){
@@ -220,7 +238,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
             });
           });
         });
-            
+
         callback(err, groupes);
       });
     });
@@ -255,6 +273,8 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         checkTeacher,
         getModuleByTeacher,
         getGroupeByModule,
-        getTeacherGroupes
+        getTeacherGroupes,
+        addSection,
+        addGroupe
     }
 }

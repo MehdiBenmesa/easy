@@ -1,39 +1,51 @@
-<div class="titre">
-    <div></div>
-    <div>Niveaux et Spécialités</div>
-</div>
-
 <div class="div-global">
-    <md-tab-group >
-        <md-tab label="1CPI">
+    <button md-button (click)="addSpec()"><md-icon svgIcon="add"></md-icon></button>
+    <md-tab-group  (selectChange)="selectedSection=null; selectedGroupe=null">
+      <md-tab *ngFor="let spec of specs"  label="{{spec.name}}" >
             <div class="div-semestres">
-                <div><modules-semestre></modules-semestre></div>
-                <div><modules-semestre></modules-semestre></div>
-            </div>  
-        </md-tab>
-        <md-tab label="2CPI">
-             <div class="div-semestres">
-                <div><modules-semestre></modules-semestre></div>
-                <div><modules-semestre></modules-semestre></div>
-            </div>  
-        </md-tab>
-        <md-tab label="1CS">
-            <div class="div-semestres">
-                <div><modules-semestre></modules-semestre></div>
-                <div><modules-semestre></modules-semestre></div>
-            </div>  
-        </md-tab>
-        <md-tab label="2CS-SIL">
-
-        </md-tab>
-        <md-tab label="2CS-SIT">
-             <div class="div-semestres">
-                <div><modules-semestre></modules-semestre></div>
-                <div><modules-semestre></modules-semestre></div>
-            </div>  
-        </md-tab>
-        <md-tab label="2CS-SIQ">
-
+                <div class="container">
+                    <div class="semestre">
+                        <div>Sections</div>
+                        <div><button md-button (click)="selectedSpec = spec" [mdMenuTriggerFor]="menuSection"><md-icon svgIcon="add"></md-icon></button></div>
+                    </div>
+                    <div class="show-liste">
+                      <div *ngFor="let section of spec.sections" class="obligatoire"><button md-button (click)="selectedSection = section">{{section.sectionName}}</button></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="semestre">
+                        <div>Groupes</div>
+                        <div><button md-button (click)="selectedSpec = spec" [mdMenuTriggerFor]="menuGroupe"><md-icon svgIcon="add"></md-icon></button></div>
+                    </div>
+                    <div class="show-liste">
+                      <div *ngFor="let groupe of selectedSection?.groupes" class="obligatoire"><button md-button (click)="selectedGroupe = groupe">{{groupe.groupeName}}</button><button md-button><md-icon svgIcon="details"></md-icon></button></div>
+                    </div>
+                </div>
+            </div>
+    <div class="liste" >
+        <div>
+            <div *ngFor="let student of selectedGroupe?.students ; let i = index ">
+                <etudiant [student]="student" [modifiable]="true" [numero]="i+1"></etudiant>
+            </div>
+        </div>
+    </div>
         </md-tab>
     </md-tab-group>
 </div>
+<md-menu #menuSection="mdMenu">
+  <div class="add-input">
+    <md-input-container >
+      <input mdInput #section (click)="$event.stopPropagation()" placeholder="Section">
+    </md-input-container>
+  </div>
+    <button (click)="addSection(section.value)" md-button>OK</button>
+</md-menu>
+<md-menu #menuGroupe="mdMenu">
+  <div class="add-input">
+    <md-input-container >
+      <input mdInput #groupe (click)="$event.stopPropagation()" placeholder="Groupe">
+    </md-input-container>
+  </div>
+    <button (click)="addGroupe(groupe.value)" md-button>OK</button>
+</md-menu>
+

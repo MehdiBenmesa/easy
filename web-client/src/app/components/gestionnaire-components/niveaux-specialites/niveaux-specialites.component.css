@@ -1,6 +1,117 @@
+
+.container{
+    padding:5%;
+}
+
+.hide-liste{
+    height: 0;
+    opacity: 0;
+}
+
+.liste{
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-direction: row;
+
+    margin-bottom: 5%;
+
+
+}
+.entete>div{
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-direction:column;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    width: 26%;
+
+}
+
+.entete>div:first-child{
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-direction:column;
+
+    width: 10%;
+
+}
+
+
+
+
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    100%{
+        opacity: 1;
+        height: 230px;
+    }
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+        height: 230px;
+    }
+    100%{
+        opacity: 0;
+        height: 0px;
+    }
+}
+
+.obligatoire{
+    background-color: rgb(255,225,225);
+    padding: 2%;
+    margin-top: 1px;
+    height: 40px;
+}
+.optionnel{
+    background-color: #eee;
+    padding: 2%;
+    margin-top: 1px;
+    height: 40px;
+}
+
+.semestre{
+    display: flex;
+    justify-content:space-between;
+    flex-direction: row;
+    padding: 1%;
+    height: 45px;
+}
+.semestre>div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.semestre button{
+    width: 50px;
+    max-width: 50px;
+    min-width: 50px;
+    padding: 0;
+}
 .titre{
     width: 100%;
-    
+
     background-color: #d7b9a0;
     display: flex;
     justify-content: flex-start;
@@ -19,7 +130,9 @@
 
 .div-global{
     margin: 2%;
+
 }
+
 
 .div-semestres{
     display: flex;
@@ -31,6 +144,10 @@
 .div-semestres>div{
     width: 30%;
     margin-right: 10%;
+}
+
+.add-input{
+  margin: 2px;
 }
 
 

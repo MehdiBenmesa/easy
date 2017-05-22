@@ -52,6 +52,7 @@ import { AbsencesEtudiantComponent } from "./components/enseignant-components/ab
 import { SaisieAbsencesComponent } from "./components/enseignant-components/saisie-absences/saisie-absences.component";
 import { StudentTimeTableComponent } from './components/etudiant-components/student-time-table/student-time-table.component';
 import { AbsenceStudentComponent } from './components/etudiant-components/absence-student/absence-student.component';
+import { AddSpecComponent } from './components/gestionnaire-components/add-spec/add-spec.component';
 
 @NgModule({
   imports:      [
@@ -132,13 +133,15 @@ import { AbsenceStudentComponent } from './components/etudiant-components/absenc
                   AbsencesEtudiantComponent,
                   SaisieAbsencesComponent,
                   StudentTimeTableComponent,
-                  AbsenceStudentComponent
+                  AbsenceStudentComponent,
+                  AddSpecComponent
                   ],
   providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService],
   entryComponents: [
             SaisiSeanceComponent,
             AbsencesEtudiantComponent,
-            SaisieAbsencesComponent
+            SaisieAbsencesComponent,
+            AddSpecComponent
   ],
   bootstrap:    [ AppComponent ]
 
