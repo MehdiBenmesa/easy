@@ -73,8 +73,9 @@
     <string name="article_detail_control">Control</string>
     <string name="article_detail_tp">Tp</string>
     <string name="article_detail_intero">Interrogation</string>
-    <string name="NoteManager">Gestion des Notes</string>
+    <string name="NoteManager">Gestion des Notes et des Abesences</string>
     <string name="AbsentManager">Gestion des Absences</string>
+    <string name="RdvManager">Gestion des Rendez-vous</string>
     <string name="TimetableManager">Gestion d\'emploi du temps</string>
     <string name="accountName">%1$s: %2$s.</string>
     <string name="settings_file">account</string>
@@ -100,5 +101,48 @@
     <string name="msg_comments_disabled">Comments are closed for this item.</string>
     <string name="msg_auth_prompt_like">To get started, sign in to your account or register.</string>
     <string name="msg_auth_prompt_comment">Make comments can only registered users.</string>
+    <string name="text_input_title">Ajouter une Note :</string>
+
+    <string-array name="snipperdialog">
+        <item>exam</item>
+        <item>controle</item>
+        <item>intero</item>
+        <item>tp</item>
+    </string-array>
+
+    <string name="rate_title">Rate the library!</string>
+    <string name="rate_message">Your star won\'t change or influence anything (maybe will make me a bit happier).</string>
+
+    <string name="edit_info">Modifier une informations :</string>
+    <string name="text_input_message">Input must match \\\\w+ or dialog won\'t accept it. That is because TextFilter object is set.</string>
+    <string name="text_input_error_message">I told you. Please type something correct.</string>
+
+    <string name="connecting_to_server">Connecting to server</string>
+
+    <string name="donate_title">Donate?</string>
+    <string name="donate_message">Select an option please. This app isn\'t released yet, so no money will be charged.</string>
+
+    <string name="order_food_title">Order some food!</string>
+
+    <string name="info_title">LovelyDialogs</string>
+    <string name="info_message">This library is a set of simple wrapper classes that are aimed to help you easily create fancy dialogs.</string>
+
+    <string name="btn_standard_dialog">Standard dialog</string>
+    <string name="btn_text_input_dialog">Text input dialog</string>
+    <string name="btn_single_choice_dialog">Single choice dialog</string>
+    <string name="btn_multi_choice_dialog">Multi choice dialog</string>
+    <string name="btn_info_dialog">Info dialog</string>
+    <string name="btn_progress_dialog">Progress dialog</string>
+    <string name="you_ordered">You\'ve ordered:\n%s</string>
+    <string name="confirm">Confirm</string>
+    <string name="later">Later</string>
+    <string name="repo_waiting">GitHub repo is waiting for your star!</string>
+    <string name="you_donated">"You donated: %s!"</string>
+    <string name="add_information">Add Information</string>
+    <string name="id">ID : </string>
+    <string name="nom">Nom : </string>
+    <string name="une_date">Selectionnez une date : </string>
+    <string name="annuler">Annuler</string>
+    <string name="ok">Ok</string>
 
 </resources>

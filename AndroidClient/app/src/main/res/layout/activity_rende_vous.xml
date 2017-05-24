@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-  tools:context="dz.easy.androidclient.Activities.RendeVous"
+  tools:context="dz.easy.androidclient.Activities.RendezVousActivity"
 android:orientation="vertical"
 android:weightSum="1">
 
@@ -15,9 +15,9 @@ android:weightSum="1">
   android:id="@+id/toolbar3"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="?attr/colorPrimary"
+  android:background="@color/colorPrimary"
   android:minHeight="?attr/actionBarSize"
-  android:theme="?attr/actionBarTheme" />
+  android:theme="?attr/actionBarTheme">
 
 <com.miguelcatalan.materialsearchview.MaterialSearchView
   android:id="@+id/searche_view"
@@ -31,13 +31,12 @@ android:weightSum="1">
   android:textColor="#FFFFFF"
   android:textColorHint="#FFFFFF"
   />
+  </android.support.v7.widget.Toolbar>
 
-<ListView
+<android.support.v7.widget.RecyclerView
   android:id="@+id/lstView"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:divider="#806326"
-  android:dividerHeight="1dp"
   />
 
 </LinearLayout>

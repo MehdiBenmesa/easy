@@ -1,5 +1,6 @@
 package dz.easy.androidclient.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,17 +24,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dz.easy.androidclient.Activities.GroupActivity;
+import dz.easy.androidclient.Activities.ModuleActivity;
+import dz.easy.androidclient.Activities.UserActivity;
 import dz.easy.androidclient.Adapters.ModuleListAdapter;
 import dz.easy.androidclient.App.App;
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Adapters.TeachersAdapter;
 import dz.easy.androidclient.Adapters.TestRecyclerViewAdapter;
 import dz.easy.androidclient.Util.CustomRequest;
 import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.IDialog;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 
@@ -45,7 +54,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
+    IDialog dialogListner ;
     private static  JSONObject user;
 
     public static ModuleFragment newInstance(JSONObject managerData) {
@@ -117,7 +126,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
             e.printStackTrace();
         }
     }
-
+/*
     private void  getModulesByTeacher() {
         try {
             CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_MODULES_BY_TEACHER + "/" + user.getString("_id"), null,
@@ -155,7 +164,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     private void  getTeachers() {
@@ -198,6 +207,67 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
         i.putExtra("user" ,user.toString());
         i.putExtra("module" ,module.toString());
         getContext().startActivity(i);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        dialogListner = (UserActivity) activity ;
+    }
+
+    private void  getModulesByTeacher() {
+      //  dialogListner.showDialog();
+        try {
+            CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_MODULES_BY_TEACHER + "/" + user.getString("_id"), null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //   JSONArray modules = response.getJSONArray("modules");
+                            Log.i(TAG, "Signed in as: " + response);
+
+                            //setup materialviewpager
+
+                            if (GRID_LAYOUT) {
+                                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                            } else {
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            }
+                            mRecyclerView.setHasFixedSize(true);
+
+                            //Use this now
+                            mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+                            final ModuleListAdapter module = new ModuleListAdapter(response, ModuleFragment.this);
+                            mRecyclerView.setAdapter(module);
+                            /*
+                            mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+
+                                    ModuleListAdapter.MyViewHolder child;
+                                    ArrayList<ModuleListAdapter.MyViewHolder> myList = module.getMyList();
+                                    Toast.makeText(getContext() , "Hello From Module Fragment "+ myList.size() +" hihi " , Toast.LENGTH_LONG).show();
+                                    for (int i = 0; i < myList.size(); i++) {
+                                        child = myList.get(i);
+                                        Toast.makeText(getContext() , child.title.getText() , Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });*/
+
+                     //       dialogListner.hideDialog();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            App.getInstance().addToRequestQueue(jsonReq);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

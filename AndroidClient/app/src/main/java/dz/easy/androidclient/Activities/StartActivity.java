@@ -32,6 +32,7 @@ package dz.easy.androidclient.Activities;
         import dz.easy.androidclient.App.App;
         import dz.easy.androidclient.App.BaseActivity;
         import dz.easy.androidclient.R;
+        import dz.easy.androidclient.Services.RegistrationIntentService;
         import dz.easy.androidclient.Util.CustomRequest;
         import io.socket.emitter.Emitter;
 

@@ -17,6 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -69,38 +74,55 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        JSONObject json = null;
+        JSONObject student = null;
         try {
-            final JSONObject json = contents.getJSONObject(position);
-          //  final JSONObject course = json.getJSONObject("name");
-            holder.title.setText("Nom du Module : " + json.getString("name"));
-            holder.count.setText("Coefficient : " + json.getString("coef"));
-            holder.module.setText(json.getString("abre"));
-            holder.credit.setText("Credit : " + json.getString("credit"));
+            json = contents.getJSONObject(position);
+            student = json.getJSONObject("student");
 
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            try {
+                json = contents.getJSONObject(position);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                student = json.getJSONObject("teacher");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        try {
+            holder.title.setText("Avec : " + student.getString("name") + " "+student.getString("lastname"));
+            holder.count.setText("Reason : " + json.getString("reason"));
+            holder.module.setText(json.getString("date").substring(0,10));
+            holder.credit.setText("Credit : " + json.getString("state"));
+
+            final JSONObject finalJson = json;
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     Intent i = new Intent(view.getContext() , NoteAbsenceActivity.class);
-                    i.putExtra("user" ,json.toString());
+                    i.putExtra("user" , finalJson.toString());
                     try {
-                        i.putExtra("module",json.getString("_id"));
-                        i.putExtra("namemodule",json.getString("name"));
+                        i.putExtra("module", finalJson.getString("_id"));
+                        i.putExtra("namemodule", finalJson.getString("name"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     view.getContext().startActivity(i);
                 }
             });
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
             //ShapeDrawable bgShape = (ShapeDrawable)btn;
             //int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
             //bgShape.getPaint().setColor(randomAndroidColor);
             //holder.module.setBackgroundColor(randomAndroidColor);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -6,8 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Services.SocketActivity;
+import dz.easy.androidclient.Util.IDialog;
 import io.socket.emitter.Emitter;
 
 import org.json.JSONException;
@@ -18,7 +20,7 @@ import org.json.JSONObject;
  * Created by Mon pc on 26/03/2017.
  */
 
-public class NoteActivity extends Activity {
+public class NoteActivity extends BaseActivity implements IDialog {
 
     private io.socket.client.Socket mSocket;
     private Emitter.Listener getData = new Emitter.Listener() {
@@ -101,5 +103,15 @@ public class NoteActivity extends Activity {
             }
         }
     };
+
+    @Override
+    public void showDialog() {
+        showpDialog();
+    }
+
+    @Override
+    public void hideDialog() {
+        hidepDialog();
+    }
 
 }

@@ -8,12 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +40,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     Intent i;
     private PagerSlidingTabStrip tabs;
 
+    MaterialViewPager mViewPager;
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -52,16 +56,13 @@ public class ViewPagerActivity extends AppCompatActivity {
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
 
-
         Intent intent = getIntent();
         String jsonString = intent.getStringExtra("user");
-        System.out.println("USER :====== ! "+ jsonString);
         try {
             user = new JSONObject(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println("USER :====== ! "+ user);
         //SessionManager sessionManager = new SessionManager(context);
 
         moduleid = intent.getStringExtra("module");

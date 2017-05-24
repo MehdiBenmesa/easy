@@ -5,6 +5,18 @@
     <meta-data android:name="com.google.android.geo." />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <meta-data android:name="com.google.android.geo." />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission
+        android:name="com.learn2crack.gcmdemo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.learn2crack.gcmdemo.permission.C2D_MESSAGE" />
+
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App.App"
@@ -50,16 +62,69 @@
             android:name=".Activities.RestApiActivity"
             android:label="@string/name_rest_activity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity android:name=".Activities.YearActivity" />
-        <activity android:name=".Activities.StudentList" />
-        <activity android:name=".Activities.StudentInfo" />
-        <activity android:name=".Activities.AbsenceActivity" />
-        <activity android:name=".Activities.GroupeByModuleActivity" />
-        <activity android:name=".Activities.NoteAbsenceActivity"></activity>
-        <activity android:name=".Activities.ViewPagerActivity"></activity>
-        <activity android:name=".Activities.TimeLineActivity">
+        <activity
+            android:name=".Activities.YearActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity
+            android:name=".Activities.StudentList"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity android:name=".Activities.StudentInfo"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
-        </activity>
+        <activity android:name=".Activities.AbsenceActivity"             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.GroupeByModuleActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.NoteAbsenceActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.ViewPagerActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.TimeLineActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.GroupActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+        <activity android:name=".Activities.StudentsActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+
+        <activity android:name=".Activities.RendezVousActivity_"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".Services.GCMService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Services.GCMInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Services.RegistrationIntentService"
+            android:exported="false">
+        </service>
+
     </application>
 
 </manifest>

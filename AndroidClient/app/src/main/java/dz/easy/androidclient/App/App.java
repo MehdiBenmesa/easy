@@ -1,13 +1,21 @@
 package dz.easy.androidclient.App;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -18,6 +26,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.yarolegovich.lovelydialog.LovelyCustomDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,13 +38,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import dz.easy.androidclient.Activities.UserActivity;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Services.RegistrationIntentService;
 import dz.easy.androidclient.Util.CustomRequest;
 
 public class App extends Application implements Constants {
 
     public static final String TAG = App.class.getSimpleName();
+
+    public static final String REGISTRATION_PROCESS = "registration";
+    public static final String MESSAGE_RECEIVED = "message_received";
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
@@ -46,7 +60,22 @@ public class App extends Application implements Constants {
     private String username;
     private String fullname;
     private String accessToken;
+
+    public void setGcmToken(String gcmToken) {
+        this.gcmToken = gcmToken;
+    }
+
     private String gcmToken = "";
+
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
+    }
+
+    private String matricule = "";
 
     public String getEmail() {
         return email;
@@ -78,10 +107,12 @@ public class App extends Application implements Constants {
                 R.string.settings_file), Context.MODE_PRIVATE);
 
         this.readData();
-
        // getLocation();
 
     }
+
+
+
 
 
     public boolean isConnected() {

@@ -2,7 +2,8 @@ module.exports = function(User, Note , NotificationController){
 
      function addNote(obj  , callback){
         //TODO
-       let note = new Note(obj);
+        console.log(obj);
+        let note = new Note(obj);
         note.save((err, note) => {
         User.findByIdAndUpdate(obj.student,
                     {$push: {notes : note._id}},
@@ -11,11 +12,23 @@ module.exports = function(User, Note , NotificationController){
         });
         User.findOne({_id : obj.student}, (err, user) => {
                   console.log(user);
-                  NotificationController.sendNotification(user , "Ajouter Note avec Succes" , (err, notification) => {
+                  NotificationController.sendNotification(user , "Vous avez eu "+note.value+" dans le "+note.reason , (err, notification) => {
                       callback(err, notification);
                   } );
                   callback(err, user);
               });
+
+    }
+
+    function addNotes(obj, callback){
+        console.log(obj.students);
+        var students = JSON.parse(obj.students);
+        //console.log(students);
+        for(var i=0;i<students.length;i++){
+            addNote(students[i], (err,res)=>{
+                callback(err,res);
+            });
+        }
 
     }
 
@@ -59,6 +72,7 @@ module.exports = function(User, Note , NotificationController){
       addNote,
       getNoteByStudent,
       getNoteByModules,
-      getAllNotes
+      getAllNotes,
+      addNotes
     };
 }

@@ -13,10 +13,12 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.fragment.GroupFragment;
 
-public class GroupActivity extends AppCompatActivity {
+public class GroupActivity extends BaseActivity implements IDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,19 @@ public class GroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add( R.id.groupFragment , new GroupFragment().newInstance(i.getStringExtra("user")
+        ft.add(R.id.groupFragment , new GroupFragment().newInstance(i.getStringExtra("user")
                 , i.getStringExtra("module")) )
                 .commit();
+    }
+
+    @Override
+    public void showDialog() {
+        showpDialog();
+    }
+
+    @Override
+    public void hideDialog() {
+        hidepDialog();
     }
 
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +19,18 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Services.RegistrationIntentService;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.Util.SessionManager;
 import dz.easy.androidclient.fragment.AbsenceFragment;
 import dz.easy.androidclient.fragment.ModuleFragment;
 import dz.easy.androidclient.fragment.RendeVousFragment;
+import dz.easy.androidclient.fragment.RendezVousStatesFragment;
 import dz.easy.androidclient.fragment.TimeTableFragment;
 
-public class UserActivity extends DrawerActivity {
+public class UserActivity extends BaseActivity implements IDialog{
 
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
@@ -37,6 +42,13 @@ public class UserActivity extends DrawerActivity {
         setContentView(R.layout.activity_main);
         setTitle("");
         ButterKnife.bind(this);
+
+        Intent i = new Intent(this , RegistrationIntentService.class);
+        i.putExtra("DEVICE_ID" , "saloh");
+        i.putExtra("DEVICE_NAME" , "bokota");
+        startService(i);
+
+        registerReceiver();
 
         final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
@@ -64,11 +76,11 @@ public class UserActivity extends DrawerActivity {
 
             @Override
             public Fragment getItem(int position) {
-                switch (position % 4) {
+                switch (position % 3) {
                     case 0:
                         return ModuleFragment.newInstance(user);
                     case 1:
-                        return ModuleFragment.newInstance(user);
+                        return RendezVousStatesFragment.newInstance(user);
                     case 2:
                         return TimeTableFragment.newInstance(user);
                     default:
@@ -78,7 +90,7 @@ public class UserActivity extends DrawerActivity {
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
 
             @Override
@@ -87,7 +99,7 @@ public class UserActivity extends DrawerActivity {
                     case 0:
                         return getResources().getString(R.string.NoteManager);
                     case 1:
-                        return getResources().getString(R.string.AbsentManager);
+                        return getResources().getString(R.string.RdvManager);
                     case 2:
                         return getResources().getString(R.string.TimetableManager);
                     case 3:
@@ -139,5 +151,15 @@ public class UserActivity extends DrawerActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void showDialog() {
+        showpDialog();
+    }
+
+    @Override
+    public void hideDialog() {
+        hidepDialog();
     }
 }

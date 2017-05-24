@@ -56,4 +56,19 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
 
+
+    <color name="accent_color">@color/blue</color>
+    <color name="statusBarColor">@color/blue</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+
+
+    <color name="indigo">#3F51B5</color>
+    <color name="darkDeepOrange">#E64A19</color>
+    <color name="darkGreen">#388E3C</color>
+    <color name="darkBlueGrey">#455A64</color>
+    <color name="darkRed">#D32F2F</color>
+
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#727272</color>
 </resources>

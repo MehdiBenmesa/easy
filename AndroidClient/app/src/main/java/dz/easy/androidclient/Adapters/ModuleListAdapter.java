@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,6 +30,7 @@ import dz.easy.androidclient.Activities.ModuleActivity;
 import dz.easy.androidclient.Activities.ViewPagerActivity;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Util.SessionManager;
+import dz.easy.androidclient.fragment.ModuleFragment;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -43,6 +45,15 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
     @BindArray(R.array.androidcolors)
     int[] androidColors;
 
+    public ArrayList<MyViewHolder> getMyList() {
+        return myList;
+    }
+
+    public void setMyList(ArrayList<MyViewHolder> myList) {
+        this.myList = myList;
+    }
+
+    public ArrayList<ModuleListAdapter.MyViewHolder> myList ;
     private AdapterInterface buttonListner;
 
     @BindDrawable(R.drawable.circle)
@@ -50,6 +61,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
     public ModuleListAdapter(JSONArray contents , AdapterInterface listner) {
         this.contents = contents;
         this.buttonListner = listner ;
+        myList = new ArrayList<MyViewHolder>();
     }
 
     public interface ModuleAdapterClickListener {
@@ -73,13 +85,14 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
         SessionManager sessionManager = new SessionManager(view.getContext());
         System.out.println("USER SESSION : "+sessionManager.getUser());
 
-            user = sessionManager.getUser();
+        user = sessionManager.getUser();
         return new MyViewHolder(view) {};
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         try {
+            myList.add(holder);
             final JSONObject json = contents.getJSONObject(position);
 
             holder.title.setText("Nom du Module : " + json.getString("name"));
@@ -90,8 +103,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     try {
                         JSONObject userjson = new JSONObject(user);
                         if(userjson.getString("_type").equals("Teacher")){

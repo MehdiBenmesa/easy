@@ -9,6 +9,14 @@ module.exports = function(express, absenceController) {
         });
     });
 
+
+    router.post('/update', (req, res) => {
+        absenceController.updateAbsence(req.body, (err, absences) => {
+        if(err) throw err;
+        res.json(absences);
+        });
+    });
+    
     router.delete('/:id', (req, res) => {
         absenceController.deleteAbsence(req.params.id, (err) => {
             if(err) throw err;
@@ -74,6 +82,8 @@ module.exports = function(express, absenceController) {
       res.json(absences);
     });
   });
+
+
 
 
    return router;

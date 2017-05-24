@@ -10,12 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.fragment.ModuleDetailFragment;
 
 /**
  * Created by Abderahmane on 10/04/2017.
  */
-public class ModuleActivity extends AppCompatActivity implements Constants {
+public class ModuleActivity extends BaseActivity implements Constants , IDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +36,14 @@ public class ModuleActivity extends AppCompatActivity implements Constants {
             //getSupportFragmentManager().beginTransaction().add(R.id.module_detail_container , fragment).commit();
         }
 
+    }
+    @Override
+    public void showDialog() {
+        showpDialog();
+    }
+
+    @Override
+    public void hideDialog() {
+        hidepDialog();
     }
 }

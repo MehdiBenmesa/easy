@@ -1,13 +1,33 @@
 module.exports = function (Student, Seance, Absence) {
 
-    function addAbsence(obj, callback) {
-        //TODO
+    function addAbsence(obj, callback) { 
+        console.log(obj);
+        //let abs = JSON.parse(obj.seance);
         let absence = new Absence(obj);
         absence.save((err, absence) => {
           Absence.populate(absence, 'seance', (err, mabsence) => {
             callback(err, mabsence);
           });
         });
+        // let EnsStudent
+        // for(var i=0;i<obj.students.length;i++)
+        // Student.findOne({_id : obj.students.}, (err, user) => {
+        //           console.log(user);
+        //           NotificationController.sendNotification(user , "Ajouter Note avec Succes" , (err, notification) => {
+        //               callback(err, notification);
+        //           } );
+        //           callback(err, user);
+        // });
+    }
+// update Seance 
+    function updateAbsence(obj, callback) {   
+        console.log(obj);
+        var abs = JSON.parse(obj.absence);
+        console.log(abs);
+        Absence.findByIdAndUpdate(abs.idabs,
+                    {students : abs.students}, (err,res) => {
+                callback(err,res);   
+        }); 
     }
 
     function getAbsenceByStudent(studentId, callback) {
@@ -41,7 +61,7 @@ module.exports = function (Student, Seance, Absence) {
     }
 
     function getAbsenceBySeance(seanceId, callback){
-        Absence.find({ 'seance': seanceId }, (err, res) => {
+        Absence.find({'seance': seanceId }).exec( (err, res) => {
                         callback(err, res);
         });
     }
@@ -104,6 +124,7 @@ module.exports = function (Student, Seance, Absence) {
         getAbsenceByModules,
         getAbsencesTeacher,
         getAbsenceBySeanceDate,
-        getAbsenceByModulesDate
+        getAbsenceByModulesDate,
+        updateAbsence
     };
 }

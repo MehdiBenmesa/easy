@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +20,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,20 +34,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import dz.easy.androidclient.Adapters.TeachersAdapter;
+import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.CustomRequestArray;
+
+import static dz.easy.androidclient.Constants.Constants.GET_TEACHERS;
 
 public class RendeVousFragment extends Fragment {
 
+
   MaterialSearchView searcheView;
 
-  ListView lstView;
-  String[] lstSource = {
-    "Harry",
-    "Ron",
-    "Hermione",
-    "Snape",
-    "Dembeldor"
-  };
+  RecyclerView lstView;
+
+  private static final boolean GRID_LAYOUT = false;
 
   private OnFragmentInteractionListener mListener;
 
@@ -67,31 +76,16 @@ public class RendeVousFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
 
-    try {
-      if(user.getString("_type").equals("Teacher")){
-        //Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
-
-      }else if (user.getString("_type").equals("Manager")){
-        //Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
-
-      }else if (user.getString("_type").equals("Student")){
-        //Toast.makeText(getContext() , "Hi Student" , Toast.LENGTH_LONG).show();
-        RdvStudent();
-      }
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void RdvStudent() {
     Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar3);
     ((ActionBarActivity)getActivity()).setSupportActionBar(toolbar);
     ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Chercher un enseignant");
-    toolbar.setTitleTextColor(Color.parseColor("FFFFFF"));
+    toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
 
-    lstView = (ListView) getActivity().findViewById(R.id.lstView);
-    ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, lstSource);
-    lstView.setAdapter(adapter);
+    lstView = (RecyclerView) getActivity().findViewById(R.id.lstView);
+    /*ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lstSource);
+    lstView.setAdapter(adapter);*/
+
+    getTeachers();
 
     searcheView = (MaterialSearchView) getActivity().findViewById(R.id.searche_view);
 
@@ -103,9 +97,10 @@ public class RendeVousFragment extends Fragment {
 
       @Override
       public void onSearchViewClosed() {
-        lstView = (ListView) getActivity().findViewById(R.id.lstView);
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, lstSource);
-        lstView.setAdapter(adapter);
+        lstView = (RecyclerView) getActivity().findViewById(R.id.lstView);
+        /*ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstSource);
+        lstView.setAdapter(adapter);*/
+        getTeachers();
       }
     });
 
@@ -118,19 +113,22 @@ public class RendeVousFragment extends Fragment {
       @Override
       public boolean onQueryTextChange(String newText) {
         if (newText != null && !newText.isEmpty()) {
-          List<String> lstFound = new ArrayList<String>();
+          /*List<String> lstFound = new ArrayList<String>();
           for (String item:lstSource) {
             if (item.contains(newText)) {
               lstFound.add(item);
             }
           }
 
-          ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, lstFound);
-          lstView.setAdapter(adapter);
+          ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstFound);
+          //lstView.setAdapter(adapter);*/
+
+          getTeachersSearcheed(newText);
         }
         else {
-          ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, lstSource);
-          lstView.setAdapter(adapter);
+          /*ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstSource);
+          //lstView.setAdapter(adapter);*/
+          getTeachers();
         }
         return true;
       }
@@ -144,6 +142,97 @@ public class RendeVousFragment extends Fragment {
     MenuItem item = menu.findItem(R.id.action_search);
     searcheView.setMenuItem(item);
     return true;
+  }
+
+  private void  getTeachers() {
+
+    CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_TEACHERS , null,
+      new Response.Listener<JSONArray>() {
+        @Override
+        public void onResponse(JSONArray response) {
+
+          JSONArray teachers = response;
+
+          //setup materialviewpager
+
+          if (GRID_LAYOUT) {
+            lstView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+          } else {
+            lstView.setLayoutManager(new LinearLayoutManager(getActivity()));
+          }
+          lstView.setHasFixedSize(true);
+
+          //Use this now
+          lstView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+          lstView.setAdapter(new TeachersAdapter(teachers));
+
+
+        }
+      }, new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError error) {
+
+      }
+    });
+
+    App.getInstance().addToRequestQueue(jsonReq);
+
+  }
+
+  private void  getTeachersSearcheed(final String newTextS) {
+
+    CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_TEACHERS , null,
+      new Response.Listener<JSONArray>() {
+        @Override
+        public void onResponse(JSONArray response) {
+
+          JSONArray teachers = response;
+
+          if (GRID_LAYOUT) {
+            lstView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+          } else {
+            lstView.setLayoutManager(new LinearLayoutManager(getActivity()));
+          }
+          lstView.setHasFixedSize(true);
+
+          //Use this now
+          lstView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+
+          //Search action
+
+          JSONArray lstFound = new JSONArray();
+          JSONObject item = null;
+          for (int i =0 ; i < teachers.length() ; i++) {
+            try {
+              item = teachers.getJSONObject(i);
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            try {
+              if (item.getString("name").contains(newTextS) || item.getString("lastname").contains(newTextS)) {
+                lstFound.put(item);
+              }
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+          }
+
+          /*ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstFound);
+          lstView.setAdapter(adapter);*/
+
+          lstView.setAdapter(new TeachersAdapter(lstFound));
+
+
+        }
+      }, new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError error) {
+
+      }
+    });
+
+    App.getInstance().addToRequestQueue(jsonReq);
+
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -175,3 +264,4 @@ public class RendeVousFragment extends Fragment {
     void onFragmentInteraction(Uri uri);
   }
 }
+

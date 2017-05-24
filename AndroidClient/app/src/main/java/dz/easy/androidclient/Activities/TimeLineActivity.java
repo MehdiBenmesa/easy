@@ -25,6 +25,7 @@ import java.util.List;
 
 import dz.easy.androidclient.Adapters.TestRecyclerViewAdapter;
 import dz.easy.androidclient.App.App;
+import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.Model.OrderStatus;
 import dz.easy.androidclient.Model.Orientation;
 import dz.easy.androidclient.Model.TimeLineModel;
@@ -33,12 +34,11 @@ import dz.easy.androidclient.Adapters.TimeLineAdapter;
 import dz.easy.androidclient.Util.CustomRequest;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
-import static dz.easy.androidclient.Constants.Constants.GET_TIME_TABLE;
 
 /**
  * Created by HP-HP on 05-12-2015.
  */
-public class TimeLineActivity extends AppCompatActivity {
+public class TimeLineActivity extends AppCompatActivity implements Constants {
 
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
@@ -92,7 +92,19 @@ public class TimeLineActivity extends AppCompatActivity {
                 day = "thursday";
                 break;
         };
-        initView();
+        try {
+            switch (user.getString("_type")){
+                case "Teacher" :
+                    initViewTeacher();
+                    break;
+                case "Student" :
+                    initViewStudent();
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -100,8 +112,8 @@ public class TimeLineActivity extends AppCompatActivity {
         return new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
     }
 
-    public void initView() {
-        setDataListItems(new Itimeline() {
+    public void initViewStudent() {
+        setDataListItemsStudent(new Itimeline() {
             @Override
             public void onDataRecieved(JSONObject object) {
                 JSONArray dayJson = null;
@@ -130,9 +142,39 @@ public class TimeLineActivity extends AppCompatActivity {
     });
     }
 
-    public void setDataListItems(final Itimeline callback){
+    public void initViewTeacher() {
+        setDataListItemsTeacher(new Itimeline() {
+            @Override
+            public void onDataRecieved(JSONObject object) {
+                JSONArray dayJson = null;
+                try {
+                    dayJson = object.getJSONArray(day);
+                    Log.i(TAG, "Signed in as TIME LIGNE: " + dayJson);
+                    String heureDebut , heureFin  , type , prof , salle;
+                    for (int i = 0; i < dayJson.length(); i++) {
+                        JSONObject seance = dayJson.getJSONObject(i);
+                        heureDebut = seance.getString("starts");
+                        heureFin = seance.getString("ends");
+                        type = seance.getString("type");
+                        prof = seance.getJSONObject("teacher").getString("name");
+                        salle = seance.getJSONObject("salle").getString("name");
+                        Log.i("Signed in aaas" ,heureDebut + heureFin + type );
+                        mDataList.add(new TimeLineModel("Mr :" + prof + " , " + "Salle :" + salle + " , " +type, heureDebut +" -- " +  heureFin , OrderStatus.INACTIVE));
+
+                    }
+
+                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mOrientation, mWithLinePadding);
+                    mRecyclerView.setAdapter(mTimeLineAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setDataListItemsStudent(final Itimeline callback){
         try {
-            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_TIME_TABLE + "/" + user.getString("section") + "/" + user.getString("groupe"), null,
+            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_TIME_TABLE_STUDENT + "/" + user.getString("section") + "/" + user.getString("groupe"), null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -151,6 +193,28 @@ public class TimeLineActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void setDataListItemsTeacher(final Itimeline callback){
+        try {
+            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_TIME_TABLE_TEACHER + "/" + user.getString("_id") , null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            callback.onDataRecieved(response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            App.getInstance().addToRequestQueue(jsonReq);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

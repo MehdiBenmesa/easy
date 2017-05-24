@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 import butterknife.BindArray;
 import butterknife.BindDrawable;
 import dz.easy.androidclient.R;
+
+import static dz.easy.androidclient.App.BaseActivity.TAG;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -63,14 +66,16 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         try {
             final JSONObject json = contents.getJSONObject(position);
-            //  final JSONObject course = json.getJSONObject("name");
-            holder.nom.setText("Groupe : " + json.getString("number"));
-                holder.nombre.setText("Nombre des etudiants : " + json.getString("students"));
-            holder.groupe.setText(json.getString("Gr") + json.getString("number"));
+            final JSONArray students = json.getJSONArray("students");
+            Log.i(TAG, "Signed in as: " + json.getString("groupeName"));
+            holder.title.setText("Groupe : " + json.getString("spec")+ json.getString("section"));
+            holder.count.setText("Nombre des etudiants : " + students.length());
+            holder.credit.setText( json.getString("groupeName"));
+            holder.module.setText(json.getString("groupeName"));
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    buttonListner.buttonPressed(json);
+                    buttonListner.buttonPressed(students);
                 }
             });
 
@@ -81,19 +86,19 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardItem;
-        public TextView nombre, nom , groupe , credit;
+        public TextView title, count , module , credit;
         public ModuleAdapterClickListener listener;
         public MyViewHolder(View view) {
             super(view);
-            cardItem = (CardView) view.findViewById(R.id.card_view_groupe);
-            nombre = (TextView) view.findViewById(R.id.nombre);
-            nom = (TextView) view.findViewById(R.id.nom);
-            groupe = (TextView) view.findViewById(R.id.groupe);
+            cardItem = (CardView) view.findViewById(R.id.card_view);
+            title = (TextView) view.findViewById(R.id.title);
+            count = (TextView) view.findViewById(R.id.count);
+            module = (TextView) view.findViewById(R.id.module);
+            credit = (TextView) view.findViewById(R.id.credit);
         }
-
     }
 
     public interface AdapterInterface{
-        public void buttonPressed(JSONObject module);
+        public void buttonPressed(JSONArray students);
     }
 }

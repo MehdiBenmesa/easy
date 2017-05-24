@@ -1,5 +1,7 @@
 package dz.easy.androidclient.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,12 +25,16 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dz.easy.androidclient.Activities.GroupActivity;
+import dz.easy.androidclient.Activities.ModuleActivity;
+import dz.easy.androidclient.Activities.StudentsActivity;
 import dz.easy.androidclient.Adapters.GroupListAdapter;
 import dz.easy.androidclient.Adapters.ModuleListAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.IDialog;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 
@@ -40,7 +46,7 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
 
     private static final boolean GRID_LAYOUT = false;
 
-
+    IDialog dialogListner ;
     private JSONObject  user = null , module = null;
     public GroupFragment newInstance(String user , String module){
         GroupFragment grF = new GroupFragment();
@@ -89,7 +95,9 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
     }
 
     public void getGroupsByModuleByTeacher(){
+
         try {
+            //dialogListner.showDialog();
             CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_GROUPS_BY_TEACHER_MODULE + "/" + module.getString("_id") + "/"
                      + user.getString("_id"), null,
                     new Response.Listener<JSONArray>() {
@@ -111,7 +119,7 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
                             //Use this now
                             mRecyclerView.setAdapter(new GroupListAdapter(groups , (GroupListAdapter.AdapterInterface) GroupFragment.this));
 
-
+                   // dialogListner.hideDialog();
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -128,7 +136,18 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
     }
 
     @Override
-    public void buttonPressed(JSONObject module) {
+    public void buttonPressed(JSONArray students) {
+        Intent i = new Intent(getContext() , StudentsActivity.class);
+        i.putExtra("user" ,user.toString());
+        i.putExtra("module" ,module.toString());
+        i.putExtra("students" ,students.toString());
+        getContext().startActivity(i);
+    }
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        dialogListner = (GroupActivity) activity ;
     }
 }

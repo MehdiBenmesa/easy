@@ -1,52 +1,55 @@
 package dz.easy.androidclient.Activities;
 
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import dz.easy.androidclient.Adapters.TeachersAdapter;
+import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.CustomRequestArray;
 
-public class RendeVous extends AppCompatActivity {
+import static dz.easy.androidclient.Constants.Constants.GET_TEACHERS;
+
+public class RendezVousActivity extends AppCompatActivity {
 
   MaterialSearchView searcheView;
+  RecyclerView lstView;
 
-  ListView lstView;
-  String[] lstSource = {
-    "Harry",
-    "Ron",
-    "Hermione",
-    "Snape",
-    "Dembeldor"
-  };
-
+  private static final boolean GRID_LAYOUT = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_rende_vous);
-
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle("Chercher un enseignant");
     toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
 
-    lstView = (ListView) findViewById(R.id.lstView);
-    ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lstSource);
-    lstView.setAdapter(adapter);
+    lstView = (RecyclerView) findViewById(R.id.lstView);
+    /*ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lstSource);
+    lstView.setAdapter(adapter);*/
+
+//    getTeachers();
 
     searcheView = (MaterialSearchView) findViewById(R.id.searche_view);
-
     searcheView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
       @Override
       public void onSearchViewShown() {
@@ -55,9 +58,10 @@ public class RendeVous extends AppCompatActivity {
 
       @Override
       public void onSearchViewClosed() {
-        lstView = (ListView) findViewById(R.id.lstView);
-        ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstSource);
-        lstView.setAdapter(adapter);
+        lstView = (RecyclerView) findViewById(R.id.lstView);
+        /*ArrayAdapter adapter = new ArrayAdapter(RendezVousActivity.this, android.R.layout.simple_list_item_1, lstSource);
+        lstView.setAdapter(adapter);*/
+      //  getTeachers();
       }
     });
 
@@ -70,19 +74,10 @@ public class RendeVous extends AppCompatActivity {
       @Override
       public boolean onQueryTextChange(String newText) {
         if (newText != null && !newText.isEmpty()) {
-          List<String> lstFound = new ArrayList<String>();
-          for (String item:lstSource) {
-            if (item.contains(newText)) {
-              lstFound.add(item);
-            }
-          }
-
-          ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstFound);
-          lstView.setAdapter(adapter);
+        //  getTeachersSearcheed(newText);
         }
         else {
-          ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstSource);
-          lstView.setAdapter(adapter);
+          //getTeachers();
         }
         return true;
       }
@@ -95,4 +90,7 @@ public class RendeVous extends AppCompatActivity {
     searcheView.setMenuItem(item);
     return true;
   }
+
+
+
 }

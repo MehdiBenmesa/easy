@@ -9,53 +9,53 @@ describe("Server test", function () {
 
 
     
-// ********************************************************************************************
-// ********************************************************************************************
-// *******************       START TEST DES SCOLARITE            ******************************
-// ********************************************************************************************
-// ********************************************************************************************
+// // ********************************************************************************************
+// // ********************************************************************************************
+// // *******************       START TEST DES SCOLARITE            ******************************
+// // ********************************************************************************************
+// // ********************************************************************************************
 
-// test de Scolarité 
-// Teachers
-    describe("GET /scolarite/teachers", function () {
-        it("Get All Teachers return with code 200", function (done) {
-            request.get(base_url + "/scolarite/teachers", function (error, response, body) {
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });
+// // test de Scolarité 
+// // Teachers
+//     describe("GET /scolarite/teachers", function () {
+//         it("Get All Teachers return with code 200", function (done) {
+//             request.get(base_url + "/scolarite/teachers", function (error, response, body) {
+//                 expect(response.statusCode).toBe(200);
+//                 done();
+//             });
+//         });
+//     });
 
-// Spécialité
-    describe("GET /scolarite/specs", function () {
-        it("Get All Groups return with code 200", function (done) {
-            request.get(base_url + "/scolarite/specs", function (error, response, body) {
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });
+// // Spécialité
+//     describe("GET /scolarite/specs", function () {
+//         it("Get All Groups return with code 200", function (done) {
+//             request.get(base_url + "/scolarite/specs", function (error, response, body) {
+//                 expect(response.statusCode).toBe(200);
+//                 done();
+//             });
+//         });
+//     });
 
 
-// Student 
-    describe("GET /scolarite/students", function () {
-        it("Get All Students return with code 200", function (done) {
-            request.get(base_url + "/scolarite/students", function (error, response, body) {
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });
+// // Student 
+//     describe("GET /scolarite/students", function () {
+//         it("Get All Students return with code 200", function (done) {
+//             request.get(base_url + "/scolarite/students", function (error, response, body) {
+//                 expect(response.statusCode).toBe(200);
+//                 done();
+//             });
+//         });
+//     });
 
 //Modules 
-    describe("GET  /scolarite/modules", function () {
-        it("Get Modules de Temps return with code 200", function (done) {
-            request.get(base_url + "/scolarite/modules", function (error, response, body) {
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });
+    // describe("GET  /scolarite/modules", function () {
+    //     it("Get Modules de Temps return with code 200", function (done) {
+    //         request.get(base_url + "/scolarite/modules", function (error, response, body) {
+    //             expect(response.statusCode).toBe(200);
+    //             done();
+    //         });
+    //     });
+    // });
 /*
   // delete Teacher
     describe("GET  scolarite/teacher/:id", function () {
@@ -79,14 +79,14 @@ describe("Server test", function () {
     });
 */
     // groupes by teacher and module
-describe("GET  /groupes/:modul/:teacher", function () {
-        it("Get Emploie de Temps de la salle return with code 200", function (done) {
-            request.get(base_url + "/scolarite/groupes/58ffcd658768570fc06c1da3/59074f211e02411bf582457e", function (error, response, body) {
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });
+// describe("GET  /groupes/:modul/:teacher", function () {
+//         it("Get Emploie de Temps de la salle return with code 200", function (done) {
+//             request.get(base_url + "/scolarite/groupes/58ffcd658768570fc06c1da3/59074f211e02411bf582457e", function (error, response, body) {
+//                 expect(response.statusCode).toBe(200);
+//                 done();
+//             });
+//         });
+//     });
 
     
 // ********************************************************************************************
@@ -103,17 +103,17 @@ describe("GET  /groupes/:modul/:teacher", function () {
 // ********************************************************************************************
 // ********************************************************************************************
 // Notes 
-    describe("GET /notes/note-by-student/58e3cb7bf36d283c9c874926", function () {
-        it("Get Notes From Student Salah Eddine return with code 200", function (done) {
-            request.get(base_url + "/notes/note-by-student/58e3cb7bf36d283c9c874926", function (error, response, body) {
-                //console.log(body);
-                expect(response.statusCode).toBe(200);
-                done();
-            });
-        });
-    });    
+    // describe("GET /notes/note-by-student/58e3cb7bf36d283c9c874926", function () {
+    //     it("Get Notes From Student Salah Eddine return with code 200", function (done) {
+    //         request.get(base_url + "/notes/note-by-student/58e3cb7bf36d283c9c874926", function (error, response, body) {
+    //             //console.log(body);
+    //             expect(response.statusCode).toBe(200);
+    //             done();
+    //         });
+    //     });
+    // });    
         // Ajouter NOTE 
-    describe("Post  /notes/note", function () {
+/*   describe("Post  /notes/note", function () {
         it("Post note return with code 200", function (done) {
             request.post({
                 url : base_url + "/notes/note", 
@@ -133,7 +133,7 @@ describe("GET  /groupes/:modul/:teacher", function () {
                 done();
                 });
         });
-    });
+    });*//*
 // ********************************************************************************************
 // ********************************************************************************************
 // *******************       END TEST DES NOTES                  ******************************
@@ -155,21 +155,21 @@ describe("GET  /groupes/:modul/:teacher", function () {
                 done();
             });
         });
-    });
-/*
+    });*/
+
 // Ajouter Seance 
     describe("Post  emploi/seance", function () {
         it("Post seance return with code 200", function (done) {
             request.post({
                 url : base_url + "/emploi/seance/", 
                 form : {
-                    groupeId : "58ffd8f761150b1ca74a2ace",
-                    sectionId :"58ffd8f761150b1ca74a2acc" ,
-                    day : "sunday",
+                    groupeId : "58fd58577d490c1ddafde29e",
+                    sectionId :"58fd58577d490c1ddafde29d" ,
+                    day : "wednesday",
                     seance : {  
-                        module: "58ffcd658768570fc06c1da3",
+                        module: "58ffcdaa8768570fc06c1da4",
                         salle : "5909ebee734d1d274bfd404b",
-                        teacher : "59074f211e02411bf582457e",
+                        teacher : "59074db51e02411bf5824574",
                         type : "cours",
                         groupe : "groupe",
                         starts : "10:30",
@@ -180,7 +180,7 @@ describe("GET  /groupes/:modul/:teacher", function () {
                 expect(response.statusCode).toBe(200);
                 
                 let bodyJson = JSON.parse(body);
-                request.post({
+               /* request.post({
                     url : base_url + "/delete-seance/",
                     form : {
                         sectionId : bodyJson.sectionId,
@@ -192,12 +192,13 @@ describe("GET  /groupes/:modul/:teacher", function () {
                 function (error, response, body) {
                 expect(response.statusCode).toBe(200);
                 done();
-            })
+            })*/
                                
                 done();
             });
         });
     });
+    /*
 // Suppression Seance 
 describe("POST /emploi/delete-seance", function() {
       it("DELET Seance return with code 200" , function (done){
@@ -258,7 +259,7 @@ describe("POST /emploi/delete-seance", function() {
 // ********************************************************************************************
 
     // Ajouter Absence 
-    describe("Post  absences/absence", function () {
+  /*  describe("Post  absences/absence", function () {
         it("Post absence return with code 200", function (done) {
             request.post({
                 url : base_url + "/absences/absence", 
@@ -283,7 +284,7 @@ describe("POST /emploi/delete-seance", function() {
                 done();
                 });
         });
-    });
+    });*/
 
     
 // ********************************************************************************************
@@ -331,7 +332,7 @@ describe("POST /salle/id", function() {
 // ********************************************************************************************
 
 // Ajouter Rendez-Vous et Suppression 
-    describe("Post  rdv/rdv", function () {
+  /*  describe("Post  rdv/rdv", function () {
         it("Post Rendez-Vous return with code 200", function (done) {
             request.post({
                 url : base_url + "/rdv/rdv", 
@@ -350,7 +351,8 @@ describe("POST /salle/id", function() {
                 });
         });
     });
-
+*/
+/*
     // rdv by and module
      describe("GET  /rdv/", function () {
         it("Get Rendez-Vous return with code 200", function (done) {
@@ -380,7 +382,7 @@ describe("POST /salle/id", function() {
             });
         });
     });
-
+*/
 // ********************************************************************************************
 // ********************************************************************************************
 // *******************       END TEST DES RENDEZ-VOUS          ********************************

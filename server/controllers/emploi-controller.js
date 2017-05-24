@@ -93,11 +93,11 @@ module.exports = function(Spec, Seance, Teacher, Salle){
 
   function getTeacherEmploieDay(teacherId,day, callback){
     var weekday = [];
-    weekday[1] = "sunday";
-    weekday[2] = "monday";
-    weekday[3] = "tuesday";
-    weekday[4] = "wednesday";
-    weekday[5] = "thursday";
+    weekday[4] = "sunday";
+    weekday[5] = "monday";
+    weekday[6] = "tuesday";
+    weekday[7] = "wednesday";
+    weekday[1] = "thursday";
 
     var n = weekday[day];
 
