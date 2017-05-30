@@ -4,7 +4,7 @@ import dz.easy.androidclient.ServerAuthCodeActivity;
 
 public interface Constants {
 
-    public static final String SERVER_URL = "http://192.168.1.3:3000";
+    public static final String SERVER_URL = "http://192.168.1.2:3000";
     //********** USER ***********//
     public static final String APP_LOGIN  = Constants.SERVER_URL+"/users/Auth-android";
     public static final String GCM_TOKEN  = "/users/gmcToken";

@@ -58,7 +58,7 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
     private DataReceiver mReceiver ;
     private JSONObject  user = null , module = null;
 
-  public GroupFragment newInstance(String user , String module){
+  public GroupFragment newInstance( String module){
         GroupFragment grF = new GroupFragment();
         Bundle bndl = new Bundle();
         bndl.putString("module" , module);
@@ -79,6 +79,7 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
 
         try {
             module = new JSONObject(getArguments().getString("module"));
+            user = App.getInstance().getUser();
             if(user.getString("_type").equals("Teacher")){
               GroupService.getGroupsByModuleByTeacher(getContext() , mReceiver , module.getString("_id"));
             }else if (user.getString("_type").equals("Manager")) {

@@ -38,6 +38,7 @@ import dz.easy.androidclient.Services.ModuleService;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.IDialog;
 
+import static android.content.Context.MEDIA_PROJECTION_SERVICE;
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_STUDENT;
 import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
@@ -128,7 +129,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                mRecyclerView.setAdapter(new ModuleListAdapter(responseTeacher));
+                mRecyclerView.setAdapter(new ModuleListAdapter(ModuleFragment.this , responseTeacher));
                 break ;
 
               case GET_MODULES_STUDENT :
@@ -139,7 +140,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                mRecyclerView.setAdapter(new ModuleListAdapter(responseStudent));
+                mRecyclerView.setAdapter(new ModuleListAdapter(ModuleFragment.this  , responseStudent));
                 break ;
               case GET_TEACHERS :
                 String jsonStringTeachers = resultData.getString("result");
