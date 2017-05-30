@@ -20,7 +20,9 @@ import com.github.florent37.materialviewpager.MaterialViewPager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.Util.SessionManager;
 import dz.easy.androidclient.fragment.AbsenceDetailFragment;
 import dz.easy.androidclient.fragment.AbsenceFragment;
@@ -30,7 +32,7 @@ import dz.easy.androidclient.fragment.NoteFragment;
 import static android.R.id.tabs;
 
 
-public class StudentNoteAbsenceActivity extends AppCompatActivity {
+public class StudentNoteAbsenceActivity extends BaseActivity implements IDialog {
 
     private ViewPager pager;
     Context context = getApplication();
@@ -84,7 +86,18 @@ public class StudentNoteAbsenceActivity extends AppCompatActivity {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-    public class MyAdapter extends FragmentPagerAdapter {
+
+  @Override
+  public void showDialog() {
+    showpDialog();
+  }
+
+  @Override
+  public void hideDialog() {
+    hidepDialog();
+  }
+
+  public class MyAdapter extends FragmentPagerAdapter {
         private String[] titles = { "Notes",
                 "Absences" };
 

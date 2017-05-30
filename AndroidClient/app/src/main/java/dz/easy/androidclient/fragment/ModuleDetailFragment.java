@@ -1,7 +1,10 @@
 package dz.easy.androidclient.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,28 +31,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
+import dz.easy.androidclient.Activities.ModuleActivity;
+import dz.easy.androidclient.Activities.UserActivity;
+import dz.easy.androidclient.Adapters.GroupListAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Services.DataReceiver;
+import dz.easy.androidclient.Services.NoteService;
 import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.Util.SessionManager;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
+import static dz.easy.androidclient.Services.GroupService.GET_GROUP_MODULE_TEACHER;
+import static dz.easy.androidclient.Services.NoteService.GET_NOTE_STUDENT;
 
 
 /**
  * Created by Abderahmane on 10/04/2017.
  */
 
-public class ModuleDetailFragment extends Fragment implements Constants {
+public class ModuleDetailFragment extends Fragment implements Constants, DataReceiver.Receiver {
 
     /**
      * The argument represents the dummy item ID of this fragment.
      */
     public static final String ARG_ITEM_ID = "user";
-    /**
-     * The dummy content of this fragment.
-     */
+    IDialog dialogListner ;
+    DataReceiver mReceiver ;
     static JSONObject module;
     public static String userID="";
     public static String moduleID="";
@@ -71,11 +82,17 @@ public class ModuleDetailFragment extends Fragment implements Constants {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
+        exam = (TextView) getActivity().findViewById(R.id.exam);
+        controle = (TextView) getActivity().findViewById(R.id.control);
+        intero = (TextView) getActivity().findViewById(R.id.intero);
+        tp = (TextView) getActivity().findViewById(R.id.tps);
 
         SessionManager sessionManager = new SessionManager(getContext());
         userID = sessionManager.getIdUser();
         //String Module = sessionManager
-        getNotesByModule();
+        NoteService.getNoteByStudent(getContext() , mReceiver);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // load dummy item by using the passed item ID.
@@ -93,6 +110,12 @@ public class ModuleDetailFragment extends Fragment implements Constants {
         toolbar.setTitle(nomModule);
         return rootView;
     }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    dialogListner = (ModuleActivity) activity ;
+  }
 
     private void loadBackdrop() {
         Glide.with(this).load("").centerCrop().into(backdropImg);
@@ -139,53 +162,62 @@ public class ModuleDetailFragment extends Fragment implements Constants {
     public ModuleDetailFragment() {
     }
 
+  @Override
+  public void onReceiveResult(int resultCode, Bundle resultData) {
+    switch (resultCode) {
+      case STATUS_RUNNING:
+        dialogListner.showDialog();
+        break;
+      case STATUS_FINISHED:
+          /* Hide progress & extract result from bundle */
+        dialogListner.hideDialog();
+        switch (resultData.getString("action")){
+          case GET_NOTE_STUDENT :
+            String jsonStringNoteStudent = resultData.getString("result");
+            JSONArray response = null;
+            try {
+              response = new JSONArray(jsonStringNoteStudent);
+               Log.i(TAG, "Réponse de Notes : " + response);
 
-    private void getNotesByModule() {
-
-        CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_NOTE_BY_STUDENT + "/" + userID, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.i(TAG, "Réponse de Notes : " + response);
-                        exam = (TextView) getActivity().findViewById(R.id.exam);
-                        controle = (TextView) getActivity().findViewById(R.id.control);
-                        intero = (TextView) getActivity().findViewById(R.id.intero);
-                        tp = (TextView) getActivity().findViewById(R.id.tps);
-
-                        for (int i=0;i<response.length();i++){
-                            try {
-                                JSONObject note = response.getJSONObject(i);
-                                if(moduleID.equals(note.getString("module"))){
-                                if(note.getString("reason").equals("exam")){
-                                    exam.setText(note.getInt("value")+"");
-                                }
-                                if(note.getString("reason").equals("controle")){
-                                    controle.setText(note.getInt("value")+"");
-                                }
-                                if(note.getString("reason").equals("intero")){
-                                    intero.setText(note.getInt("value")+"");
-                                }
-                                if(note.getString("reason").equals("tp")){
-                                    tp.setText(note.getInt("value")+"");
-                                }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        //  JSONArray modules = groupe.getJSONArray("module");
-                        //    Log.i(TAG, "Notes : " + groupe);
+              for (int i=0;i<response.length();i++){
+                try {
+                  JSONObject note = response.getJSONObject(i);
+                  if(moduleID.equals(note.getString("module"))){
+                    if(note.getString("reason").equals("exam")){
+                      exam.setText(note.getInt("value")+"");
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    if(note.getString("reason").equals("controle")){
+                      controle.setText(note.getInt("value")+"");
+                    }
+                    if(note.getString("reason").equals("intero")){
+                      intero.setText(note.getInt("value")+"");
+                    }
+                    if(note.getString("reason").equals("tp")){
+                      tp.setText(note.getInt("value")+"");
+                    }
+                  }
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
 
+              }
+
+              //  JSONArray modules = groupe.getJSONArray("module");
+              //    Log.i(TAG, "Notes : " + groupe);*/
+
+            } catch (JSONException e) {
+              e.printStackTrace();
             }
-        });
+            break ;
+        }
 
-        App.getInstance().addToRequestQueue(jsonReq);
-
+        break;
+      case STATUS_ERROR:
+                  /* Handle the error */
+        String error = resultData.getString(Intent.EXTRA_TEXT);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        break;
     }
+  }
+
 }

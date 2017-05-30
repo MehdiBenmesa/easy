@@ -1,6 +1,9 @@
 package dz.easy.androidclient.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,15 +26,25 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dz.easy.androidclient.Activities.GroupActivity;
+import dz.easy.androidclient.Activities.RendezVousActivity_;
+import dz.easy.androidclient.Adapters.GroupListAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Adapters.TeachersAdapter;
+import dz.easy.androidclient.Services.DataReceiver;
+import dz.easy.androidclient.Services.RendezVousService;
 import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.IDialog;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
+import static dz.easy.androidclient.Services.GroupService.GET_GROUP_MODULE_TEACHER;
+import static dz.easy.androidclient.Services.RendezVousService.GET_RENDEZVOUS_MANAGER;
+import static dz.easy.androidclient.Services.RendezVousService.GET_RENDEZVOUS_STUDENT;
+import static dz.easy.androidclient.Services.RendezVousService.GET_RENDEZVOUS_TEACHER;
 
-public class RendezVousFragment extends Fragment implements Constants{
+public class RendezVousFragment extends Fragment implements Constants, DataReceiver.Receiver {
 
   private static final boolean GRID_LAYOUT = false;
   private static final int ITEM_COUNT = 100;
@@ -40,6 +54,9 @@ public class RendezVousFragment extends Fragment implements Constants{
 
   private static JSONObject user;
   private static String rdvState;
+  private IDialog dialogListner ;
+  private DataReceiver mReceiver ;
+
   public static RendezVousFragment newInstance(JSONObject managerData,String state) {
     user = managerData;
     rdvState = state;
@@ -54,17 +71,30 @@ public class RendezVousFragment extends Fragment implements Constants{
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    mReceiver = new DataReceiver(new Handler());
+    mReceiver.setReceiver(this);
+
     ButterKnife.bind(this, view);
+    if (GRID_LAYOUT) {
+      recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+    } else {
+      recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+    recyclerViewRendeVous.setHasFixedSize(true);
+
+    //Use this now
+    recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+
     try {
       if(user.getString("_type").equals("Teacher")){
         //Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
-        getRendeVousByTeacher();
+        RendezVousService.getRendezVousByTeacher(getContext() , mReceiver , rdvState);
       }else if (user.getString("_type").equals("Manager")){
         //Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
-        getRendeVousByManager();
+        RendezVousService.getRendezvousByManager(getContext() ,mReceiver );
       }else if (user.getString("_type").equals("Student")){
         //Toast.makeText(getContext() , "Hi Student" , Toast.LENGTH_LONG).show();
-        getRendeVousByStudent();
+        RendezVousService.getRendeVousByStudent(getContext() , mReceiver , rdvState);
       }
     } catch (JSONException e) {
       e.printStackTrace();
@@ -73,110 +103,66 @@ public class RendezVousFragment extends Fragment implements Constants{
 
   }
 
-  private void getRendeVousByStudent() {
-    try {
-      CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_RDV_BY_STUDENT + "/"  + rdvState + "/" + user.getString("_id"), null,
-        new Response.Listener<JSONArray>() {
-          @Override
-          public void onResponse(JSONArray response) {
 
-            // JSONObject modules = response.getJSONObject("course");
-            //setup materialviewpager
 
-            if (GRID_LAYOUT) {
-              recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            } else {
-              recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    dialogListner = (RendezVousActivity_) activity ;
+  }
+
+  @Override
+  public void onReceiveResult(int resultCode, Bundle resultData) {
+    switch (resultCode) {
+      case STATUS_RUNNING:
+        dialogListner.showDialog();
+        break;
+      case STATUS_FINISHED:
+          /* Hide progress & extract result from bundle */
+        dialogListner.hideDialog();
+        switch (resultData.getString("action")){
+          case GET_RENDEZVOUS_MANAGER :
+            String jsonStringManager = resultData.getString("result");
+            JSONArray response = null;
+            try {
+              response = new JSONArray(jsonStringManager);
+              recyclerViewRendeVous.setAdapter(new TeachersAdapter(response));
+
+            } catch (JSONException e) {
+              e.printStackTrace();
             }
-            recyclerViewRendeVous.setHasFixedSize(true);
-            //Use this now
-            recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-          //  recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
+            break ;
+          case GET_RENDEZVOUS_STUDENT :
+            String jsonStringStudent = resultData.getString("result");
+            JSONArray responseStudent = null;
+            try {
+              responseStudent = new JSONArray(jsonStringStudent);
+              //recyclerViewRendeVous.setAdapter(new TeachersAdapter(responseStudent));
 
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            break ;
+          case GET_RENDEZVOUS_TEACHER :
+            String jsonStringTeacher = resultData.getString("result");
+            JSONArray responseTeacher = null;
+            try {
+              responseTeacher = new JSONArray(jsonStringTeacher);
+              //recyclerViewRendeVous.setAdapter(new TeachersAdapter(responseTeacher));
 
-          }
-        }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            break ;
         }
-      });
 
-      App.getInstance().addToRequestQueue(jsonReq);
-
-    } catch (JSONException e) {
-      e.printStackTrace();
+        break;
+      case STATUS_ERROR:
+                  /* Handle the error */
+        String error = resultData.getString(Intent.EXTRA_TEXT);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        break;
     }
   }
-
-  private void  getRendeVousByTeacher() {
-    Log.i(TAG, "Signed in as: ");
-
-    try {
-      CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_RDV_BY_TEACHER + "/"+ rdvState + "/" + user.getString("_id"), null,
-        new Response.Listener<JSONArray>() {
-          @Override
-          public void onResponse(JSONArray response) {
-            //setup materialviewpager
-
-            if (GRID_LAYOUT) {
-              recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            } else {
-              recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
-            }
-            recyclerViewRendeVous.setHasFixedSize(true);
-
-            //Use this now
-            recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-         //   recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
-
-
-          }
-        }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-
-        }
-      });
-
-      App.getInstance().addToRequestQueue(jsonReq);
-
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-  }
-
-
-  private void  getRendeVousByManager() {
-
-    CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_RDV_BY_TEACHER, null,
-      new Response.Listener<JSONArray>() {
-        @Override
-        public void onResponse(JSONArray response) {
-          //setup materialviewpager
-
-          if (GRID_LAYOUT) {
-            recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-          } else {
-            recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
-          }
-          recyclerViewRendeVous.setHasFixedSize(true);
-
-          //Use this now
-          recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-          recyclerViewRendeVous.setAdapter(new TeachersAdapter(response));
-
-
-        }
-      }, new Response.ErrorListener() {
-      @Override
-      public void onErrorResponse(VolleyError error) {
-
-      }
-    });
-
-    App.getInstance().addToRequestQueue(jsonReq);
-
-  }
-
 }

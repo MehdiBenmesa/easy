@@ -54,10 +54,11 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
 
     private static final boolean GRID_LAYOUT = false;
 
-  IDialog dialogListner ;
-  DataReceiver mReceiver ;
-  private JSONObject  user = null , module = null;
-    public GroupFragment newInstance(String user , String module){
+    private IDialog dialogListner ;
+    private DataReceiver mReceiver ;
+    private JSONObject  user = null , module = null;
+
+  public GroupFragment newInstance(String user , String module){
         GroupFragment grF = new GroupFragment();
         Bundle bndl = new Bundle();
         bndl.putString("module" , module);
@@ -73,8 +74,8 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-      mReceiver = new DataReceiver(new Handler());
-      mReceiver.setReceiver(this);
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
 
         try {
             module = new JSONObject(getArguments().getString("module"));
@@ -117,34 +118,34 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         dialogListner = (GroupActivity) activity ;
     }
 
-  @Override
-  public void onReceiveResult(int resultCode, Bundle resultData) {
-    switch (resultCode) {
-      case STATUS_RUNNING:
-        dialogListner.showDialog();
-        break;
-      case STATUS_FINISHED:
-        /* Hide progress & extract result from bundle */
-        dialogListner.hideDialog();
-        switch (resultData.getString("action")){
-          case GET_GROUP_MODULE_TEACHER :
-            String jsonStringTeacherModule = resultData.getString("result");
-            JSONArray responseTeacherModule = null;
-            try {
-              responseTeacherModule = new JSONArray(jsonStringTeacherModule);
-            } catch (JSONException e) {
-              e.printStackTrace();
-            }
-            mRecyclerView.setAdapter(new GroupListAdapter(responseTeacherModule , (GroupListAdapter.AdapterInterface) GroupFragment.this));
-            break ;
-        }
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+      switch (resultCode) {
+        case STATUS_RUNNING:
+          dialogListner.showDialog();
+          break;
+        case STATUS_FINISHED:
+          /* Hide progress & extract result from bundle */
+          dialogListner.hideDialog();
+          switch (resultData.getString("action")){
+            case GET_GROUP_MODULE_TEACHER :
+              String jsonStringTeacherModule = resultData.getString("result");
+              JSONArray responseTeacherModule = null;
+              try {
+                responseTeacherModule = new JSONArray(jsonStringTeacherModule);
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+              mRecyclerView.setAdapter(new GroupListAdapter(responseTeacherModule , (GroupListAdapter.AdapterInterface) GroupFragment.this));
+              break ;
+          }
 
-        break;
-      case STATUS_ERROR:
-                /* Handle the error */
-        String error = resultData.getString(Intent.EXTRA_TEXT);
-        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-        break;
+          break;
+        case STATUS_ERROR:
+                  /* Handle the error */
+          String error = resultData.getString(Intent.EXTRA_TEXT);
+          Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+          break;
+      }
     }
-  }
 }

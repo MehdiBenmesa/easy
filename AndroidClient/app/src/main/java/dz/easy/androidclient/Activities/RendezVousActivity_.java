@@ -10,17 +10,18 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dz.easy.androidclient.App.BaseActivity;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.fragment.ModuleDetailFragment;
-import dz.easy.androidclient.fragment.RendeVousFragment;
 import dz.easy.androidclient.fragment.RendezVousFragment;
 
 /**
  * Created by Mon pc on 20/05/2017.
  */
 
-public class RendezVousActivity_ extends AppCompatActivity implements Constants {
+public class RendezVousActivity_ extends BaseActivity implements Constants, IDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +45,14 @@ public class RendezVousActivity_ extends AppCompatActivity implements Constants 
             getSupportFragmentManager().beginTransaction().add(R.id.module_detail_container , fragment).commit();
 
     }
+
+  @Override
+  public void showDialog() {
+    showpDialog();
+  }
+
+  @Override
+  public void hideDialog() {
+    hidepDialog();
+  }
 }

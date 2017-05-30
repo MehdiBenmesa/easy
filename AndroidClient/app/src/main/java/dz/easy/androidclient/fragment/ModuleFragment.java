@@ -69,18 +69,18 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-       mReceiver = new DataReceiver(new Handler());
-       mReceiver.setReceiver(this);
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
 
-      if (GRID_LAYOUT) {
-          mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        } else {
-          mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        mRecyclerView.setHasFixedSize(true);
+        if (GRID_LAYOUT) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+          } else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+          }
+          mRecyclerView.setHasFixedSize(true);
 
-        //Use this now
-        mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+          //Use this now
+          mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
 
         try {
             if(user.getString("_type").equals("Teacher")){
