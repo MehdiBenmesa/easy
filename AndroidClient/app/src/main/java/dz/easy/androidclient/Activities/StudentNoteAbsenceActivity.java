@@ -30,7 +30,7 @@ import dz.easy.androidclient.fragment.NoteFragment;
 import static android.R.id.tabs;
 
 
-public class ViewPagerActivity extends AppCompatActivity {
+public class StudentNoteAbsenceActivity extends AppCompatActivity {
 
     private ViewPager pager;
     Context context = getApplication();
@@ -55,23 +55,21 @@ public class ViewPagerActivity extends AppCompatActivity {
         pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
-
+        SessionManager sessionManager = new SessionManager(context);
         Intent intent = getIntent();
-        String jsonString = intent.getStringExtra("user");
         try {
-            user = new JSONObject(jsonString);
+          user = new JSONObject(sessionManager.getUser());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //SessionManager sessionManager = new SessionManager(context);
-
-        moduleid = intent.getStringExtra("module");
-        nomModul = intent.getStringExtra("namemodule");
-        try {
-            user = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+      JSONObject module = null;
+      try {
+        module = new JSONObject(intent.getStringExtra("module"));
+        moduleid = module.getString("_id");
+        nomModul = module.getString("name");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     }
 
     @Override

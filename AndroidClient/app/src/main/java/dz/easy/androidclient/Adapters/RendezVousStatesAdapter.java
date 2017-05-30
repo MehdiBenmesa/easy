@@ -17,7 +17,6 @@ package dz.easy.androidclient.Adapters;
 
         import butterknife.BindArray;
         import butterknife.BindDrawable;
-        import dz.easy.androidclient.Activities.RendezVousActivity;
         import dz.easy.androidclient.Activities.RendezVousActivity_;
         import dz.easy.androidclient.R;
 

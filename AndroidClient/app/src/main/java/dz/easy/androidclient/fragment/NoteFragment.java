@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +21,11 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dz.easy.androidclient.Adapters.AbsenceAdapter;
 import dz.easy.androidclient.Adapters.NoteAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
-import dz.easy.androidclient.Adapters.TeachersAdapter;
-import dz.easy.androidclient.Adapters.TestRecyclerViewAdapter;
-import dz.easy.androidclient.Util.CustomRequest;
 import dz.easy.androidclient.Util.CustomRequestArray;
-
-import static dz.easy.androidclient.App.BaseActivity.TAG;
 
 /**
  * Created by florentchampigny on 24/04/15.

@@ -2,8 +2,6 @@ package dz.easy.androidclient.fragment;
 
 import org.junit.Test;
 
-import dz.easy.androidclient.Model.Module;
-
 import static org.junit.Assert.*;
 
 /**
