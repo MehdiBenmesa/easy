@@ -39,9 +39,11 @@ module.exports = function(User, Note , NotificationController){
          });
     }
     
-    function getNoteByModules(student,module, callback) {
-        Student.findOne({_id:student}).populate('notes').exec( (err, student ) => {
+    
+    function getNoteByModules(studentId,module, callback) {
+        Student.findOne({_id:studentId}).populate('notes').exec( (err, student ) => {
             let notemodule = student.notes; 
+            console.log(notemodule);
             let notes = [];
             for(var i=0;i< notemodule.length;i++){
                 let note = notemodule[i].module;   

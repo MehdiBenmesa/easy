@@ -1,14 +1,11 @@
 package dz.easy.androidclient.fragment;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +29,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
-import dz.easy.androidclient.Model.Module;
 import dz.easy.androidclient.R;
-import dz.easy.androidclient.TestRecyclerViewAdapter;
-import dz.easy.androidclient.Util.CustomRequest;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.SessionManager;
 

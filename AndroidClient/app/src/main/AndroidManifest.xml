@@ -39,11 +39,7 @@
             android:name=".Activities.StartActivity"
             android:label="Note"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity
-            android:name=".Activities.NoteActivity"
-            android:label="@string/name_sign_in_activity"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity
+      <activity
             android:name=".Activities.UserActivity"
             android:label="@string/name_sign_in_activity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
@@ -62,24 +58,11 @@
             android:name=".Activities.RestApiActivity"
             android:label="@string/name_rest_activity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity
-            android:name=".Activities.YearActivity"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity
-            android:name=".Activities.StudentList"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity android:name=".Activities.StudentInfo"
+
+      <activity android:name=".Activities.NoteAbsenceActivity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
-        <activity android:name=".Activities.AbsenceActivity"             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-
-        <activity android:name=".Activities.GroupeByModuleActivity"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-
-        <activity android:name=".Activities.NoteAbsenceActivity"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-
-        <activity android:name=".Activities.ViewPagerActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity android:name=".Activities.StudentNoteAbsenceActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
         <activity android:name=".Activities.TimeLineActivity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />

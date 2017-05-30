@@ -26,8 +26,6 @@ import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Adapters.TeachersAdapter;
-import dz.easy.androidclient.Adapters.TestRecyclerViewAdapter;
-import dz.easy.androidclient.Util.CustomRequest;
 import dz.easy.androidclient.Util.CustomRequestArray;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
@@ -93,7 +91,7 @@ public class RendezVousFragment extends Fragment implements Constants{
             recyclerViewRendeVous.setHasFixedSize(true);
             //Use this now
             recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-            recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
+          //  recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
 
 
           }
@@ -130,7 +128,7 @@ public class RendezVousFragment extends Fragment implements Constants{
 
             //Use this now
             recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-            recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
+         //   recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response));
 
 
           }

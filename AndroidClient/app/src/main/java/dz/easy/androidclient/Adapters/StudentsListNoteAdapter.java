@@ -2,7 +2,6 @@ package dz.easy.androidclient.Adapters;
 
         import android.content.Context;
         import android.graphics.drawable.Drawable;
-        import android.support.v4.util.ArraySet;
         import android.support.v7.widget.CardView;
         import android.support.v7.widget.RecyclerView;
         import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ package dz.easy.androidclient.Adapters;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.TextView;
-        import android.widget.Toast;
 
         import com.android.volley.Request;
         import com.android.volley.Response;
@@ -21,7 +19,6 @@ package dz.easy.androidclient.Adapters;
         import org.json.JSONException;
         import org.json.JSONObject;
 
-        import java.util.ArrayList;
         import java.util.HashMap;
         import java.util.HashSet;
         import java.util.Iterator;
@@ -33,9 +30,6 @@ package dz.easy.androidclient.Adapters;
         import dz.easy.androidclient.Constants.Constants;
         import dz.easy.androidclient.R;
         import dz.easy.androidclient.Util.CustomRequest;
-        import dz.easy.androidclient.Util.CustomRequestNote;
-
-        import static java.security.AccessController.getContext;
 
 /**
  * Created by florentchampigny on 24/04/15.

@@ -1,36 +1,23 @@
 package dz.easy.androidclient.Adapters;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import butterknife.BindArray;
 import butterknife.BindDrawable;
-import butterknife.BindView;
-import dz.easy.androidclient.Activities.GroupeByModuleActivity;
-import dz.easy.androidclient.Activities.ModuleActivity;
-import dz.easy.androidclient.Activities.ViewPagerActivity;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Util.SessionManager;
-import dz.easy.androidclient.fragment.ModuleFragment;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -103,29 +90,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                        JSONObject userjson = new JSONObject(user);
-                        if(userjson.getString("_type").equals("Teacher")){
-                            //Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
-                            buttonListner.buttonPressed(json);
-                        }else if (userjson.getString("_type").equals("Manager")){
-                            //Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
-                            //getTeachers();
-                        }else if (userjson.getString("_type").equals("Student")){
-                            //Toast.makeText(getContext() , "Hi Student" , Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(view.getContext() , ViewPagerActivity.class);
-                            try {
-                                i.putExtra("module",json.getString("_id"));
-                                i.putExtra("namemodule",json.getString("name"));
-                                i.putExtra("user", user);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            view.getContext().startActivity(i);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        buttonListner.buttonPressed(json);
+
                 }
             });
 
@@ -150,6 +116,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
     }
 
     public interface AdapterInterface{
-        public void buttonPressed(JSONObject module);
+        void buttonPressed(JSONObject module);
     }
 }

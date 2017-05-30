@@ -35,6 +35,7 @@ import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.IDialog;
+import dz.easy.androidclient.Util.SessionManager;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 
@@ -48,11 +49,11 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
 
     IDialog dialogListner ;
     private JSONObject  user = null , module = null;
-    public GroupFragment newInstance(String user , String module){
+    public GroupFragment newInstance(String modul){
         GroupFragment grF = new GroupFragment();
         Bundle bndl = new Bundle();
-        bndl.putString("user" , user);
-        bndl.putString("module" , module);
+        bndl.putString("module" , modul);
+
         grF.setArguments(bndl);
         return grF;
     }
@@ -62,33 +63,23 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-
-
-        try {
-            user = new JSONObject(getArguments().getString("user"));
+        super.onViewCreated(view, savedInstanceState);ButterKnife.bind(this, view);
+      SessionManager sessionManager = new SessionManager(view.getContext());
+      String stringUser = sessionManager.getUser();
+      try {
+            user = new JSONObject(stringUser);
             module = new JSONObject(getArguments().getString("module"));
             if(user.getString("_type").equals("Teacher")){
-
-                Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
-               getGroupsByModuleByTeacher();
+                getGroupsByModuleByTeacher();
             }else if (user.getString("_type").equals("Manager")) {
-                Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
                 //getTeachers();
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (GRID_LAYOUT) {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        } else {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        mRecyclerView.setHasFixedSize(true);
-
-
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recyclerview, container, false);
