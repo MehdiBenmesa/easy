@@ -14,12 +14,7 @@ export class SalleService {
 
   /*ici on récupére les salles par une requete vers la bdd*/
   public getSalles(){
-     let token = JSON.parse(localStorage.getItem('token'));
-     let headers = new Headers({
-       'token': token
-     });
-     let options = new RequestOptions({headers});
-    this.http.get(`${this.baseUrl}`, options)
+    this.http.get(`${this.baseUrl}`)
       .map((res: Response) => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server Error'))
       .subscribe((salles) => this.salles.next(salles));
@@ -27,12 +22,7 @@ export class SalleService {
   }
 
   public addSalle(salle){
-     let token = JSON.parse(localStorage.getItem('token'));
-     let headers = new Headers({
-       'token': token
-     });
-     let options = new RequestOptions({headers});
-    return this.http.post(`${this.baseUrl}`, salle, options)
+    return this.http.post(`${this.baseUrl}`, salle)
       .map((res: Response) =>{
         res = res.json()
         let values = this.salles.getValue();

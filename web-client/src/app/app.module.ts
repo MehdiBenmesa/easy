@@ -48,6 +48,7 @@ import { AbsenceService } from './services/absence.service'
 import { ModuleService } from "./services/module.service";
 import { SalleService } from './services/salle.service';
 import { EmploiService} from './services/emploi.service';
+import { XlsxToJsonService} from './services/xlsx-to-json.service';
 import { AbsencesEtudiantComponent } from "./components/enseignant-components/absences-etudiant/absences-etudiant.component";
 import { SaisieAbsencesComponent } from "./components/enseignant-components/saisie-absences/saisie-absences.component";
 import { StudentTimeTableComponent } from './components/etudiant-components/student-time-table/student-time-table.component';
@@ -136,7 +137,7 @@ import { AddSpecComponent } from './components/gestionnaire-components/add-spec/
                   AbsenceStudentComponent,
                   AddSpecComponent
                   ],
-  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService],
+  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService, XlsxToJsonService],
   entryComponents: [
             SaisiSeanceComponent,
             AbsencesEtudiantComponent,

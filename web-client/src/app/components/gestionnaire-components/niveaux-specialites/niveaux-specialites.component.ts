@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ScolariteService } from "../../../services/scolarite.service";
 import { MdDialog } from "@angular/material";
 import { AddSpecComponent } from "../add-spec/add-spec.component";
+import { XlsxToJsonService } from "../../../services/xlsx-to-json.service";
 
 
 @Component({
@@ -11,12 +12,14 @@ import { AddSpecComponent } from "../add-spec/add-spec.component";
 })
 export class NiveauxSpecialitesComponent implements OnInit{
     open:boolean=false;
+    private result :any;
     private specs :any[] = [];
     private selectedSpec :any = null;
     private selectedSection :any = null;
     private selectedGroupe :any = null;
     constructor(private scolariteService :ScolariteService,
-                private dialog:MdDialog){
+                private dialog:MdDialog,
+							  private xlsxToJsonService :XlsxToJsonService	){
       this.scolariteService.getSpec().subscribe(specs => {
         this.specs = specs;
       });
@@ -30,7 +33,13 @@ export class NiveauxSpecialitesComponent implements OnInit{
         }
       });
     }
-
+    public handleFile(event) {
+          let file = event.target.files[0];
+          this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
+                  this.result = JSON.stringify(data['sheets'].Sheet1);
+                  console.log(this.result);
+          })
+    }
     public addSection(sectionName){
       let section = {
         sectionName : sectionName,
