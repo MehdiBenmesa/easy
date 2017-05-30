@@ -1,1 +1,1 @@
-include ':app', ':materialviewpager', ':timelineview', ':TabView'
+include ':app', ':materialviewpager', ':timelineview'

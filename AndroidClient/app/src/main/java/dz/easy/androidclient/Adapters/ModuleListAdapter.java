@@ -58,9 +58,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
 
     @BindDrawable(R.drawable.circle)
     Drawable btn;
-    public ModuleListAdapter(JSONArray contents , AdapterInterface listner) {
+    public ModuleListAdapter(JSONArray contents ) {
         this.contents = contents;
-        this.buttonListner = listner ;
         myList = new ArrayList<MyViewHolder>();
     }
 

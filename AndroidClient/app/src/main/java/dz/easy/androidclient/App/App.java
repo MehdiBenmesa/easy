@@ -61,6 +61,15 @@ public class App extends Application implements Constants {
     private String fullname;
     private String accessToken;
 
+  public JSONObject getUser() {
+    return user;
+  }
+
+  public void setUser(JSONObject user) {
+    this.user = user;
+  }
+
+  private JSONObject user ;
     public void setGcmToken(String gcmToken) {
         this.gcmToken = gcmToken;
     }

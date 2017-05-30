@@ -113,7 +113,7 @@ describe("Server test", function () {
     //     });
     // });    
         // Ajouter NOTE 
-/*   describe("Post  /notes/note", function () {
+   describe("Post  /notes/note", function () {
         it("Post note return with code 200", function (done) {
             request.post({
                 url : base_url + "/notes/note", 
@@ -133,7 +133,7 @@ describe("Server test", function () {
                 done();
                 });
         });
-    });*//*
+    });
 // ********************************************************************************************
 // ********************************************************************************************
 // *******************       END TEST DES NOTES                  ******************************
@@ -147,6 +147,7 @@ describe("Server test", function () {
 // ********************************************************************************************
 // ********************************************************************************************
 // Emploie
+/*
     describe("GET  emploi/58fd58577d490c1ddafde29e", function () {
         it("Get Emploie de Temps return with code 200", function (done) {
             request.get(base_url + "/emploi/58fd58577d490c1ddafde29e/", function (error, response, body) {
@@ -155,7 +156,7 @@ describe("Server test", function () {
                 done();
             });
         });
-    });*/
+    });
 
 // Ajouter Seance 
     describe("Post  emploi/seance", function () {
@@ -180,7 +181,7 @@ describe("Server test", function () {
                 expect(response.statusCode).toBe(200);
                 
                 let bodyJson = JSON.parse(body);
-               /* request.post({
+                request.post({
                     url : base_url + "/delete-seance/",
                     form : {
                         sectionId : bodyJson.sectionId,
@@ -192,13 +193,13 @@ describe("Server test", function () {
                 function (error, response, body) {
                 expect(response.statusCode).toBe(200);
                 done();
-            })*/
+            })*
                                
                 done();
             });
         });
-    });
-    /*
+    });*/
+    
 // Suppression Seance 
 describe("POST /emploi/delete-seance", function() {
       it("DELET Seance return with code 200" , function (done){

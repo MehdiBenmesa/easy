@@ -119,7 +119,7 @@ besma.save((besma) => {
 
 // Models
 const Seance = require('./model/seance.js')(mongoose);
-const Users = require('./model/user.js')(mongoose, extend);
+const Users = require('./model/user.js')(mongoose , extend);
 const Spec = require('./model/spec.js')(mongoose);
 const Module = require('./model/module.js')(mongoose);
 const Note = require('./model/note.js')(mongoose);

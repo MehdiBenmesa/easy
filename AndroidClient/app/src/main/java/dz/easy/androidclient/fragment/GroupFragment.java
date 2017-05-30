@@ -3,6 +3,7 @@ package dz.easy.androidclient.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,28 +31,35 @@ import dz.easy.androidclient.Activities.ModuleActivity;
 import dz.easy.androidclient.Activities.StudentsActivity;
 import dz.easy.androidclient.Adapters.GroupListAdapter;
 import dz.easy.androidclient.Adapters.ModuleListAdapter;
+import dz.easy.androidclient.Adapters.TeachersAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Services.DataReceiver;
+import dz.easy.androidclient.Services.GroupService;
+import dz.easy.androidclient.Services.ModuleService;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.IDialog;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
+import static dz.easy.androidclient.Services.GroupService.GET_GROUP_MODULE_TEACHER;
+import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_STUDENT;
+import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
 
 /**
  * Created by Abderahmane on 16/05/2017.
  */
 
-public class GroupFragment extends Fragment implements Constants  , GroupListAdapter.AdapterInterface {
+public class GroupFragment extends Fragment implements Constants  , GroupListAdapter.AdapterInterface, DataReceiver.Receiver {
 
     private static final boolean GRID_LAYOUT = false;
 
-    IDialog dialogListner ;
-    private JSONObject  user = null , module = null;
+  IDialog dialogListner ;
+  DataReceiver mReceiver ;
+  private JSONObject  user = null , module = null;
     public GroupFragment newInstance(String user , String module){
         GroupFragment grF = new GroupFragment();
         Bundle bndl = new Bundle();
-        bndl.putString("user" , user);
         bndl.putString("module" , module);
         grF.setArguments(bndl);
         return grF;
@@ -65,14 +73,13 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+      mReceiver = new DataReceiver(new Handler());
+      mReceiver.setReceiver(this);
 
         try {
-            user = new JSONObject(getArguments().getString("user"));
             module = new JSONObject(getArguments().getString("module"));
             if(user.getString("_type").equals("Teacher")){
-
-                Toast.makeText(getContext() , "Hi Teacher" , Toast.LENGTH_LONG).show();
-               getGroupsByModuleByTeacher();
+              GroupService.getGroupsByModuleByTeacher(getContext() , mReceiver , module.getString("_id"));
             }else if (user.getString("_type").equals("Manager")) {
                 Toast.makeText(getContext() , "Hi Manager" , Toast.LENGTH_LONG).show();
                 //getTeachers();
@@ -94,47 +101,6 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         return inflater.inflate(R.layout.fragment_recyclerview, container, false);
     }
 
-    public void getGroupsByModuleByTeacher(){
-
-        try {
-            //dialogListner.showDialog();
-            CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_GROUPS_BY_TEACHER_MODULE + "/" + module.getString("_id") + "/"
-                     + user.getString("_id"), null,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-
-                            // JSONObject modules = response.getJSONObject("course");
-                            JSONArray groups = response;
-                            Log.i(TAG, "Signed in as: " + groups);
-
-                            //setup materialviewpager
-
-                            if (GRID_LAYOUT) {
-                                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                            } else {
-                                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            }
-                            mRecyclerView.setHasFixedSize(true);
-                            //Use this now
-                            mRecyclerView.setAdapter(new GroupListAdapter(groups , (GroupListAdapter.AdapterInterface) GroupFragment.this));
-
-                   // dialogListner.hideDialog();
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-
-            App.getInstance().addToRequestQueue(jsonReq);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void buttonPressed(JSONArray students) {
         Intent i = new Intent(getContext() , StudentsActivity.class);
@@ -150,4 +116,35 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         super.onAttach(activity);
         dialogListner = (GroupActivity) activity ;
     }
+
+  @Override
+  public void onReceiveResult(int resultCode, Bundle resultData) {
+    switch (resultCode) {
+      case STATUS_RUNNING:
+        dialogListner.showDialog();
+        break;
+      case STATUS_FINISHED:
+        /* Hide progress & extract result from bundle */
+        dialogListner.hideDialog();
+        switch (resultData.getString("action")){
+          case GET_GROUP_MODULE_TEACHER :
+            String jsonStringTeacherModule = resultData.getString("result");
+            JSONArray responseTeacherModule = null;
+            try {
+              responseTeacherModule = new JSONArray(jsonStringTeacherModule);
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            mRecyclerView.setAdapter(new GroupListAdapter(responseTeacherModule , (GroupListAdapter.AdapterInterface) GroupFragment.this));
+            break ;
+        }
+
+        break;
+      case STATUS_ERROR:
+                /* Handle the error */
+        String error = resultData.getString(Intent.EXTRA_TEXT);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        break;
+    }
+  }
 }

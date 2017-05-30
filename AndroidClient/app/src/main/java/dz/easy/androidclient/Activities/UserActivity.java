@@ -1,13 +1,11 @@
 package dz.easy.androidclient.Activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +22,7 @@ import dz.easy.androidclient.R;
 import dz.easy.androidclient.Services.RegistrationIntentService;
 import dz.easy.androidclient.Util.IDialog;
 import dz.easy.androidclient.Util.SessionManager;
-import dz.easy.androidclient.fragment.AbsenceFragment;
 import dz.easy.androidclient.fragment.ModuleFragment;
-import dz.easy.androidclient.fragment.RendeVousFragment;
 import dz.easy.androidclient.fragment.RendezVousStatesFragment;
 import dz.easy.androidclient.fragment.TimeTableFragment;
 
@@ -50,7 +46,7 @@ public class UserActivity extends BaseActivity implements IDialog{
 
         registerReceiver();
 
-        final Toolbar toolbar = mViewPager.getToolbar();
+      final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
@@ -64,7 +60,6 @@ public class UserActivity extends BaseActivity implements IDialog{
             SessionManager sessionManager = new SessionManager(this);
             sessionManager.createLoginSession(user.getString("name"),user.getString("mail"), user.getString("_id"));
             sessionManager.setUser(jsonString);
-            Resources res = getResources();
             String text =  user.getString("lastname") + " " +  user.getString("name");
 
             ((TextView)findViewById(R.id.logo_white)).setText(text);

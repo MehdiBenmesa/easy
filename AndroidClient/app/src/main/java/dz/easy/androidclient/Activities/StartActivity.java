@@ -274,6 +274,7 @@ public class StartActivity extends BaseActivity implements
     private void startUserActivity(JSONObject user) throws JSONException {
 
         Intent intent = new Intent(StartActivity.this, UserActivity.class);
+        App.getInstance().setUser(user);
         intent.putExtra("user" , user.toString());
         startActivity(intent);
 
