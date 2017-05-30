@@ -33,7 +33,7 @@ import static android.R.id.tabs;
 public class StudentNoteAbsenceActivity extends AppCompatActivity {
 
     private ViewPager pager;
-    Context context = getApplication();
+    Context context;
     String moduleid;
     String nomModul;
     JSONObject user;
@@ -49,6 +49,7 @@ public class StudentNoteAbsenceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
         pager = (ViewPager) findViewById(R.id.pager);

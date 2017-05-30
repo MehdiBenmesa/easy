@@ -90,7 +90,7 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
                     i = new Intent(view.getContext() , RendezVousActivity_.class);
                 }
                 i.putExtra("user" ,contents.toString() );
-                i.putExtra("state" , state );
+                i.putExtra("state" ,state);
                 view.getContext().startActivity(i);
             }
         });

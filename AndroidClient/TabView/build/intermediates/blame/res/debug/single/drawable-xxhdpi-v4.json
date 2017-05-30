@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Projet\\EASY\\AndroidClient\\TabView\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\shadow.png",
+        "source": "D:\\Projet\\EASY\\AndroidClient\\TabView\\build\\intermediates\\exploded-aar\\com.melnykov\\floatingactionbutton\\1.1.0\\res\\drawable-xxhdpi-v4\\shadow.png"
+    },
+    {
+        "merged": "D:\\Projet\\EASY\\AndroidClient\\TabView\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\shadow_mini.png",
+        "source": "D:\\Projet\\EASY\\AndroidClient\\TabView\\build\\intermediates\\exploded-aar\\com.melnykov\\floatingactionbutton\\1.1.0\\res\\drawable-xxhdpi-v4\\shadow_mini.png"
+    }
+]
