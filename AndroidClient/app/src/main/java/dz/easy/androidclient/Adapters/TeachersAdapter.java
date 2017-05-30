@@ -26,13 +26,17 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.MyView
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
 
-    @BindArray(R.array.androidcolors)
+  private AdapterInterface buttonListner;
+
+
+  @BindArray(R.array.androidcolors)
     int[] androidColors;
 
     @BindDrawable(R.drawable.circle)
     Drawable btn;
-    public TeachersAdapter(JSONArray contents) {
+    public TeachersAdapter(JSONArray contents, AdapterInterface listner) {
         this.contents = contents;
+        buttonListner = listner;
     }
 
     @Override
@@ -58,18 +62,18 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        /*switch (getItemViewType(position)) {
-            case TYPE_HEADER:
-                break;
-            case TYPE_CELL:
-                break;
-        }*/
         try {
-            JSONObject json = contents.getJSONObject(position);
+            final JSONObject json = contents.getJSONObject(position);
             holder.nom.setText("Nom : " + json.getString("name"));
             holder.email.setText("Email : " + json.getString("mail"));
             holder.abreTeacher.setText(json.getString("name").substring(0 , 1).toUpperCase());
             holder.prenom.setText("Prenom : " + json.getString("lastname"));
+          holder.cardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              buttonListner.buttonPressed(json);
+            }
+          });
             //ShapeDrawable bgShape = (ShapeDrawable)btn;
             //int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
             //bgShape.getPaint().setColor(randomAndroidColor);
@@ -79,6 +83,7 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.MyView
             e.printStackTrace();
         }
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardItem;
@@ -92,4 +97,9 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.MyView
             prenom = (TextView) view.findViewById(R.id.prenom);
         }
     }
+
+  public interface AdapterInterface{
+    void buttonPressed(JSONObject module);
+  }
+
 }

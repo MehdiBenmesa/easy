@@ -4,7 +4,7 @@ import dz.easy.androidclient.ServerAuthCodeActivity;
 
 public interface Constants {
 
-    public static final String SERVER_URL = "http://192.168.1.3:3000";
+    public static final String SERVER_URL = "http://10.0.2.2:3000";
     //********** USER ***********//
     public static final String APP_LOGIN  = Constants.SERVER_URL+"/users/Auth-android";
     public static final String GCM_TOKEN  = "/users/gmcToken";
@@ -42,6 +42,9 @@ public interface Constants {
     public static final String GET_RDV_BY_TEACHER = SERVER_URL + "/rdv/teacher";
     public static final String GET_RDV_ACCEPTED_STUDENT = SERVER_URL + "/rdv/accepted/student";
     public static final String GET_RDV_ACCEPTED_TEACHER = SERVER_URL + "/rdv/accepted/teacher";
+    public static final String ACCEPT_RDV = SERVER_URL +"/rdv/accept";
+    public static final String REFUSE_RDV = SERVER_URL +"/rdv/refuse";
+    public static final String POST_RDV = SERVER_URL +"/rdv/";
 
 
     //********** EMPLOIE ***********//

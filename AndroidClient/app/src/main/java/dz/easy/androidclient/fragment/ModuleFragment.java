@@ -27,6 +27,8 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dz.easy.androidclient.Activities.GroupActivity;
+import dz.easy.androidclient.Activities.StudentNoteAbsenceActivity;
+import dz.easy.androidclient.Activities.StudentsActivity;
 import dz.easy.androidclient.Activities.UserActivity;
 import dz.easy.androidclient.Adapters.ModuleListAdapter;
 import dz.easy.androidclient.App.App;
@@ -98,7 +100,16 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
     }
     @Override
     public void buttonPressed(JSONObject module) {
-        Intent i = new Intent(getContext() , GroupActivity.class);
+      Intent i = null;
+      try {
+        if (user.getString("_type").equals("Teacher")) {
+          i = new Intent(getContext(), GroupActivity.class);
+        } else if (user.getString("_type").equals("Student")) {
+          i = new Intent(getContext(), StudentNoteAbsenceActivity.class);
+        }
+      }catch (JSONException e) {
+        e.printStackTrace();
+      }
         i.putExtra("user" ,user.toString());
         i.putExtra("module" ,module.toString());
         getContext().startActivity(i);
@@ -128,7 +139,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                mRecyclerView.setAdapter(new ModuleListAdapter(responseTeacher));
+                mRecyclerView.setAdapter(new ModuleListAdapter(responseTeacher,(ModuleListAdapter.AdapterInterface) this));
                 break ;
 
               case GET_MODULES_STUDENT :
@@ -139,7 +150,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                mRecyclerView.setAdapter(new ModuleListAdapter(responseStudent));
+                mRecyclerView.setAdapter(new ModuleListAdapter(responseStudent,(ModuleListAdapter.AdapterInterface) this));
                 break ;
               case GET_TEACHERS :
                 String jsonStringTeachers = resultData.getString("result");
@@ -149,7 +160,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                mRecyclerView.setAdapter(new TeachersAdapter(responseTeachers));
+                //mRecyclerView.setAdapter(new TeachersAdapter(responseTeachers));
                 break ;
 
             }

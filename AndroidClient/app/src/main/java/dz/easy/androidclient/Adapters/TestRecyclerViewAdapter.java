@@ -1,5 +1,6 @@
 package dz.easy.androidclient.Adapters;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,43 +13,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindArray;
 import butterknife.BindDrawable;
+import dz.easy.androidclient.Activities.NoteAbsenceActivity;
 import dz.easy.androidclient.R;
-import dz.easy.androidclient.Util.SessionManager;
 
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.MyViewHolder>{
+public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.MyViewHolder>{
 
     JSONArray contents;
 
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
-    String user;
+
     @BindArray(R.array.androidcolors)
     int[] androidColors;
 
-    public ArrayList<MyViewHolder> getMyList() {
-        return myList;
-    }
-
-    public void setMyList(ArrayList<MyViewHolder> myList) {
-        this.myList = myList;
-    }
-
-    public ArrayList<ModuleListAdapter.MyViewHolder> myList ;
     private AdapterInterface buttonListner;
 
     @BindDrawable(R.drawable.circle)
     Drawable btn;
-    public ModuleListAdapter(JSONArray contents, AdapterInterface listner ) {
+    public TestRecyclerViewAdapter(JSONArray contents, TestRecyclerViewAdapter.AdapterInterface listner) {
         this.contents = contents;
         buttonListner = listner;
-        myList = new ArrayList<MyViewHolder>();
     }
 
     public interface ModuleAdapterClickListener {
@@ -69,29 +62,43 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
         View view = null;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_card_big, parent, false);
-        SessionManager sessionManager = new SessionManager(view.getContext());
-        System.out.println("USER SESSION : "+sessionManager.getUser());
-
-        user = sessionManager.getUser();
         return new MyViewHolder(view) {};
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        JSONObject json = null;
+        JSONObject student = null;
         try {
-            myList.add(holder);
-            final JSONObject json = contents.getJSONObject(position);
-            holder.title.setText("Nom du Module : " + json.getString("name"));
-            holder.count.setText("Coefficient : " + json.getString("coef"));
-            holder.module.setText(json.getString("abre"));
-            holder.credit.setText("Credit : " + json.getString("credit"));
-            holder.cardItem.setOnClickListener(new View.OnClickListener() {
+            json = contents.getJSONObject(position);
+            student = json.getJSONObject("student");
+
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            try {
+                json = contents.getJSONObject(position);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                student = json.getJSONObject("teacher");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        try {
+
+            holder.title.setText("Avec : " + student.getString("name") + " "+student.getString("lastname"));
+            holder.count.setText("Reason : " + json.getString("reason"));
+            holder.module.setText(json.getString("date"));
+            holder.credit.setText("Credit : " + json.getString("state"));
+            final JSONObject finalJson = json;
+          holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        buttonListner.buttonPressed(json);
+                  buttonListner.buttonPressed(finalJson);
                 }
             });
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -109,10 +116,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
             module = (TextView) view.findViewById(R.id.module);
             credit = (TextView) view.findViewById(R.id.credit);
         }
-
     }
 
     public interface AdapterInterface{
-        void buttonPressed(JSONObject module);
+      void buttonPressed(JSONObject module);
     }
 }

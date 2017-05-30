@@ -73,13 +73,13 @@
 
         <activity android:name=".Activities.AbsenceActivity"             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
-        <activity android:name=".Activities.GroupeByModuleActivity"
+        <activity android:name=".Activities.RendezVousActivity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
         <activity android:name=".Activities.NoteAbsenceActivity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
-        <activity android:name=".Activities.ViewPagerActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
+        <activity android:name=".Activities.StudentNoteAbsenceActivity"            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
 
         <activity android:name=".Activities.TimeLineActivity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
@@ -124,6 +124,10 @@
             android:name=".Services.RegistrationIntentService"
             android:exported="false">
         </service>
+      <service android:name=".Services.ModuleService"
+        android:exported="false"></service>
+      <service android:name=".Services.GroupService"
+        android:exported="false"></service>
 
     </application>
 

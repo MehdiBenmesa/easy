@@ -164,7 +164,7 @@ public class RendeVousFragment extends Fragment {
 
           //Use this now
           lstView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-          lstView.setAdapter(new TeachersAdapter(teachers));
+          //lstView.setAdapter(new TeachersAdapter(teachers));
 
 
         }
@@ -220,7 +220,7 @@ public class RendeVousFragment extends Fragment {
           /*ArrayAdapter adapter = new ArrayAdapter(RendeVous.this, android.R.layout.simple_list_item_1, lstFound);
           lstView.setAdapter(adapter);*/
 
-          lstView.setAdapter(new TeachersAdapter(lstFound));
+          //lstView.setAdapter(new TeachersAdapter(lstFound));
 
 
         }

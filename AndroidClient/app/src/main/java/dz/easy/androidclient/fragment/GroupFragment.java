@@ -1,6 +1,7 @@
 package dz.easy.androidclient.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,7 @@ import dz.easy.androidclient.Services.GroupService;
 import dz.easy.androidclient.Services.ModuleService;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.IDialog;
+import dz.easy.androidclient.Util.SessionManager;
 
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 import static dz.easy.androidclient.Services.GroupService.GET_GROUP_MODULE_TEACHER;
@@ -53,16 +55,28 @@ import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
 public class GroupFragment extends Fragment implements Constants  , GroupListAdapter.AdapterInterface, DataReceiver.Receiver {
 
     private static final boolean GRID_LAYOUT = false;
-
+  static Context context;
   IDialog dialogListner ;
+
   DataReceiver mReceiver ;
-  private JSONObject  user = null , module = null;
-    public GroupFragment newInstance(String user , String module){
-        GroupFragment grF = new GroupFragment();
+  private static JSONObject user = null;
+  JSONObject module = null;
+  static SessionManager sessionManager;
+    public static GroupFragment newInstance(Context c,String module){
+        context = c;
+        sessionManager = new SessionManager(context);
+        try {
+          user = new JSONObject(sessionManager.getUser());
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      System.out.println("NewInstance : ME FIRST ");
+
         Bundle bndl = new Bundle();
         bndl.putString("module" , module);
-        grF.setArguments(bndl);
-        return grF;
+      GroupFragment grF = new GroupFragment();
+      grF.setArguments(bndl);
+      return grF;
     }
 
     @BindView(R.id.recyclerView)
@@ -73,9 +87,10 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-      mReceiver = new DataReceiver(new Handler());
-      mReceiver.setReceiver(this);
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
 
+        System.out.println("OnCreate : ME FIRST ");
         try {
             module = new JSONObject(getArguments().getString("module"));
             if(user.getString("_type").equals("Teacher")){
