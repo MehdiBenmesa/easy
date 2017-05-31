@@ -3,7 +3,7 @@ module.exports = function(express, rdvController) {
    const router = express.Router();
 
     // Add Rendez-Vous
-    router.post('/rdv', (req, res) => {
+    router.post('/', (req, res) => {
         rdvController.addRdv(req.body, (err, rdv) => {
             if(err) throw err;
             res.json(rdv);
@@ -49,8 +49,8 @@ module.exports = function(express, rdvController) {
         });
     });
 
-    router.get('/accept/:id', (req, res) => {
-        rdvController.acceptRdv(req.params.id, (err, rdv) => {
+    router.post('/accept/:id', (req, res) => {
+        rdvController.acceptRdv(req.body,req.params.id, (err, rdv) => {
             if(err) throw err;
             res.json(rdv);
         });

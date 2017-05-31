@@ -28,7 +28,7 @@ public class GroupActivity extends BaseActivity implements IDialog {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.groupFragment , new GroupFragment().newInstance(i.getStringExtra("module")) )
+        ft.add(R.id.groupFragment , new GroupFragment().newInstance(this,i.getStringExtra("module")) )
                 .commit();
     }
 

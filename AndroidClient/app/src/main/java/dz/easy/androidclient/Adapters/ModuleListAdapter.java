@@ -47,9 +47,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
 
     @BindDrawable(R.drawable.circle)
     Drawable btn;
-    public ModuleListAdapter(ModuleFragment cntx , JSONArray contents ) {
+    public ModuleListAdapter(JSONArray contents, AdapterInterface listner ) {
         this.contents = contents;
-        buttonListner = cntx;
+        buttonListner = listner;
         myList = new ArrayList<MyViewHolder>();
     }
 
@@ -83,17 +83,14 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.My
         try {
             myList.add(holder);
             final JSONObject json = contents.getJSONObject(position);
-
             holder.title.setText("Nom du Module : " + json.getString("name"));
             holder.count.setText("Coefficient : " + json.getString("coef"));
             holder.module.setText(json.getString("abre"));
             holder.credit.setText("Credit : " + json.getString("credit"));
-
             holder.cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                         buttonListner.buttonPressed(json);
-
                 }
             });
 

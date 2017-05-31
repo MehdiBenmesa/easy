@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidClient.iml" filepath="$PROJECT_DIR$/AndroidClient.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TabView/TabView.iml" filepath="$PROJECT_DIR$/TabView/TabView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/materialviewpager/materialviewpager.iml" filepath="$PROJECT_DIR$/materialviewpager/materialviewpager.iml" />
       <module fileurl="file://$PROJECT_DIR$/timelineview/timelineview.iml" filepath="$PROJECT_DIR$/timelineview/timelineview.iml" />

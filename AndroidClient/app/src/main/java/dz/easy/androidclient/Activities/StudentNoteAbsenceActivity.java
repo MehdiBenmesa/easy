@@ -35,7 +35,7 @@ import static android.R.id.tabs;
 public class StudentNoteAbsenceActivity extends BaseActivity implements IDialog {
 
     private ViewPager pager;
-    Context context = getApplication();
+    Context context;
     String moduleid;
     String nomModul;
     JSONObject user;
@@ -51,6 +51,7 @@ public class StudentNoteAbsenceActivity extends BaseActivity implements IDialog 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
         pager = (ViewPager) findViewById(R.id.pager);

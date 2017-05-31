@@ -9,6 +9,7 @@ package dz.easy.androidclient.Adapters;
         import android.view.ViewGroup;
         import android.widget.TextView;
 
+        import org.json.JSONArray;
         import org.json.JSONException;
         import org.json.JSONObject;
 
@@ -35,15 +36,25 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
     @BindArray(R.array.androidcolors)
     int[] androidColors;
 
-    @BindDrawable(R.drawable.circle)
+  private RendezVousStatesAdapter.AdapterInterface buttonListner;
+
+
+  @BindDrawable(R.drawable.circle)
     Drawable btn;
-    public RendezVousStatesAdapter(JSONObject contents) {
+    public RendezVousStatesAdapter(JSONObject contents,RendezVousStatesAdapter.AdapterInterface listner) {
         this.contents = contents;
         states = new HashMap<>() ;
-        states.put("Acceptée","accepted");
-        states.put("En Attent","enattent");
-        states.put("Réfusée","refused");
-        states.put("Effectuer","effectuer");
+        states.put("Les Rendez-vous Acceptée","accepted");
+        states.put("Les Rendez-vous En Attent","enattent");
+        states.put("Les Rendez-vous Réfusée","refused");
+        states.put("Les Rendez-vous Effectuer","effectuer");
+      try {
+        if(contents.getString("_type").equals("Student"))
+          states.put("nouvelle Rendez-vous","new");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+      buttonListner = listner;
     }
 
     @Override
@@ -70,12 +81,14 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
 
         final String item = (String) states.keySet().toArray()[position];
         final String state =  states.get(states.keySet().toArray()[position]);
-        holder.day.setText("Les Rendez-vous " +item);
+
+        holder.day.setText(item);
         holder.abreDay.setText(item.substring(0 , 3).toUpperCase());
         holder.cardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String type="";
+              buttonListner.buttonPressed(state);
+              /* String type="";
                 try {
                     type = contents.getString("_type");
                 } catch (JSONException e) {
@@ -90,12 +103,13 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
                     i = new Intent(view.getContext() , RendezVousActivity_.class);
                 }
                 i.putExtra("user" ,contents.toString() );
-                i.putExtra("state" , state );
-                view.getContext().startActivity(i);
-            }
+                i.putExtra("state" ,state);
+                view.getContext().startActivity(i);*/
+              }
         });
 
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardItem;
@@ -106,5 +120,9 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
             day = (TextView) view.findViewById(R.id.day);
             abreDay = (TextView) view.findViewById(R.id.abreDay);
         }
+    }
+
+    public interface AdapterInterface{
+      public void buttonPressed(String etat);
     }
 }

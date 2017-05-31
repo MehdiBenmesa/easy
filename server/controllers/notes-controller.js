@@ -34,26 +34,24 @@ module.exports = function(User, Note , NotificationController){
 
 
     function getNoteByStudent(student, callback) {
-        Student.findOne({_id:student}).populate('notes').exec( (err, student ) => { 
+        User.findOne({_id:student}).populate('notes').exec( (err, student ) => { 
                 callback(err, student.notes);
          });
     }
     
     
-    function getNoteByModules(studentId,module, callback) {
-        Student.findOne({_id:studentId}).populate('notes').exec( (err, student ) => {
+    function getNoteByModules(studentId, module, callback) {
+        User.findOne({_id:studentId}).populate('notes').exec( (err, student ) => {
             let notemodule = student.notes; 
-            console.log(notemodule);
             let notes = [];
-            for(var i=0;i< notemodule.length;i++){
+            for(var i=0; i< notemodule.length; i++){
                 let note = notemodule[i].module;   
-                 
                 if(note==module){
-                    notes.push(student.notes[i]);
+                    notes.push(notemodule[i]);
                 }
             }
             let notesRes = removeDuplicates(notes);
-            callback(err, notesRes);
+            callback(err, notes);
          });
     }
     function removeDuplicates(arrayIn) {

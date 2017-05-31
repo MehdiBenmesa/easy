@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="dz.easy.androidclient">
+package="dz.easy.androidclient">
+
 
   <meta-data android:name="com.google.android.geo." />
 
@@ -75,16 +76,13 @@
       android:name=".Activities.StudentInfo"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
-      android:name=".Activities.AbsenceActivity"
-      android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-    <activity
-      android:name=".Activities.GroupeByModuleActivity"
+      android:name=".Activities.StudentNoteAbsenceActivity"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
       android:name=".Activities.NoteAbsenceActivity"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
-      android:name=".Activities.ViewPagerActivity"
+      android:name=".Activities.RendezVousActivity"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
       android:name=".Activities.TimeLineActivity"
@@ -143,5 +141,4 @@
       android:name=".Services.RendezVousService"
       android:exported="false"></service>
   </application>
-
 </manifest>
