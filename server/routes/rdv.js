@@ -42,7 +42,7 @@ module.exports = function(express, rdvController) {
         });
     });
 
-    router.get('/refuse/:id', (req, res) => {
+    router.post('/refuse/:id', (req, res) => {
         rdvController.refuseRdv(req.params.id, (err, rdv) => {
             if(err) throw err;
             res.json(rdv);

@@ -4,6 +4,7 @@ package dz.easy.androidclient.Adapters;
         import android.graphics.drawable.Drawable;
         import android.support.v7.widget.CardView;
         import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -97,9 +98,11 @@ public class StudentsListNoteAdapter extends RecyclerView.Adapter<StudentsListNo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         myList.add(holder);
         try {
-            final JSONObject json = contents.getJSONObject(position);
+            Log.d("----begin !", contents.getJSONObject(position).toString());
+            final JSONObject json = contents.getJSONObject(position); /// Exeption generated
             final JSONArray notes = json.getJSONArray("notes");
             holder.idStudent.setText(json.getString("_id"));
+            Log.d("----name: ", json.getString("name"));
             holder.title.setText(json.getString("name")+ " "+json.getString("lastname"));
             holder.count.setText(json.getString("matricule"));
             holder.credit.setText( json.getString("mail"));

@@ -141,9 +141,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                   e.printStackTrace();
                 }
                 mRecyclerView.setAdapter(new ModuleListAdapter(responseTeacher,(ModuleListAdapter.AdapterInterface) this));
-
                 break ;
-
               case GET_MODULES_STUDENT :
                 String jsonStringStudent = resultData.getString("result");
                 JSONArray responseStudent = null;
@@ -152,11 +150,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-//<<<<<<< HEAD
                 mRecyclerView.setAdapter(new ModuleListAdapter(responseStudent,(ModuleListAdapter.AdapterInterface) this));
-/*=======
-                mRecyclerView.setAdapter(new ModuleListAdapter(ModuleFragment.this  , responseStudent));
->>>>>>> 55388211e7ecbd404a57417f22718441319de1fe*/
                 break ;
               case GET_TEACHERS :
                 String jsonStringTeachers = resultData.getString("result");
@@ -166,11 +160,8 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                //mRecyclerView.setAdapter(new TeachersAdapter(responseTeachers));
                 break ;
-
             }
-
         break;
       case STATUS_ERROR:
                 /* Handle the error */

@@ -1,4 +1,4 @@
-module.exports = function(Student, Teacher, Rdv){
+module.exports = function(Student, Teacher, Rdv,NotificationController){
 
 
  // Ajouter Rendez-Vous 
@@ -8,6 +8,13 @@ module.exports = function(Student, Teacher, Rdv){
         rdv.save((err, rdv) => {
             callback(err, rdv);
         });
+        Teacher.findOne({_id : obj.teacher}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "vous avez un rendez-vous", (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });
     }
     
     // Accepter Rendez-Vous 
@@ -16,8 +23,16 @@ module.exports = function(Student, Teacher, Rdv){
         Rdv.findByIdAndUpdate(rdvId, 
         {$set :{ state : "accepted", date : obj.date, heur : obj.heur, remarque : obj.remarque}},
          (err, rdv) => {
+             Student.findOne({_id : rdv.student}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Votre rendez-vous a été acceptée", (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });
                     callback(err, rdv);
         });
+        
     }
 
     // Supprimer Rendez-Vous 
@@ -54,8 +69,23 @@ module.exports = function(Student, Teacher, Rdv){
     // Refuser Rendez-Vous 
     function refuseRdv(rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId, {$set :{ state : "refused"}}, (err, rdv) => {
+            Student.findOne({_id : rdv.student}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Votre rendez-vous a été réfusée", (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });
                     callback(err, rdv);
         }); 
+        /*
+        Student.findOne({_id : obj.student}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Votre rendez-vous a été réfusée", (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+              });*/
     }
 
     // Supprimer Rendez-Vous Etudiant 

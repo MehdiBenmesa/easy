@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import dz.easy.androidclient.Adapters.RendezVousStatesAdapter;
 import dz.easy.androidclient.Adapters.TeachersAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
@@ -52,7 +53,7 @@ public class RendezVousService extends IntentService implements Constants {
    */
   // TODO: Customize helper method
   public static void getRendezVousByTeacher(Context context, DataReceiver data , String rdvState) {
-    Intent intent = new Intent(context, ModuleService.class);
+    Intent intent = new Intent(context, RendezVousService.class);
     intent.setAction(GET_RENDEZVOUS_TEACHER);
     intent.putExtra(DATA_RECEIVER, data);
     intent.putExtra("rdvState", rdvState);
@@ -60,7 +61,7 @@ public class RendezVousService extends IntentService implements Constants {
   }
 
   public static void getRendeVousByStudent(Context context, DataReceiver data , String rdvState) {
-    Intent intent = new Intent(context, ModuleService.class);
+    Intent intent = new Intent(context, RendezVousService.class);
     intent.setAction(GET_RENDEZVOUS_STUDENT);
     intent.putExtra(DATA_RECEIVER, data);
     intent.putExtra("rdvState", rdvState);
@@ -68,7 +69,7 @@ public class RendezVousService extends IntentService implements Constants {
   }
 
   public static void getRendezvousByManager(Context context, DataReceiver data) {
-    Intent intent = new Intent(context, ModuleService.class);
+    Intent intent = new Intent(context, RendezVousService.class);
     intent.setAction(GET_RENDEZVOUS_MANAGER);
     intent.putExtra(DATA_RECEIVER, data);
     context.startService(intent);
@@ -80,7 +81,7 @@ public class RendezVousService extends IntentService implements Constants {
       switch (intent.getAction()){
         case GET_RENDEZVOUS_TEACHER :
           final ResultReceiver receiverTeacher = intent.getParcelableExtra(DATA_RECEIVER);
-          final String rdvState = intent.getParcelableExtra("rdvState");
+          final String rdvState = intent.getStringExtra("rdvState");
           final Bundle bundleTeacher = new Bundle();
           receiverTeacher.send(STATUS_RUNNING, Bundle.EMPTY);
           try {
@@ -102,7 +103,7 @@ public class RendezVousService extends IntentService implements Constants {
           break ;
         case GET_RENDEZVOUS_STUDENT :
           final ResultReceiver receiverStudent = intent.getParcelableExtra(DATA_RECEIVER);
-          final String rdv = intent.getParcelableExtra("rdvState");
+          final String rdv = intent.getStringExtra("rdvState");
           final Bundle bundleStudent = new Bundle();
           receiverStudent.send(STATUS_RUNNING, Bundle.EMPTY);
           try {

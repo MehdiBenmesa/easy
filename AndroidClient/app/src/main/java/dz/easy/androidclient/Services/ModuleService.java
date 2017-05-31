@@ -159,7 +159,6 @@ public class ModuleService extends IntentService implements Constants {
 
   public void getModulesByStudent(final IModule callBack) {
     try {
-
       CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_MODULES_BY_STUDENT + "/" + App.getInstance().getUser().getString("section") + "/"+App.getInstance().getUser().getString("groupe") , null,
         new Response.Listener<JSONArray>() {
           @Override

@@ -1,4 +1,4 @@
-module.exports = function (Student, Seance, Absence) {
+module.exports = function (Student, Seance, Absence,NotificationController) {
 
     function addAbsence(obj, callback) { 
         console.log(obj);
@@ -9,15 +9,15 @@ module.exports = function (Student, Seance, Absence) {
             callback(err, mabsence);
           });
         });
-        // let EnsStudent
-        // for(var i=0;i<obj.students.length;i++)
-        // Student.findOne({_id : obj.students.}, (err, user) => {
-        //           console.log(user);
-        //           NotificationController.sendNotification(user , "Ajouter Note avec Succes" , (err, notification) => {
-        //               callback(err, notification);
-        //           } );
-        //           callback(err, user);
-        // });
+        
+        for(var i=0;i<obj.students.length;i++)
+        Student.findOne({_id : obj.students[i].id}, (err, user) => {
+                  console.log(user);
+                  NotificationController.sendNotification(user , "Vous etes absent" , (err, notification) => {
+                      callback(err, notification);
+                  } );
+                  callback(err, user);
+        });
     }
 // update Seance 
     function updateAbsence(obj, callback) {   

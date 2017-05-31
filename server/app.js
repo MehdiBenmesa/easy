@@ -134,7 +134,7 @@ const emploiController = require('./controllers/emploi-controller.js')(Spec, Sea
 const salleController = require('./controllers/salle-controller.js')(Salle);
 const userController = require('./controllers/user.js')(google, googleConfig, Users.User );
 const absenceController = require('./controllers/absence-controller.js')(Users.Student,Seance,Absence , notificationController);
-const rdvController = require('./controllers/rdv-controller.js')(Users.Student, Users.Teacher , Rdv);
+const rdvController = require('./controllers/rdv-controller.js')(Users.Student, Users.Teacher , Rdv,notificationController);
 
 // Routes
 const emploiRoute = require('./routes/emploi.js')(express, emploiController);

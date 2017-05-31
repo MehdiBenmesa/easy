@@ -24,7 +24,9 @@
     android:layout_margin="20dp"
     android:hint="30/04/1994"
     android:textColor="@color/navigationBarColor"
-    android:layout_height="30dp">
+    android:layout_height="30dp"
+    android:layout_weight="0.1"
+    >
   </TextView>
 
   <EditText
@@ -45,11 +47,12 @@
     android:id="@+id/value"
     android:hint="Remarque"
     android:layout_margin="@dimen/dialogDimen"
-    android:layout_weight="0.18" />
+    android:layout_weight="0.1"/>
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="0.1"
     android:orientation="horizontal">
 
     <Button

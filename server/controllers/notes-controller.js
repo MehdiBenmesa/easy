@@ -20,6 +20,15 @@ module.exports = function(User, Note , NotificationController){
 
     }
 
+    function updateNote(obj ,callback){
+        //TODO
+        console.log(obj);
+        Note.findOneAndUpdate({
+             query: {student : obj.student, reason : obj.reason, module : obj.module},
+             update: {$set: {value : obj.value}}
+        }, (err,res) => { callback(err,res);});
+    }
+
     function addNotes(obj, callback){
         console.log(obj.students);
         var students = JSON.parse(obj.students);
@@ -29,7 +38,6 @@ module.exports = function(User, Note , NotificationController){
                 callback(err,res);
             });
         }
-
     }
 
 
@@ -68,11 +76,19 @@ module.exports = function(User, Note , NotificationController){
             callback(err,res);
         });
     }
+
+    function deleteNote(idNote, callback){
+        Note.findByIdAndRemove(idNote, (err, note) => {
+             callback(err, {message: 'success'})
+        });
+    }
     return {
       addNote,
       getNoteByStudent,
       getNoteByModules,
       getAllNotes,
-      addNotes
+      addNotes,
+      deleteNote,
+      updateNote
     };
 }

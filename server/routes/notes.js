@@ -19,6 +19,20 @@ module.exports = function(express, notesController) {
         });
     });
 
+    router.post('/update', (req, res) => {
+        notesController.updateNote(req.body , (err, note) => {
+            if(err) throw err;
+            res.json(note);
+        });
+    });
+
+    router.delete('/:id', (req, res) => {
+        notesController.deleteNote(req.params.id, (err, note) => {
+            if(err) throw err;
+            res.json(note);
+        });
+    });
+
     router.get('/note-by-student/:student',(req, res) => {
         notesController.getNoteByStudent(req.params.student, (err, note) => {
             if(err) throw err;

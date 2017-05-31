@@ -110,15 +110,14 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
     super.onViewCreated(view, savedInstanceState);
     mReceiver = new DataReceiver(new Handler());
     mReceiver.setReceiver(this);
-
     ButterKnife.bind(this, view);
+
     if (GRID_LAYOUT) {
       recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     } else {
       recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
     recyclerViewRendeVous.setHasFixedSize(true);
-
     //Use this now
     recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
 
@@ -135,35 +134,8 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
       }
     } catch (JSONException e) {
       e.printStackTrace();
-    }}
-
-
-/*
-<<<<<<< HEAD
-  private void getRendeVousByStudent() {
-    try {
-      CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_RDV_BY_STUDENT + "/"  + rdvState + "/" + user.getString("_id"), null,
-        new Response.Listener<JSONArray>() {
-          @Override
-          public void onResponse(JSONArray response) {
-
-            // JSONObject modules = response.getJSONObject("course");
-            //setup materialviewpager
-
-            if (GRID_LAYOUT) {
-              recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            } else {
-              recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
-            }
-            recyclerViewRendeVous.setHasFixedSize(true);
-            //Use this now
-            recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-            recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response,(TestRecyclerViewAdapter.AdapterInterface) RendezVousFragment.this));
-
-=======
->>>>>>> 55388211e7ecbd404a57417f22718441319de1fe
-*/
-
+    }
+  }
 
   @Override
   public void onAttach(Activity activity) {
@@ -191,28 +163,13 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
             } catch (JSONException e) {
               e.printStackTrace();
             }
-            /*
-<<<<<<< HEAD
-            recyclerViewRendeVous.setHasFixedSize(true);
-
-            //Use this now
-            recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-            recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(response,(TestRecyclerViewAdapter.AdapterInterface) RendezVousFragment.this));
-
-
-          }
-        }, new Response.ErrorListener() {
-      *
-        @Override
-            public void onErrorResponse(VolleyError error) {
-            */
             break ;
           case GET_RENDEZVOUS_STUDENT :
             String jsonStringStudent = resultData.getString("result");
             JSONArray responseStudent = null;
             try {
               responseStudent = new JSONArray(jsonStringStudent);
-              //recyclerViewRendeVous.setAdapter(new TeachersAdapter(responseStudent));
+              recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(responseStudent,(TestRecyclerViewAdapter.AdapterInterface) RendezVousFragment.this));
 
             } catch (JSONException e) {
               e.printStackTrace();
@@ -223,7 +180,7 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
             JSONArray responseTeacher = null;
             try {
               responseTeacher = new JSONArray(jsonStringTeacher);
-              //recyclerViewRendeVous.setAdapter(new TeachersAdapter(responseTeacher));
+              recyclerViewRendeVous.setAdapter(new TestRecyclerViewAdapter(responseTeacher,(TestRecyclerViewAdapter.AdapterInterface) this));
 
             } catch (JSONException e) {
               e.printStackTrace();
@@ -238,39 +195,6 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
         break;
     }
-  }
-
-
-  private void  getRendeVousByManager(){
-
-    CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_RDV_BY_TEACHER, null,
-      new Response.Listener<JSONArray>() {
-        @Override
-        public void onResponse(JSONArray response) {
-          //setup materialviewpager
-
-          if (GRID_LAYOUT) {
-            recyclerViewRendeVous.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-          } else {
-            recyclerViewRendeVous.setLayoutManager(new LinearLayoutManager(getActivity()));
-          }
-          recyclerViewRendeVous.setHasFixedSize(true);
-
-          //Use this now
-          recyclerViewRendeVous.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-          //recyclerViewRendeVous.setAdapter(new TeachersAdapter(response,(TeachersAdapter.AdapterInterface) RendezVousActivity.this));
-
-
-        }
-      }, new Response.ErrorListener() {
-      @Override
-      public void onErrorResponse(VolleyError error) {
-
-      }
-    });
-
-    App.getInstance().addToRequestQueue(jsonReq);
-
   }
 
   @Override
@@ -336,7 +260,7 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
         new Response.Listener<JSONObject>() {
           @Override
           public void onResponse(JSONObject response) {
-
+            Toast.makeText(getActivity(), "Rendez-vous Acceptée avec succès ", Toast.LENGTH_SHORT).show();
           }
         }, new Response.ErrorListener() {
         @Override
@@ -369,7 +293,7 @@ public class RendezVousFragment extends Fragment implements Constants,DataReceiv
         new Response.Listener<JSONObject>() {
           @Override
           public void onResponse(JSONObject response) {
-
+            Toast.makeText(getActivity(), "Rendez-vous Réfusée", Toast.LENGTH_SHORT).show();
           }
         }, new Response.ErrorListener() {
         @Override

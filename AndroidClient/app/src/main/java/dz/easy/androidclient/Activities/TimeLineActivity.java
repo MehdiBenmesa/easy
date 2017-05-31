@@ -117,7 +117,7 @@ public class TimeLineActivity extends AppCompatActivity implements Constants {
                 try {
                     dayJson = object.getJSONArray(day);
                     Log.i(TAG, "Signed in as TIME LIGNE: " + dayJson);
-                    String heureDebut , heureFin  , type , prof , salle;
+                    String heureDebut , heureFin  , type , prof , salle, module;
                     for (int i = 0; i < dayJson.length(); i++) {
                         JSONObject seance = dayJson.getJSONObject(i);
                         heureDebut = seance.getString("starts");
@@ -125,8 +125,9 @@ public class TimeLineActivity extends AppCompatActivity implements Constants {
                         type = seance.getString("type");
                         prof = seance.getJSONObject("teacher").getString("name");
                         salle = seance.getJSONObject("salle").getString("name");
-                        Log.i("Signed in aaas" ,heureDebut + heureFin + type );
-                        mDataList.add(new TimeLineModel("Mr :" + prof + " , " + "Salle :" + salle + " , " +type, heureDebut +" -- " +  heureFin , OrderStatus.INACTIVE));
+                        module = seance.getJSONObject("module").getString("name");
+                      Log.i("Signed in aaas" ,heureDebut + heureFin + type );
+                        mDataList.add(new TimeLineModel("Mr :" + prof + " , " + "Salle :" + salle + " , " +type + "\n" + "Module : "+module, heureDebut +" -- " +  heureFin , OrderStatus.INACTIVE));
 
                     }
 
@@ -147,7 +148,7 @@ public class TimeLineActivity extends AppCompatActivity implements Constants {
                 try {
                     dayJson = object.getJSONArray(day);
                     Log.i(TAG, "Signed in as TIME LIGNE: " + dayJson);
-                    String heureDebut , heureFin  , type , prof , salle;
+                    String heureDebut , heureFin  , type , prof , salle, module;
                     for (int i = 0; i < dayJson.length(); i++) {
                         JSONObject seance = dayJson.getJSONObject(i);
                         heureDebut = seance.getString("starts");
@@ -155,8 +156,9 @@ public class TimeLineActivity extends AppCompatActivity implements Constants {
                         type = seance.getString("type");
                         prof = seance.getJSONObject("teacher").getString("name");
                         salle = seance.getJSONObject("salle").getString("name");
+                        module = seance.getJSONObject("module").getString("name");
                         Log.i("Signed in aaas" ,heureDebut + heureFin + type );
-                        mDataList.add(new TimeLineModel("Mr :" + prof + " , " + "Salle :" + salle + " , " +type, heureDebut +" -- " +  heureFin , OrderStatus.INACTIVE));
+                        mDataList.add(new TimeLineModel("Mr :" + prof + " , " + "Salle :" + salle + " , " +type + "\n" + "Module : "+module , heureDebut +" -- " +  heureFin , OrderStatus.INACTIVE));
 
                     }
 

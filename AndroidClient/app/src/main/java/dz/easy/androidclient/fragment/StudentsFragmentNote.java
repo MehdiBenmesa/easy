@@ -113,6 +113,7 @@
             //Use this now
 
             try {
+              System.out.println("STUDENTS ++ "+ students);
                 studentsListNoteAdapter = new StudentsListNoteAdapter(students ,module.getString("_id"), (StudentsListNoteAdapter.AdapterInterface) StudentsFragmentNote.this);
             } catch (JSONException e1) {
                 e1.printStackTrace();

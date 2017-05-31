@@ -47,7 +47,7 @@ public class RendezVousStatesAdapter extends RecyclerView.Adapter<RendezVousStat
         states.put("Les Rendez-vous Acceptée","accepted");
         states.put("Les Rendez-vous En Attent","enattent");
         states.put("Les Rendez-vous Réfusée","refused");
-        states.put("Les Rendez-vous Effectuer","effectuer");
+      //  states.put("Les Rendez-vous Effectuer","effectuer");
       try {
         if(contents.getString("_type").equals("Student"))
           states.put("nouvelle Rendez-vous","new");
