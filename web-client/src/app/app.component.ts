@@ -12,6 +12,9 @@ export class AppComponent implements OnInit  {
 
   constructor(private iconRegistry: MdIconRegistry, private sanitizer: DomSanitizer){
     this.iconRegistry.addSvgIcon('school',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/school.svg'));
+    this.iconRegistry.addSvgIcon('done',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/done.svg'));
+    this.iconRegistry.addSvgIcon('reject',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/reject.svg'));
+    this.iconRegistry.addSvgIcon('accept',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/accept.svg'));
     this.iconRegistry.addSvgIcon('person',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/person.svg'));
     this.iconRegistry.addSvgIcon('delete',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/delete.svg'));
     this.iconRegistry.addSvgIcon('edit',sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/edit.svg'));

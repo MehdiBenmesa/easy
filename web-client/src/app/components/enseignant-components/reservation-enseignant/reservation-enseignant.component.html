@@ -1,0 +1,17 @@
+
+<div id="container">
+    <div class="column">
+        <div class="entete">Réservations</div>
+        <detail-reservation *ngFor="let reservation of reservations" [numReservation]="reservations.indexOf(reservation)+1" [reservation]="reservation" [typeUtilisateur]="'enseignant'"></detail-reservation>
+    </div>
+
+    <div class="column">
+        <div class="entete">Réservations acceptés</div>
+        <detail-reservation *ngFor="let reservation of reservationsAcceptes" [numReservation]="reservationsAcceptes.indexOf(reservation)+1" [reservation]="reservation" [typeUtilisateur]="'enseignant'" (click)="supprimerFromAcceptedReservations($event,reservationsAcceptes.indexOf(reservation))"></detail-reservation>
+    </div>
+    
+    <div class="column">
+        <div class="entete">Réservations rejetés</div>
+        <detail-reservation *ngFor="let reservation of reservationsRejetes" [numReservation]="reservationsRejetes.indexOf(reservation)+1" [reservation]="reservation" [typeUtilisateur]="'enseignant'"  (click)="supprimerFromRejectedReservations($event,reservationsRejetes.indexOf(reservation))"></detail-reservation>
+    </div>
+<div>

@@ -1,0 +1,18 @@
+#container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 5%;
+}
+.column{
+    background-color: rgba(53,63,64,0.2);
+    width: 20%;
+    margin: 1px;
+}
+.entete{
+    background-color: #ff5555;
+    color: white;
+    font-weight: bold;
+    width: 90%;
+    padding: 5%;
+}

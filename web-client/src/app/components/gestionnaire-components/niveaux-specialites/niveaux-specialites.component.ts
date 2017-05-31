@@ -3,6 +3,7 @@ import { ScolariteService } from "../../../services/scolarite.service";
 import { MdDialog } from "@angular/material";
 import { AddSpecComponent } from "../add-spec/add-spec.component";
 import { XlsxToJsonService } from "../../../services/xlsx-to-json.service";
+import { NewStudentsComponent } from "../new-students/new-students.component";
 
 
 @Component({
@@ -12,14 +13,12 @@ import { XlsxToJsonService } from "../../../services/xlsx-to-json.service";
 })
 export class NiveauxSpecialitesComponent implements OnInit{
     open:boolean=false;
-    private result :any;
     private specs :any[] = [];
     private selectedSpec :any = null;
     private selectedSection :any = null;
     private selectedGroupe :any = null;
     constructor(private scolariteService :ScolariteService,
-                private dialog:MdDialog,
-							  private xlsxToJsonService :XlsxToJsonService	){
+                private dialog:MdDialog){
       this.scolariteService.getSpec().subscribe(specs => {
         this.specs = specs;
       });
@@ -32,13 +31,6 @@ export class NiveauxSpecialitesComponent implements OnInit{
           this.scolariteService.setSpec(spec);
         }
       });
-    }
-    public handleFile(event) {
-          let file = event.target.files[0];
-          this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
-                  this.result = JSON.stringify(data['sheets'].Sheet1);
-                  console.log(this.result);
-          })
     }
     public addSection(sectionName){
       let section = {
@@ -62,6 +54,14 @@ export class NiveauxSpecialitesComponent implements OnInit{
       this.scolariteService.addGroupe(this.selectedSpec._id, this.selectedSection._id, groupe).subscribe(spec => {
         this.scolariteService.setSpec(spec);
       });
+    }
+
+    public addStudents(spec, section, groupe){
+      let dialogRef = this.dialog.open(NewStudentsComponent);
+      dialogRef.componentInstance.groupe = groupe;
+      dialogRef.componentInstance.spec = spec;
+      dialogRef.componentInstance.section = section;
+
     }
     ngOnInit(){
 

@@ -1,7 +1,7 @@
 module.exports = function(Student, Teacher, Rdv){
 
 
- // Ajouter Rendez-Vous 
+ // Ajouter Rendez-Vous
     function addRdv(obj,callback){
         //TODO
        let rdv = new Rdv(obj);
@@ -9,47 +9,47 @@ module.exports = function(Student, Teacher, Rdv){
             callback(err, rdv);
         });
     }
-    
 
-    // Supprimer Rendez-Vous 
+
+    // Supprimer Rendez-Vous
      function deleteRdv(rdvId, callback){
         Rdv.findByIdAndRemove(rdvId, (err, rdv) => {
              callback(err, {message: 'success'})
     });
     }
-    
-   // get Rendez-Vous par Etudiant  
+
+   // get Rendez-Vous par Etudiant
     function getRdvByStudent(studentId,callback){
-        //TODO  
+        //TODO
         Rdv.find({student : studentId}).populate('teacher').exec( (err, rdv) => {
             callback(err, rdv);
         });
     }
-    
-    // get Rendez-Vous par Enseignant 
-    function getRdvByTeacher(techerId,callback){
-        //TODO  
-        Rdv.find({teacher : techerId}).populate('student').exec( (err, rdv) => {
+
+    // get Rendez-Vous par Enseignant
+    function getRdvByTeacher(teacherId, callback){
+        //TODO
+        Rdv.find({teacher : teacherId}).populate('student').exec( (err, rdv) => {
             callback(err, rdv);
         });
     }
-    
-    // All Rendez-Vous 
+
+    // All Rendez-Vous
     function getAllRdv(callback){
-        //TODO  
+        //TODO
         Rdv.find({},(err, rdv) => {
             callback(err, rdv);
         });
     }
 
-    // Refuser Rendez-Vous 
+    // Refuser Rendez-Vous
     function refuseRdv(rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId, {$push :{ state : "refused"}}, (err, rdv) => {
                     callback(err, rdv);
-        }); 
+        });
     }
 
-    // Accepter Rendez-Vous 
+    // Accepter Rendez-Vous
     function acceptRdv(rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId, {$push :{ state : "accepted"}}, (err, rdv) => {
                     callback(err, rdv);
@@ -57,49 +57,49 @@ module.exports = function(Student, Teacher, Rdv){
     }
 
 
-    // Supprimer Rendez-Vous Etudiant 
+    // Supprimer Rendez-Vous Etudiant
     function deleteRdvStudent(rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId, {$push :{ supStudent : true }}, (err, rdv) => {
                     callback(err, rdv);
         });
     }
 
-    // Supprimer Rendez-Vous Enseignant 
+    // Supprimer Rendez-Vous Enseignant
     function deleteRdvTeacher(rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId, {$push :{ supTeacher : true }}, (err, rdv) => {
                     callback(err, rdv);
         });
     }
 
-    // les rendez-vous acceptée d'un étudiant 
+    // les rendez-vous acceptée d'un étudiant
     function getAcceptedStudentRdv(rdvId, callback){
             Rdv.find({student : rdvId,state : "accepted" }).populate('teacher').exec((err, rdv) => {
                 callback(err, rdv);
             });
         }
-    
-    // les rendez-vous acceptée d'un enseignant 
+
+    // les rendez-vous acceptée d'un enseignant
     function getAcceptedTeacherRdv(rdvId, callback){
             Rdv.find({teacher : rdvId,state : "accepted"}).populate('student').exec( (err, rdv) => {
                     callback(err, rdv);
             });
         }
-    
-    // les rendez-vous refusée d'un étudiant 
+
+    // les rendez-vous refusée d'un étudiant
     function getRefusedStudentRdv(rdvId, callback){
             Rdv.find({student : rdvId,state : "refused"}).populate('teacher').exec( (err, rdv) => {
                     callback(err, rdv);
             });
         }
 
-    // les rendez-vous réfusée d'un enseignant 
+    // les rendez-vous réfusée d'un enseignant
     function getRefusedTeacherRdv(rdvId, callback){
             Rdv.find({teacher : rdvId,state : "refused"}).populate('student').exec( (err, rdv) => {
                     callback(err, rdv);
             });
         }
 
-    // les rendez-vous En Attnt d'un étudiant 
+    // les rendez-vous En Attnt d'un étudiant
     function getEnAttentStudentRdv(rdvId, callback){
             Rdv.find({student : rdvId, state : "enattent" }).populate('teacher').exec( (err, rdv) => {
                     callback(err, rdv);
@@ -112,8 +112,8 @@ module.exports = function(Student, Teacher, Rdv){
                     callback(err, rdv);
             });
     }
-    
-    // les rendez-vous En Attnt d'un étudiant 
+
+    // les rendez-vous En Attnt d'un étudiant
     function getEffectuerStudentRdv(rdvId, callback){
             Rdv.find({student : rdvId, state : "effectuer" }).populate('teacher').exec( (err, rdv) => {
                     callback(err, rdv);
@@ -147,6 +147,6 @@ module.exports = function(Student, Teacher, Rdv){
       getEnAttentStudentRdv,
       getEnAttentTeacherRdv,
       getEffectuerStudentRdv,
-      getEffectuerTeacherRdv      
+      getEffectuerTeacherRdv
     };
 }

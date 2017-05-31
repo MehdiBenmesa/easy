@@ -1,0 +1,7 @@
+
+<p>{{ title }}</p>
+<p>{{ message }}</p>
+<div><input placeholder="Date" [(ngModel)]="rdv.date"/></div>
+<div><input placeholder="heure" [(ngModel)]="rdv.heure"/></div>
+<button type="button" md-button (click)="dialogRef.close()">Annuler</button>
+<button type="button" md-raised-button (click)="dialogRef.close(rdv)">Valider</button>

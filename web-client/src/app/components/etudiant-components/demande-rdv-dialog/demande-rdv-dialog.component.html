@@ -1,0 +1,24 @@
+<p>Demande de RDV</p>
+<div id="container">
+
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="Objet du RDV" [(ngModel)]="demandeRdv.objet">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="Enseignant" [(ngModel)]="demandeRdv.personne">
+    </md-input-container>
+  </div>
+    <div>
+        <md-select>
+            <md-option *ngFor="let ens of listeEns">{{ens}}</md-option>
+        </md-select>
+    </div>
+</div>
+
+<div id="action"><button type="button" md-raised-button (click)="dialogRef.close(demandeRdv)">Envoyer</button></div>
+
+
+

@@ -1,0 +1,17 @@
+#container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 300px;
+}
+
+#action{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+md-select,md-input{
+    width:80%;
+    padding: 5%;
+}

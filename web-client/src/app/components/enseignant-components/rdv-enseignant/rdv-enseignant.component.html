@@ -1,0 +1,22 @@
+
+<div id="container">
+    <div class="column">
+        <div class="entete">Demandes de RDV</div>
+        <detail-rdv *ngFor="let appointment of appointmentDemands" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentDemands.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+    </div>
+
+    <div class="column">
+        <div class="entete">RDVs acceptés</div>
+        <detail-rdv *ngFor="let appointment of appointmentAccepted" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentAccepted.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+    </div>
+
+    <div class="column">
+        <div class="entete">RDVs rejetés</div>
+        <detail-rdv *ngFor="let appointment of appointmentRefused" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentRefused.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+    </div>
+
+    <div class="column">
+        <div class="entete">RDVs effectués</div>
+        <detail-rdv *ngFor="let appointment of appointmentDone" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentDone.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+    </div>
+<div>

@@ -2,6 +2,13 @@
 module.exports = function(express, scolariteController) {
 
     const router = express.Router();
+// Ajout des étudiants
+  router.post('/students', (req, res) => {
+    scolariteController.saveStudents(req.body.specId, req.body.sectionId, req.body.groupeId, req.body.students, (err, response) => {
+      if(err) throw err;
+      res.json(response);
+    });
+  });
 
 // get spécialité
     router.get('/specs', (req, res) => {

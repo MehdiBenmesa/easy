@@ -49,11 +49,20 @@ import { ModuleService } from "./services/module.service";
 import { SalleService } from './services/salle.service';
 import { EmploiService} from './services/emploi.service';
 import { XlsxToJsonService} from './services/xlsx-to-json.service';
+import { DialogService } from './services/dialog.service';
+import { RdvService } from './services/rdv.service';
 import { AbsencesEtudiantComponent } from "./components/enseignant-components/absences-etudiant/absences-etudiant.component";
 import { SaisieAbsencesComponent } from "./components/enseignant-components/saisie-absences/saisie-absences.component";
 import { StudentTimeTableComponent } from './components/etudiant-components/student-time-table/student-time-table.component';
 import { AbsenceStudentComponent } from './components/etudiant-components/absence-student/absence-student.component';
 import { AddSpecComponent } from './components/gestionnaire-components/add-spec/add-spec.component';
+import { NewStudentsComponent } from './components/gestionnaire-components/new-students/new-students.component';
+import { RdvEnseignantComponent } from './components/enseignant-components/rdv-enseignant/rdv-enseignant.component';
+import {ChooseDateDialogComponent} from './components/enseignant-components/choose-date-dialog/choose-date-dialog.component';
+import {RdvEtudiantComponent} from './components/etudiant-components/rdv-etudiant/rdv-etudiant.component';
+import {ConfirmDialogComponent} from './components/enseignant-components/confirm-dialog/confirm-dialog.component';
+import {DemandeRdvDialogComponent} from './components/etudiant-components/demande-rdv-dialog/demande-rdv-dialog.component';
+import {DetailRDVComponent} from './components/detail-rdv/detail-rdv.component';
 
 @NgModule({
   imports:      [
@@ -85,7 +94,8 @@ import { AddSpecComponent } from './components/gestionnaire-components/add-spec/
                       children:[
                         { path:'profile',component: ProfilComponent},
                         { path:'calendar', component: EmploisDuTempsComponent},
-                        { path: 'students',component: EtudiantsComponent}
+                        { path: 'students',component: EtudiantsComponent},
+                        { path: 'rdv',component: RdvEnseignantComponent}
                       ]
                     },
                     {
@@ -135,14 +145,25 @@ import { AddSpecComponent } from './components/gestionnaire-components/add-spec/
                   SaisieAbsencesComponent,
                   StudentTimeTableComponent,
                   AbsenceStudentComponent,
-                  AddSpecComponent
+                  AddSpecComponent,
+                  NewStudentsComponent,
+                  RdvEnseignantComponent,
+                  ChooseDateDialogComponent,
+                  RdvEtudiantComponent,
+                  DemandeRdvDialogComponent,
+                  DetailRDVComponent,
+                  ConfirmDialogComponent
                   ],
-  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService, XlsxToJsonService],
+  providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService, XlsxToJsonService, DialogService ,RdvService],
   entryComponents: [
             SaisiSeanceComponent,
             AbsencesEtudiantComponent,
             SaisieAbsencesComponent,
-            AddSpecComponent
+            AddSpecComponent,
+            NewStudentsComponent,
+            ChooseDateDialogComponent,
+            DemandeRdvDialogComponent,
+            ConfirmDialogComponent
   ],
   bootstrap:    [ AppComponent ]
 

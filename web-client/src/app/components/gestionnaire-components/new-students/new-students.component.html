@@ -1,0 +1,31 @@
+<h2>{{spec.name}} {{section.sectionName}} {{groupe.groupeName}}</h2>
+<div>
+  <label for="">Séléctionner un fichier.xlsx</label>
+  <br>
+    <input type="file" (change)="handleFile($event)" />
+    <button class="validation-button"md-raised-button *ngIf="students" (click)="saveStudents()"> Valider </button>
+</div>
+
+<div id="container">
+    <table>
+        <tr>
+            <th>Matricule</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Adress</th>
+            <th>Téléphone</th>
+            <th>Sexe</th>
+        </tr>
+
+        <tr *ngFor="let student of students">
+          <td>{{student.matricule}}</td>
+          <td>{{student.lastname}}</td>
+          <td>{{student.name}}</td>
+          <td>{{student.mail}}</td>
+          <td>{{student.address}}</td>
+          <td>{{student.tell}}</td>
+          <td>{{student.sexe}}</td>
+        </tr>
+    </table>
+  </div>

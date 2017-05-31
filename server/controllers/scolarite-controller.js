@@ -252,6 +252,25 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
 
   }
 
+  function saveStudents(specId, sectionId, groupeId, students, callback){
+    Spec.findOne({'_id': specId}, (err, spec) => {
+      var groupe = spec.sections.id(sectionId).groupes.id(groupeId);
+      var size = students.length;
+      var i = 0;
+        students.forEach(obj => {
+           let student = new Student(obj);
+          student.save( (err, student) => {
+            i++;
+            groupe.students.push(student._id);
+            if(i == size )
+              spec.save( (err, spec) => {
+                callback(err, spec);
+              });
+          });
+        });
+    });
+  }
+
     return {
         addStudent,
         getAllStudents,
@@ -275,6 +294,7 @@ module.exports = function( Student, Manager, Teacher,  Spec, Module){
         getGroupeByModule,
         getTeacherGroupes,
         addSection,
-        addGroupe
+        addGroupe,
+        saveStudents
     }
 }

@@ -27,6 +27,13 @@ export class ScolariteService{
         .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
   }
 
+  public saveStudents(specId, sectionId, groupeId, students){
+    return this.http.post(`${this.baseUrl}/students`, {specId, sectionId, groupeId, students})
+        .map((res: Response) => res.json())
+        .catch((error:any) => Observable.throw(error.json().error || 'Server Error'));
+
+  }
+
   public addSection(specId, section) :Observable<any>{
     return this.http.post(`${this.baseUrl}/section`, {specId, section})
         .map((res: Response) => res.json())

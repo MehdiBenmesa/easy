@@ -1,0 +1,29 @@
+#container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 2%;
+}
+.column{
+    background-color: rgba(53,63,64,0.2);
+    width: 20%;
+    margin: 1px;
+}
+.entete{
+    background-color: #ff5555;
+    color: white;
+    font-weight: bold;
+    width: 90%;
+    padding: 5%;
+}
+
+#action{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    padding: 2%;
+}
+button{
+    background-color: rgb(182,177,179);
+     margin-right: 10%;  
+}

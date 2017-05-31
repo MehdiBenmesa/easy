@@ -1,5 +1,5 @@
 <div class="div-global">
-    <button md-button (click)="addSpec()"><md-icon svgIcon="add"></md-icon></button>
+    <button md-button (click)="addSpec()">Ajouter une nouvelle spécialité<md-icon svgIcon="add"></md-icon></button>
     <md-tab-group  (selectChange)="selectedSection=null; selectedGroupe=null">
       <md-tab *ngFor="let spec of specs"  label="{{spec.name}}" >
             <div class="div-semestres">
@@ -18,7 +18,7 @@
                         <div><button md-button (click)="selectedSpec = spec" [mdMenuTriggerFor]="menuGroupe"><md-icon svgIcon="add"></md-icon></button></div>
                     </div>
                     <div class="show-liste">
-                      <div *ngFor="let groupe of selectedSection?.groupes" class="obligatoire"><button md-button (click)="selectedGroupe = groupe">{{groupe.groupeName}}</button><button md-button><md-icon svgIcon="details"></md-icon></button></div>
+                      <div *ngFor="let groupe of selectedSection?.groupes" class="obligatoire"><button md-button (click)="selectedGroupe = groupe">{{groupe.groupeName}}</button><button md-button (click)="addStudents(spec, selectedSection, groupe )"><md-icon svgIcon="details" ></md-icon></button></div>
                     </div>
                 </div>
             </div>
@@ -49,16 +49,3 @@
     <button (click)="addGroupe(groupe.value)" md-button>OK</button>
 </md-menu>
 
-<div>
-  <label for="">Select an .xlsx file to get json</label>
-  <br>
-  <input type="file" (change)="handleFile($event)" />
-</div>
-
-<div class="result-container" *ngIf="result && result.length>0">
-  <h2>
-    Result :
-   <br>
-  </h2>
-  {{result}}
-</div>

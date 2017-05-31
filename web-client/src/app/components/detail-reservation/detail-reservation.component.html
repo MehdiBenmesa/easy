@@ -1,0 +1,27 @@
+
+
+    <div class="reservation" (click)="open()"> 
+        <div class="num"><div *ngIf="numReservation<10">0</div><div>{{numReservation}}</div></div>
+        <div *ngIf="typeUtilisateur=='enseignant'">{{reservation.salle}}</div>
+        <div *ngIf="typeUtilisateur=='gestionnaire'">{{reservation.demandeur}}</div>
+
+    </div>
+
+    <div [class]="classDetail">
+        <div class="detail"><div>Date prévue</div>       <div>{{reservation.datePrevue}}</div>         </div>
+        <div class="detail"><div>Objet</div>        <div> {{reservation.objet}}</div> </div>
+        <div class="detail"  *ngIf="typeUtilisateur=='gestionnaire'"><div>Salle</div>  <div>{{reservation.salle}}</div></div>
+        <div class="detail"><div>Demandé le </div>  <div> {{reservation.dateDemande}}</div>         </div>
+        <div class="detail" *ngIf="reservation.dateAcceptation!=null"><div>Accepté le </div>  <div> {{reservation.dateAcceptation}}</div></div>
+        <div class="detail" *ngIf="reservation.dateRejet!=null"><div>Rejeté le </div>  <div> {{reservation.dateRejet}}</div>         </div>
+        <div class="action" *ngIf="reservation.dateAcceptation==null && reservation.dateRejet==null && typeUtilisateur=='gestionnaire'"> 
+            <button id="rejeter"><md-icon svgIcon="reject"></md-icon></button> 
+            <button id="accepter"><md-icon svgIcon="accept"></md-icon></button> 
+        </div>
+
+        <div class="action" *ngIf="reservation.dateRejet!=null || reservation.dateAcceptation!=null"> 
+            <button id="supprimer"><md-icon svgIcon="delete"></md-icon></button> 
+        </div>
+    </div>
+
+    

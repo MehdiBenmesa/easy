@@ -1,0 +1,23 @@
+<div id="action"><button md-button (click)="demanderRdv()">Demande RDV</button></div>
+
+<div id="container">
+    <div class="column">
+        <div class="entete">Demandés RDV en attente</div>
+        <detail-rdv *ngFor="let rdv of demandesRdv" [typeUtilisateur]="'etudiant'" [numRdv]="demandesRdv.indexOf(rdv)+1" [rdv]="rdv"></detail-rdv>
+    </div>
+
+    <div class="column">
+        <div class="entete">RDVs acceptés</div>
+        <detail-rdv *ngFor="let rdv of rdvAcceptes" [typeUtilisateur]="'etudiant'" [numRdv]="rdvAcceptes.indexOf(rdv)+1" [rdv]="rdv"></detail-rdv>
+    </div>
+    
+    <div class="column">
+        <div class="entete">RDVs rejetés</div>
+        <detail-rdv *ngFor="let rdv of rdvRejetes" [typeUtilisateur]="'etudiant'" [numRdv]="rdvRejetes.indexOf(rdv)+1" [rdv]="rdv" (click)="supprimerFromRejectedRdv($event,rdvRejetes.indexOf(rdv))"></detail-rdv>
+    </div>
+
+    <div class="column">
+        <div class="entete">RDVs effectués</div>
+        <detail-rdv *ngFor="let rdv of rdvEffectues" [typeUtilisateur]="'etudiant'" [numRdv]="rdvEffectues.indexOf(rdv)+1" [rdv]="rdv" (click)="supprimerFromEffectuedRdv($event,rdvEffectues.indexOf(rdv))"></detail-rdv>
+    </div>
+<div>

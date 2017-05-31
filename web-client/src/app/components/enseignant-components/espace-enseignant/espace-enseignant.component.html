@@ -30,7 +30,7 @@
                 <div></div>
             </div>
 
-            <div [class]="classMenus[3]" (click)="selectionner(3)">
+            <div [class]="classMenus[3]" (click)="selectionner(3)"[routerLink]="['/teacher/rdv']">
                 <div></div>
                 <md-icon class="menu-icone" svgIcon="rdv"></md-icon>
                 <div></div>
@@ -57,7 +57,7 @@
         <div [class]="classMenus[2]" (click)="selectionner(2)"  [routerLink]="['/EspaceEnseignant/Etudiants']">
             Etudiants
         </div>
-        <div [class]="classMenus[3]" (click)="selectionner(3)">
+        <div [class]="classMenus[3]" (click)="selectionner(3)"[routerLink]="['/teacher/rdv']">
             RDV
         </div>
         <div [class]="classMenus[4]" (click)="selectionner(4)">
