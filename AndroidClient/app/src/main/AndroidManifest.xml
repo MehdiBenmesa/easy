@@ -76,7 +76,7 @@ package="dz.easy.androidclient">
       android:name=".Activities.StudentInfo"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
-      android:name=".Activities.AbsenceActivity"
+      android:name=".Activities.StudentNoteAbsenceActivity"
       android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
     <activity
       android:name=".Activities.NoteAbsenceActivity"
