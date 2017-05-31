@@ -40,6 +40,7 @@ import dz.easy.androidclient.Services.ModuleService;
 import dz.easy.androidclient.Util.CustomRequestArray;
 import dz.easy.androidclient.Util.IDialog;
 
+import static android.content.Context.MEDIA_PROJECTION_SERVICE;
 import static dz.easy.androidclient.App.BaseActivity.TAG;
 import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_STUDENT;
 import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
@@ -71,18 +72,18 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-       mReceiver = new DataReceiver(new Handler());
-       mReceiver.setReceiver(this);
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
 
-      if (GRID_LAYOUT) {
-          mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        } else {
-          mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        mRecyclerView.setHasFixedSize(true);
+        if (GRID_LAYOUT) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+          } else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+          }
+          mRecyclerView.setHasFixedSize(true);
 
-        //Use this now
-        mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+          //Use this now
+          mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
 
         try {
             if(user.getString("_type").equals("Teacher")){
@@ -140,6 +141,7 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                   e.printStackTrace();
                 }
                 mRecyclerView.setAdapter(new ModuleListAdapter(responseTeacher,(ModuleListAdapter.AdapterInterface) this));
+
                 break ;
 
               case GET_MODULES_STUDENT :
@@ -150,7 +152,11 @@ public class ModuleFragment extends Fragment implements Constants, ModuleListAda
                 } catch (JSONException e) {
                   e.printStackTrace();
                 }
+//<<<<<<< HEAD
                 mRecyclerView.setAdapter(new ModuleListAdapter(responseStudent,(ModuleListAdapter.AdapterInterface) this));
+/*=======
+                mRecyclerView.setAdapter(new ModuleListAdapter(ModuleFragment.this  , responseStudent));
+>>>>>>> 55388211e7ecbd404a57417f22718441319de1fe*/
                 break ;
               case GET_TEACHERS :
                 String jsonStringTeachers = resultData.getString("result");

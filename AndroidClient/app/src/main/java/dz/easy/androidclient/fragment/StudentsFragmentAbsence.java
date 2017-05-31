@@ -1,9 +1,12 @@
 package dz.easy.androidclient.fragment;
 
+        import android.app.Activity;
         import android.app.DatePickerDialog;
+        import android.content.Intent;
         import android.icu.util.GregorianCalendar;
         import android.os.Build;
         import android.os.Bundle;
+        import android.os.Handler;
         import android.support.annotation.Nullable;
         import android.support.annotation.RequiresApi;
         import android.support.v4.app.Fragment;
@@ -40,18 +43,30 @@ package dz.easy.androidclient.fragment;
         import butterknife.BindView;
         import butterknife.ButterKnife;
         import butterknife.internal.ListenerClass;
+        import dz.easy.androidclient.Activities.StudentsActivity;
+        import dz.easy.androidclient.Activities.UserActivity;
         import dz.easy.androidclient.Adapters.AbsenceAdapter;
+        import dz.easy.androidclient.Adapters.ModuleListAdapter;
         import dz.easy.androidclient.Adapters.StudentsListAbsenceAdapter;
+        import dz.easy.androidclient.Adapters.TeachersAdapter;
         import dz.easy.androidclient.App.App;
         import dz.easy.androidclient.Constants.Constants;
         import dz.easy.androidclient.R;
+        import dz.easy.androidclient.Services.AbsenceService;
+        import dz.easy.androidclient.Services.DataReceiver;
         import dz.easy.androidclient.Util.CustomRequest;
         import dz.easy.androidclient.Util.CustomRequestArray;
+        import dz.easy.androidclient.Util.IDialog;
+
+        import static dz.easy.androidclient.Services.AbsenceService.GET_ABSENCE_SEANCE;
+        import static dz.easy.androidclient.Services.AbsenceService.GET_SEANCE_TEACHER;
+        import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_STUDENT;
+        import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
 
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class StudentsFragmentAbsence extends Fragment implements Constants, StudentsListAbsenceAdapter.AdapterInterface {
+public class StudentsFragmentAbsence extends Fragment implements Constants, StudentsListAbsenceAdapter.AdapterInterface, DataReceiver.Receiver {
 
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 100;
@@ -65,16 +80,22 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
     private Button enable;
     private Button ajouter;
     private String finalIdSeance;
-
+    private DataReceiver mReceiver ;
     private Boolean ajoutModif;
     private String newDate;
     LovelyCustomDialog dialog;
     View addDialog ;
-
+    IDialog dialogListner ;
     Calendar calender = Calendar.getInstance();
     int year_x, month_x, day_x;
 
-    private static JSONObject user;
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    dialogListner = (StudentsActivity) activity ;
+  }
+
+  private static JSONObject user;
     private static JSONArray students;
     private static JSONObject module;
     public static StudentsFragmentAbsence newInstance(String user_, String student, String module_) {
@@ -91,8 +112,10 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_absence, container, false);
+      mReceiver = new DataReceiver(new Handler());
+      mReceiver.setReceiver(this);
 
-        return view;
+      return view;
     }
 
     private void showDatePicker() {
@@ -135,7 +158,6 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
             calender.set(year,monthOfYear,dayOfMonth);
             int dayOfWeek= 0;
             dayOfWeek = calender.get(Calendar.DAY_OF_WEEK);
-            System.out.println("DAY_OF_WEEK : +======== "  + dayOfWeek );
             studentsListAdapter.changedDate(newDate);
             getSeanceByDate(dayOfWeek);
             //studentsListAdapter.notifyDataSetChanged();
@@ -148,7 +170,7 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        getSeanceByTeacher();
+        AbsenceService.getSeanceByTeacher(getContext() , mReceiver );
 
         year_x = calender.get(Calendar.YEAR);
         month_x = calender.get(Calendar.MONTH);
@@ -234,25 +256,7 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pager , fragment).commit();
     }
 
-    public void getSeanceByTeacher(){
-        try {
-            CustomRequest jsonReq = new CustomRequest(Request.Method.GET, GET_TIME_TABLE_TEACHER+ "/" + user.getString("_id"), null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            System.out.println("EMPLOIE TEACHER : ====== " +response);
-                            emploiTeacher = response;
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                }
-            });
-            App.getInstance().addToRequestQueue(jsonReq);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void getSeanceByDate(final int date) {
         try{
@@ -309,7 +313,9 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
                 }else if(seances.length()==0) {
                     Toast.makeText(getActivity(), "Pas de séance pour ce module ce jour", Toast.LENGTH_SHORT).show();
                 }else{
-                    getAbsneceBySeance(seances.getJSONObject(0), newDate);
+                  AbsenceService.getAbsneceBySeance(getContext() , mReceiver , new JSONObject()
+                      .put("idSeance" , seances.getJSONObject(0).getString("_id"))
+                      .put("date" , newDate));
                 }
             }else {
                 Toast.makeText(getActivity(),"Pas de séance dans ce jour",Toast.LENGTH_SHORT).show();
@@ -369,7 +375,10 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
                }
                 try {
                     int position = etat.getSelectedItemPosition();
-                    getAbsneceBySeance(pseances.getJSONObject(position), newDate);
+                  AbsenceService.getAbsneceBySeance(getContext() , mReceiver , new JSONObject()
+                    .put("idSeance" , pseances.getJSONObject(position).getString("_id"))
+                      .put("date" , newDate)
+                  );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -384,62 +393,79 @@ public class StudentsFragmentAbsence extends Fragment implements Constants, Stud
         });
     }
 
-    public int getAbsneceBySeance(final JSONObject seances, final String date){
-        String idSeance = "";
-        try {
-            idSeance = seances.getString("_id");
-            finalIdSeance = seances.getString("_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
+  @Override
+  public void onReceiveResult(int resultCode, Bundle resultData) {
+    switch (resultCode) {
+      case STATUS_RUNNING:
+        dialogListner.showDialog();
+        break;
+      case STATUS_FINISHED:
+        /* Hide progress & extract result from bundle */
+        dialogListner.hideDialog();
+        switch (resultData.getString("action")){
+          case GET_SEANCE_TEACHER :
+            String jsonStringSeanceTeacher = resultData.getString("result");
+            JSONObject responseSeanceTeacher = null;
+            try {
+              responseSeanceTeacher = new JSONObject(jsonStringSeanceTeacher);
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            emploiTeacher = responseSeanceTeacher ;
+            break ;
+
+          case GET_ABSENCE_SEANCE :
+            String jsonStringAbsenceSeance = resultData.getString("result");
+            String dateAbsenceSeance = resultData.getString("date");
+            JSONArray responseAbsenceSeance = null;
+            try {
+              responseAbsenceSeance = new JSONArray(jsonStringAbsenceSeance);
+              JSONObject absences = new JSONObject();
+                if(responseAbsenceSeance.length()!=0){
+                  try{
+                    for (int i =0;i<responseAbsenceSeance.length();i++) {
+                      JSONObject absence = responseAbsenceSeance.getJSONObject(i);
+                      String serverDate = absence.getString("date").substring(0,10);
+                      System.out.println("LA DATE /"+dateAbsenceSeance+ " LA DATE 2 ::: /"+ serverDate);
+                      if(serverDate.equals(dateAbsenceSeance)){
+                        absences = absence;
+                      }
+                    }
+                  } catch (JSONException e){
+                    e.printStackTrace();
+                  }
+                  System.out.println("ABSENCE BY With Date  : "+ absences);
+                  //String idAbsence = absences.getString("_id");
+                  JSONArray studentsAbs = new JSONArray();
+                  try {
+                    String idAbsence = absences.getString("_id");
+                    studentsAbs = absences.getJSONArray("students");
+                    ajouter.setVisibility(View.INVISIBLE);
+                    valider.setVisibility(View.VISIBLE);
+                    studentsListAdapter.changedAbsence(getActivity(),studentsAbs,idAbsence);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  System.out.println("STUDENTS BY With Date  : "+ absences);
+                }else{
+                  ajouter.setVisibility(View.VISIBLE);
+                  valider.setVisibility(View.INVISIBLE);
+                }
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+
+            break ;
         }
 
-        CustomRequestArray jsonReq = new CustomRequestArray(Request.Method.GET, GET_ABSENCE_BY_SEANCE+ "/" + idSeance, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        JSONObject absences = new JSONObject();
-                        if(response.length()!=0){
-                        try{
-                            for (int i =0;i<response.length();i++) {
-                                JSONObject absence = response.getJSONObject(i);
-                                String serverDate = absence.getString("date").substring(0,10);
-                                System.out.println("LA DATE /"+date+ " LA DATE 2 ::: /"+ serverDate);
-                                if(serverDate.equals(date)){
-                                    absences = absence;
-                                }
-                            }
-                        } catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                        System.out.println("ABSENCE BY With Date  : "+ absences);
-                        //String idAbsence = absences.getString("_id");
-                        JSONArray studentsAbs = new JSONArray();
-                        try {
-                             String idAbsence = absences.getString("_id");
-                             studentsAbs = absences.getJSONArray("students");
-                             ajouter.setVisibility(View.INVISIBLE);
-                             valider.setVisibility(View.VISIBLE);
-                             studentsListAdapter.changedAbsence(getActivity(),studentsAbs,idAbsence);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println("STUDENTS BY With Date  : "+ absences);
-                    }else{
-                            ajouter.setVisibility(View.VISIBLE);
-                            valider.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        App.getInstance().addToRequestQueue(jsonReq);
-        return 0;
-
+        break;
+      case STATUS_ERROR:
+                /* Handle the error */
+        String error = resultData.getString(Intent.EXTRA_TEXT);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        break;
     }
+  }
 
 }
 

@@ -55,23 +55,22 @@ import static dz.easy.androidclient.Services.ModuleService.GET_MODULES_TEACHER;
 public class GroupFragment extends Fragment implements Constants  , GroupListAdapter.AdapterInterface, DataReceiver.Receiver {
 
     private static final boolean GRID_LAYOUT = false;
-  static Context context;
-  IDialog dialogListner ;
 
-  DataReceiver mReceiver ;
+  static Context context;
   private static JSONObject user = null;
   JSONObject module = null;
   static SessionManager sessionManager;
-    public static GroupFragment newInstance(Context c,String module){
-        context = c;
-        sessionManager = new SessionManager(context);
-        try {
-          user = new JSONObject(sessionManager.getUser());
-        } catch (JSONException e) {
-          e.printStackTrace();
-        }
-      System.out.println("NewInstance : ME FIRST ");
-
+    private IDialog dialogListner ;
+    private DataReceiver mReceiver ;
+  public static GroupFragment newInstance(Context c,String module){
+    context = c;
+    sessionManager = new SessionManager(context);
+    try {
+      user = new JSONObject(sessionManager.getUser());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    System.out.println("NewInstance : ME FIRST ");
         Bundle bndl = new Bundle();
         bndl.putString("module" , module);
       GroupFragment grF = new GroupFragment();
@@ -93,6 +92,7 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         System.out.println("OnCreate : ME FIRST ");
         try {
             module = new JSONObject(getArguments().getString("module"));
+            user = App.getInstance().getUser();
             if(user.getString("_type").equals("Teacher")){
               GroupService.getGroupsByModuleByTeacher(getContext() , mReceiver , module.getString("_id"));
             }else if (user.getString("_type").equals("Manager")) {
@@ -132,34 +132,34 @@ public class GroupFragment extends Fragment implements Constants  , GroupListAda
         dialogListner = (GroupActivity) activity ;
     }
 
-  @Override
-  public void onReceiveResult(int resultCode, Bundle resultData) {
-    switch (resultCode) {
-      case STATUS_RUNNING:
-        dialogListner.showDialog();
-        break;
-      case STATUS_FINISHED:
-        /* Hide progress & extract result from bundle */
-        dialogListner.hideDialog();
-        switch (resultData.getString("action")){
-          case GET_GROUP_MODULE_TEACHER :
-            String jsonStringTeacherModule = resultData.getString("result");
-            JSONArray responseTeacherModule = null;
-            try {
-              responseTeacherModule = new JSONArray(jsonStringTeacherModule);
-            } catch (JSONException e) {
-              e.printStackTrace();
-            }
-            mRecyclerView.setAdapter(new GroupListAdapter(responseTeacherModule , (GroupListAdapter.AdapterInterface) GroupFragment.this));
-            break ;
-        }
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+      switch (resultCode) {
+        case STATUS_RUNNING:
+          dialogListner.showDialog();
+          break;
+        case STATUS_FINISHED:
+          /* Hide progress & extract result from bundle */
+          dialogListner.hideDialog();
+          switch (resultData.getString("action")){
+            case GET_GROUP_MODULE_TEACHER :
+              String jsonStringTeacherModule = resultData.getString("result");
+              JSONArray responseTeacherModule = null;
+              try {
+                responseTeacherModule = new JSONArray(jsonStringTeacherModule);
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+              mRecyclerView.setAdapter(new GroupListAdapter(responseTeacherModule , (GroupListAdapter.AdapterInterface) GroupFragment.this));
+              break ;
+          }
 
-        break;
-      case STATUS_ERROR:
-                /* Handle the error */
-        String error = resultData.getString(Intent.EXTRA_TEXT);
-        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-        break;
+          break;
+        case STATUS_ERROR:
+                  /* Handle the error */
+          String error = resultData.getString(Intent.EXTRA_TEXT);
+          Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+          break;
+      }
     }
-  }
 }

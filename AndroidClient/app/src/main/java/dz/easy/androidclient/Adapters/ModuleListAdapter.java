@@ -1,5 +1,6 @@
 package dz.easy.androidclient.Adapters;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import butterknife.BindArray;
 import butterknife.BindDrawable;
 import dz.easy.androidclient.R;
 import dz.easy.androidclient.Util.SessionManager;
+import dz.easy.androidclient.fragment.ModuleFragment;
 
 /**
  * Created by florentchampigny on 24/04/15.

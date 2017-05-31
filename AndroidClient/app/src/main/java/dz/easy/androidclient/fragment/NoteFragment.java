@@ -1,6 +1,8 @@
 package dz.easy.androidclient.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,16 +24,22 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dz.easy.androidclient.Adapters.GroupListAdapter;
 import dz.easy.androidclient.Adapters.NoteAdapter;
 import dz.easy.androidclient.App.App;
 import dz.easy.androidclient.Constants.Constants;
 import dz.easy.androidclient.R;
+import dz.easy.androidclient.Services.DataReceiver;
 import dz.easy.androidclient.Util.CustomRequestArray;
+import dz.easy.androidclient.Util.IDialog;
+
+import static dz.easy.androidclient.Services.GroupService.GET_GROUP_MODULE_TEACHER;
+import static dz.easy.androidclient.Services.NoteService.GET_NOTE_STUDENT_MODULE;
 
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class NoteFragment extends Fragment implements Constants {
+public class NoteFragment extends Fragment implements Constants, DataReceiver.Receiver {
 
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 100;
@@ -38,6 +47,8 @@ public class NoteFragment extends Fragment implements Constants {
     public static String userID="";
     public static String moduleID="";
     public static String nomModule="";
+    IDialog dialogListner ;
+    DataReceiver mReceiver ;
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -60,7 +71,19 @@ public class NoteFragment extends Fragment implements Constants {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        getNoteByStudent();
+        mReceiver = new DataReceiver(new Handler());
+        mReceiver.setReceiver(this);
+
+        if (GRID_LAYOUT) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+          } else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+          }
+          mRecyclerView.setHasFixedSize(true);
+          //Use this now
+          mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+
+      getNoteByStudent();
     }
 
     public void getNoteByStudent() {
@@ -93,6 +116,37 @@ public class NoteFragment extends Fragment implements Constants {
             e.printStackTrace();
         }
     }
+
+  @Override
+  public void onReceiveResult(int resultCode, Bundle resultData) {
+    switch (resultCode) {
+      case STATUS_RUNNING:
+        dialogListner.showDialog();
+        break;
+      case STATUS_FINISHED:
+          /* Hide progress & extract result from bundle */
+        dialogListner.hideDialog();
+        switch (resultData.getString("action")){
+          case GET_NOTE_STUDENT_MODULE :
+            String jsonString = resultData.getString("result");
+            JSONArray response = null;
+            try {
+              response = new JSONArray(jsonString);
+              mRecyclerView.setAdapter(new NoteAdapter(response));
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            break ;
+        }
+
+        break;
+      case STATUS_ERROR:
+                  /* Handle the error */
+        String error = resultData.getString(Intent.EXTRA_TEXT);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        break;
+    }
+  }
 }
 
 

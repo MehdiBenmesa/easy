@@ -58,7 +58,6 @@ public class GroupService extends IntentService implements Constants {
 
   // TODO: Rename parameters
   private static final String DATA_RECEIVER = "dz.easy.androidclient.Services.extra.DataReceiver";
-  private static final String EXTRA_PARAM2 = "dz.easy.androidclient.Services.extra.PARAM2";
 
   public GroupService() {
     super(GroupService.class.getName());
