@@ -6,7 +6,7 @@
                 <div class="item"><md-icon id="user" svgIcon='person'></md-icon></div>
                 <div class="item"><h2>{{user.name}} {{user.lastname}}</h2></div>
             </div>
-            <div class="item"><button>Logout</button></div>
+            <div class="item"><button [routerLink]="['/']">Logout</button></div>
         </div>
 
     <div class="manu-bar">
@@ -36,7 +36,7 @@
                 <div></div>
             </div>
 
-            <div [class]="classMenus[4]" (click)="selectionner(4)">
+            <div [class]="classMenus[4]" (click)="selectionner(4)" [routerLink]="['/teacher/reservation']">
                 <div></div>
                 <md-icon class="menu-icone" svgIcon="reserver"></md-icon>
                 <div></div>
@@ -60,7 +60,7 @@
         <div [class]="classMenus[3]" (click)="selectionner(3)"[routerLink]="['/teacher/rdv']">
             RDV
         </div>
-        <div [class]="classMenus[4]" (click)="selectionner(4)">
+        <div [class]="classMenus[4]" (click)="selectionner(4)"[routerLink]="['/teacher/reservation']">
             Réservations
         </div>
     </div>

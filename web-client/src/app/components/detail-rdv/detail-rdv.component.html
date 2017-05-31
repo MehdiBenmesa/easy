@@ -5,23 +5,20 @@
     </div>
 
     <div [class]="classDetail">
-        <div class="detail" *ngIf='typeUtilisateur=="enseignant"'>                </div>
+        <div class="detail" ></div>
         <div class="detail"><div>Objet</div>        <div> {{rdv.reason}}</div> </div>
 
-        <div class="detail"><div>Demandé le </div>  <div> {{rdv.date|date}}</div>         </div>
-        <div class="detail" *ngIf="rdv.dateAcceptation!=null"><div>Accepté pour le </div>  <div> {{rdv.dateAcceptation}} à {{rdv.heureAcceptation}}</div></div>
-        <div class="detail" *ngIf="rdv.dateRejet!=null"><div>Rejeté le </div>  <div> {{rdv.dateRejet}}</div>         </div>
-        <div class="detail" *ngIf="rdv.dateEffectue!=null"><div>Effectué le </div>  <div> {{rdv.dateEffectue}} à {{rdv.heureEffectue}}</div>         </div>
-        <div class="action" *ngIf="rdv.dateAcceptation==null && rdv.dateRejet==null && rdv.dateEffectue==null && typeUtilisateur=='enseignant'">
+        <div class="detail" *ngIf="rdv.state == 'enattent' && typeUtilisateur=='enseignant' ">
+          <div>Demandé le </div>  <div> {{rdv.date |date}}</div>
             <button id="rejeter"><md-icon svgIcon="reject"></md-icon></button>
             <button (click)="accept(rdv)"><md-icon svgIcon="accept"></md-icon></button>
         </div>
 
-        <div class="action" *ngIf="rdv.dateAcceptation!=null && rdv.dateEffectue==null && typeUtilisateur=='enseignant'">
+        <div class="action" *ngIf="rdv.state == 'accepted'" >
             <button id="effectue"><md-icon svgIcon="done"></md-icon></button>
         </div>
 
-        <div class="action" *ngIf="rdv.dateRejet!=null || rdv.dateEffectue!=null">
+        <div class="action"*ngIf="rdv.state == 'refused'" >
             <button id="supprimer"><md-icon svgIcon="delete"></md-icon></button>
         </div>
     </div>

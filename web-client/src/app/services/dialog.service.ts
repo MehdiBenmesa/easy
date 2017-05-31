@@ -14,7 +14,10 @@ export class DialogService {
 
         let dialogRef: MdDialogRef<ChooseDateDialogComponent>;
 
-        dialogRef = this.dialog.open(ChooseDateDialogComponent);
+        dialogRef = this.dialog.open(ChooseDateDialogComponent, {
+            height: '400px',
+            width: '400px'
+        });
         dialogRef.componentInstance.title = title;
         dialogRef.componentInstance.message = message;
 

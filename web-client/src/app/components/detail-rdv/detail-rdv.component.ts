@@ -19,16 +19,6 @@ export class DetailRDVComponent implements OnInit{
     ngOnInit(){
 
     }
-    public accept(rdv){
-      console.log(rdv);
-     this.dialogService
-      .chooseDate("Date RDV", "Veuillez fixer une date pour ce RDV")
-      .subscribe(res => {
-        if(res!=null){
-
-        }
-      });
-    }
     open(){
       if( this.classDetail=="show")
         this.classDetail="hide";

@@ -1,10 +1,9 @@
-import { Component,OnInit,Input} from '@angular/core'; 
+import { Component,OnInit,Input} from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'detail-reservation',
-  templateUrl: '../../../../../app/components/detail-reservation/detail-reservation.component.html',
-  styleUrls:['../../../../../app/components/detail-reservation/detail-reservation.component.css']
+  templateUrl: 'detail-reservation.component.html',
+  styleUrls:['detail-reservation.component.css']
 })
 export class DetailReservationComponent implements OnInit{
     @Input() reservation:any;
@@ -13,11 +12,11 @@ export class DetailReservationComponent implements OnInit{
 
     classDetail="initial";
     constructor(){
-    
-     
-    }    
+
+
+    }
     ngOnInit(){
-      
+
     }
 
     open(){
@@ -26,6 +25,6 @@ export class DetailReservationComponent implements OnInit{
       else
         this.classDetail="show";
     }
-   
-  
+
+
 }

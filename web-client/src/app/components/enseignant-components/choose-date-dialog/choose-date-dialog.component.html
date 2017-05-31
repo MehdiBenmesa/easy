@@ -1,7 +1,16 @@
 
 <p>{{ title }}</p>
 <p>{{ message }}</p>
-<div><input placeholder="Date" [(ngModel)]="rdv.date"/></div>
-<div><input placeholder="heure" [(ngModel)]="rdv.heure"/></div>
+<material-datepicker  [(date)] = "selectedDate"></material-datepicker>
+<div>
+<md-input-container>
+  <input mdInput placeholder="heure" [(ngModel)]="hour"/>
+</md-input-container>
+</div>
+<div>
+<md-input-container>
+  <input mdInput placeholder="remarque" [(ngModel)]="remarque"/>
+</md-input-container>
+</div>
 <button type="button" md-button (click)="dialogRef.close()">Annuler</button>
-<button type="button" md-raised-button (click)="dialogRef.close(rdv)">Valider</button>
+<button type="button" md-raised-button (click)="dialogRef.close({date :selectedDate, hour: hour, remarque :remarque})">Valider</button>

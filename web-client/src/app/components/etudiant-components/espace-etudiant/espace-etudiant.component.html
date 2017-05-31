@@ -7,7 +7,7 @@
                 <div class="item"><md-icon id="user" svgIcon='person'></md-icon></div>
                 <div class="item"><h2>{{student.lastname}} {{student.name}}</h2></div>
             </div>
-            <div class="item"><button>Logout</button></div>
+            <div class="item"><button [routerLink]="['/']" >Logout</button></div>
         </div>
     </md-toolbar>
 
@@ -31,6 +31,11 @@
                 <md-icon class="menu-icone" svgIcon="specialite"></md-icon>
                 <div></div>
             </div>
+            <div [class]="classMenus[3]" [routerLink]="['/student/rdv']"(click)="selectionner(3)">
+                <div></div>
+                <md-icon class="menu-icone" svgIcon="rdv"></md-icon>
+                <div></div>
+            </div>
         </div>
         <div class="espace"></div>
     </div>
@@ -46,6 +51,9 @@
 
         <div [class]="classMenus[2]" (click)="selectionner(2)">
             Absences
+        </div>
+        <div [class]="classMenus[3]" (click)="selectionner(3)">
+           RDV
         </div>
 
     </div>

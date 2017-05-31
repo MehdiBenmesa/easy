@@ -56,6 +56,13 @@ module.exports = function(express, rdvController) {
         });
     });
 
+  router.get('/done/:id', (req, res) => {
+    rdvController.doneRdv(req.params.id, (err, rdv) => {
+      if(err) throw err;
+      res.json(rdv);
+    })
+  })
+
     router.get('/delete-student/:id', (req, res) => {
         rdvController.deleteRdvStudent(req.params.id, (err, rdv) => {
             if(err) throw err;

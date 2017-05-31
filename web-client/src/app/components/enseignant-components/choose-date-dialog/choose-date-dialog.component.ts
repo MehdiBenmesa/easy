@@ -7,15 +7,14 @@ import { MdDialogRef} from '@angular/material';
   styleUrls:['choose-date-dialog.component.css']
 })
 export class ChooseDateDialogComponent implements OnInit{
-   rdv={
-     date:"",
-     heure:""
-  }
+  private selectedDate :any;
+  private hour :any;
+  private remarque :any;
    title: string;
    message: string;
 
     constructor(public dialogRef: MdDialogRef<ChooseDateDialogComponent>){
-
+        this.selectedDate = new Date();
     }
     ngOnInit(){
 

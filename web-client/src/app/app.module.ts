@@ -63,6 +63,8 @@ import {RdvEtudiantComponent} from './components/etudiant-components/rdv-etudian
 import {ConfirmDialogComponent} from './components/enseignant-components/confirm-dialog/confirm-dialog.component';
 import {DemandeRdvDialogComponent} from './components/etudiant-components/demande-rdv-dialog/demande-rdv-dialog.component';
 import {DetailRDVComponent} from './components/detail-rdv/detail-rdv.component';
+import {ReservationEnseignantComponent} from './components/enseignant-components/reservation-enseignant/reservation-enseignant.component'
+import {DetailReservationComponent} from './components/detail-reservation/detail-reservation.component'
 
 @NgModule({
   imports:      [
@@ -95,7 +97,8 @@ import {DetailRDVComponent} from './components/detail-rdv/detail-rdv.component';
                         { path:'profile',component: ProfilComponent},
                         { path:'calendar', component: EmploisDuTempsComponent},
                         { path: 'students',component: EtudiantsComponent},
-                        { path: 'rdv',component: RdvEnseignantComponent}
+                        { path: 'rdv',component: RdvEnseignantComponent},
+                        { path: 'reservation',component: ReservationEnseignantComponent}
                       ]
                     },
                     {
@@ -104,7 +107,8 @@ import {DetailRDVComponent} from './components/detail-rdv/detail-rdv.component';
                       children: [
                         { path:'profil',component: ProfilComponent},
                         { path:'calendar',component: StudentTimeTableComponent},
-                        { path:'absences',component: AbsenceStudentComponent}
+                        { path:'absences',component: AbsenceStudentComponent},
+                        { path:'rdv' ,component: RdvEtudiantComponent}
                       ]
                     },
                     {
@@ -152,7 +156,9 @@ import {DetailRDVComponent} from './components/detail-rdv/detail-rdv.component';
                   RdvEtudiantComponent,
                   DemandeRdvDialogComponent,
                   DetailRDVComponent,
-                  ConfirmDialogComponent
+                  ConfirmDialogComponent,
+                  ReservationEnseignantComponent,
+                  DetailReservationComponent
                   ],
   providers :   [UserService, SalleService, ScolariteService, TeacherService, MdIconRegistry, ModuleService, EmploiService, AbsenceService, XlsxToJsonService, DialogService ,RdvService],
   entryComponents: [

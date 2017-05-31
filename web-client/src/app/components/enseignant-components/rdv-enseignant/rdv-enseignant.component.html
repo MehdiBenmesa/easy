@@ -2,21 +2,83 @@
 <div id="container">
     <div class="column">
         <div class="entete">Demandes de RDV</div>
-        <detail-rdv *ngFor="let appointment of appointmentDemands" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentDemands.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+        <div *ngFor="let appointment of appointmentDemands; let i = index; ">
+          <div class="rdv" (click)="open(i)">
+              <div class="num"><div *ngIf="i<10">0</div><div>{{i+1}}</div></div>
+              <div >{{appointment.student.lastname}} {{appointment.student.name}}</div>
+          </div>
+
+          <div [class]="classDetails[i]">
+              <div class="detail" ></div>
+              <div class="detail"><div>Objet</div>        <div> {{appointment.reason}}</div> </div>
+
+              <div class="detail">
+                  <button (click)= "reject(appointment)"><md-icon svgIcon="reject"></md-icon></button>
+                  <button (click)="accept(appointment)"><md-icon svgIcon="accept"></md-icon></button>
+              </div>
+          </div>
+        </div>
     </div>
 
     <div class="column">
         <div class="entete">RDVs acceptés</div>
-        <detail-rdv *ngFor="let appointment of appointmentAccepted" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentAccepted.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+        <div *ngFor="let appointment of appointmentAccepted; let i = index; ">
+          <div class="rdv" (click)="open(i + appointmentDemands.length)">
+              <div class="num"><div *ngIf="i<10">0</div><div>{{i+1}}</div></div>
+              <div >{{appointment.student.lastname}} {{appointment.student.name}}</div>
+          </div>
+
+          <div [class]="classDetails[i + appointmentDemands.length]">
+              <div class="detail" ></div>
+              <div class="detail"><div>Objet</div>        <div> {{appointment.reason}}</div> </div>
+              <div class="detail"><div>Date</div>        <div>{{appointment.date |date}} {{appointment.heur}} </div> </div>
+              <div class="detail"><div>Remarque</div>        <div> {{appointment.remarque}}</div> </div>
+
+              <div class="action"  >
+                  <button (click)="done(appointment)" ><md-icon svgIcon="done"></md-icon></button>
+              </div>
+        </div>
+      </div>
     </div>
 
     <div class="column">
         <div class="entete">RDVs rejetés</div>
-        <detail-rdv *ngFor="let appointment of appointmentRefused" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentRefused.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+        <div *ngFor="let appointment of appointmentRefused; let i = index; ">
+          <div class="rdv" (click)="open(i +appointmentDemands.length + appointmentAccepted.length)">
+              <div class="num"><div *ngIf="i<10">0</div><div>{{i+1}}</div></div>
+              <div >{{appointment.student.lastname}} {{appointment.student.name}}</div>
+          </div>
+
+          <div [class]="classDetails[i+appointmentDemands.length + appointmentAccepted.length]">
+              <div class="detail" ></div>
+              <div class="detail"><div>Objet</div>        <div> {{appointment.reason}}</div> </div>
+
+              <div class="action"  >
+                  <button (click)="delete(appointment)"><md-icon svgIcon="delete"></md-icon></button>
+              </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="column">
         <div class="entete">RDVs effectués</div>
-        <detail-rdv *ngFor="let appointment of appointmentDone" [typeUtilisateur]="'enseignant'" [numRdv]="appointmentDone.indexOf(appointment)+1" [rdv]="appointment" ></detail-rdv>
+        <div *ngFor="let appointment of appointmentDone; let i = index; ">
+          <div class="rdv" (click)="open(i+appointmentDemands.length + appointmentAccepted.length+appointmentRefused.length)">
+              <div class="num"><div *ngIf="i<10">0</div><div>{{i+1}}</div></div>
+              <div >{{appointment.student.lastname}} {{appointment.student.name}}</div>
+          </div>
+
+          <div [class]="classDetails[i+appointmentDemands.length + appointmentAccepted.length+appointmentRefused.length]">
+              <div class="detail" ></div>
+              <div class="detail"><div>Objet</div>        <div> {{appointment.reason}}</div> </div>
+              <div class="detail"><div>Date</div>        <div>{{appointment.date |date}} {{appointment.heur}} </div> </div>
+              <div class="detail"><div>Remarque</div>        <div> {{appointment.remarque}}</div> </div>
+              <div class="action"  >
+                  <button (click)="delete(appointment)"><md-icon svgIcon="delete"></md-icon></button>
+              </div>
+        </div>
+      </div>
+
     </div>
 <div>

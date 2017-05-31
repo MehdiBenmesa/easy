@@ -1,10 +1,9 @@
-import { Component,OnInit} from '@angular/core'; 
+import { Component,OnInit} from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
 @Component({
-  moduleId: module.id,
   selector: 'reservation-enseignant',
-  templateUrl: '../../../../../app/components/enseignant-components/reservation-enseignant/reservation-enseignant.component.html',
-  styleUrls:['../../../../../app/components/enseignant-components/reservation-enseignant/reservation-enseignant.component.css']
+  templateUrl: 'reservation-enseignant.component.html',
+  styleUrls:['reservation-enseignant.component.css']
 })
 export class ReservationEnseignantComponent implements OnInit{
   result:any;
@@ -119,15 +118,15 @@ export class ReservationEnseignantComponent implements OnInit{
       objet:"Séance de ratrappage",
       demandeur:"MOSTEFAI Mohamed Amine"}
       ];
-  
+
     constructor(private dialogService: DialogService){
-    
-     
-    }    
+
+
+    }
     ngOnInit(){
     }
 
-  
+
 
 
 supprimerFromAcceptedReservations(event:any,i:number){

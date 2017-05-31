@@ -13,7 +13,7 @@ module.exports = function(Student, Teacher, Rdv){
     // Accepter Rendez-Vous
     function acceptRdv(obj,rdvId, callback){
         Rdv.findByIdAndUpdate(rdvId,
-        {$set :{ state : "accepted", date : obj.date, heur : obj.heur, remarque : obj.remarque}},
+        {$set :{ state : "accepted", date : obj.date, heur : obj.heur, remarque : obj.remarque}},{new: true},
          (err, rdv) => {
                     callback(err, rdv);
         });
@@ -53,23 +53,30 @@ module.exports = function(Student, Teacher, Rdv){
 
     // Refuser Rendez-Vous
     function refuseRdv(rdvId, callback){
-        Rdv.findByIdAndUpdate(rdvId, {$set :{ state : "refused"}}, (err, rdv) => {
+        Rdv.findByIdAndUpdate(rdvId, {$set :{ state : "refused"}},{new:true}, (err, rdv) => {
                     callback(err, rdv);
         });
     }
+
+  function doneRdv(rdvId, callback){
+        Rdv.findByIdAndUpdate(rdvId, {$set :{ state : "done"}},{new:true}, (err, rdv) => {
+                    callback(err, rdv);
+        });
+
+  }
 
 
 
     // Supprimer Rendez-Vous Etudiant
     function deleteRdvStudent(rdvId, callback){
-        Rdv.findByIdAndUpdate(rdvId, {$set :{ supStudent : true }}, (err, rdv) => {
+        Rdv.findByIdAndUpdate(rdvId, {$set :{ supStudent : true }},{new :true}, (err, rdv) => {
                     callback(err, rdv);
         });
     }
 
     // Supprimer Rendez-Vous Enseignant
     function deleteRdvTeacher(rdvId, callback){
-        Rdv.findByIdAndUpdate(rdvId, {$set :{ supTeacher : true }}, (err, rdv) => {
+        Rdv.findByIdAndUpdate(rdvId, {$set :{ supTeacher : true }},{new :true}, (err, rdv) => {
                     callback(err, rdv);
         });
     }
@@ -150,10 +157,7 @@ module.exports = function(Student, Teacher, Rdv){
       getEnAttentStudentRdv,
       getEnAttentTeacherRdv,
       getEffectuerStudentRdv,
-<<<<<<< HEAD
-      getEffectuerTeacherRdv
-=======
       getEffectuerTeacherRdv,
->>>>>>> 2e15f941c2542dd4b19c67af0dd9d03354b2ff01
+      doneRdv
     };
 }

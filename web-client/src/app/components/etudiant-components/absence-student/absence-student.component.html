@@ -6,7 +6,7 @@
     <md-card-content>
       <md-list>
       <md-list-item *ngFor="let absence of module.absences">
-        {{absence.date }} {{absence.seance.starts}} - {{absence.seance.ends}} {{absence.seance.salle.name}}
+        {{absence.date|date }} {{absence.seance.starts}} - {{absence.seance.ends}} {{absence.seance.salle.name}}
       </md-list-item>
       </md-list>
     </md-card-content>
